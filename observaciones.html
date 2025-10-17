@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroKids - Plataforma de Aprendizaje</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(225, 80, 52, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .puzzle-logo {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+
+        .puzzle-piece {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+        }
+
+        .piece-1 {
+            background: #889F92;
+            top: 0;
+            left: 0;
+            clip-path: polygon(0 0, 70% 0, 70% 30%, 100% 30%, 100% 70%, 70% 70%, 70% 100%, 0 100%);
+        }
+
+        .piece-2 {
+            background: #EDA2A1;
+            top: 0;
+            right: 0;
+            clip-path: polygon(30% 0, 100% 0, 100% 100%, 30% 100%, 30% 70%, 0 70%, 0 30%, 30% 30%);
+        }
+
+        .piece-3 {
+            background: #E77B66;
+            bottom: 0;
+            left: 0;
+            clip-path: polygon(0 0, 70% 0, 70% 30%, 100% 30%, 100% 70%, 70% 70%, 70% 100%, 0 100%);
+        }
+
+        .piece-4 {
+            background: #EE9A5B;
+            bottom: 0;
+            right: 0;
+            clip-path: polygon(30% 0, 100% 0, 100% 100%, 30% 100%, 30% 70%, 0 70%, 0 30%, 30% 30%);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #E15034;
+            line-height: 1;
+        }
+
+        .brand-slogan {
+            font-size: 0.85rem;
+            color: #889F92;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #E15034;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(225, 80, 52, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #E15034;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #889F92;
+            font-weight: 400;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(225, 80, 52, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #E15034;
+            padding: 15px 40px;
+            border-radius: 30px;
+            border: 2px solid #E15034;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(225, 80, 52, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            color: #E15034;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: #889F92;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border-color: #E77B66;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #E15034;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #889F92;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .puzzle-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .puzzle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .puzzle-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .puzzle-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent-color);
+        }
+
+        .puzzle-card.level-basic {
+            --accent-color: #E77B66;
+        }
+
+        .puzzle-card.level-intermediate {
+            --accent-color: #EE9A5B;
+        }
+
+        .puzzle-card.level-advanced {
+            --accent-color: #E15034;
+        }
+
+        .puzzle-card.level-expert {
+            --accent-color: #889F92;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-color), rgba(255, 255, 255, 0.3));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .card-meta {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 5px;
+        }
+
+        .card-category {
+            font-size: 0.9rem;
+            color: #889F92;
+            font-weight: 400;
+        }
+
+        .difficulty-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .difficulty-basic {
+            background: rgba(231, 123, 102, 0.2);
+            color: #E77B66;
+        }
+
+        .difficulty-intermediate {
+            background: rgba(238, 154, 91, 0.2);
+            color: #EE9A5B;
+        }
+
+        .difficulty-advanced {
+            background: rgba(225, 80, 52, 0.2);
+            color: #E15034;
+        }
+
+        .difficulty-expert {
+            background: rgba(136, 159, 146, 0.2);
+            color: #889F92;
+        }
+
+        .card-description {
+            color: #889F92;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .preview-item {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            transition: transform 0.2s ease;
+        }
+
+        .preview-item:hover {
+            transform: scale(1.1);
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .progress-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #889F92;
+        }
+
+        .progress-bar {
+            width: 60px;
+            height: 6px;
+            background: #FEF0F0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, var(--accent-color), rgba(255, 255, 255, 0.2));
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .auth-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            color: #E15034;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .auth-subtitle {
+            color: #889F92;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: #E15034;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #EDA2A1;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #E77B66;
+            box-shadow: 0 0 0 3px rgba(231, 123, 102, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(225, 80, 52, 0.3);
+        }
+
+        .observations-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .observations-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .observations-title {
+            font-size: 2rem;
+            color: #E15034;
+            font-weight: 600;
+        }
+
+        .add-observation-btn {
+            background: #E77B66;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .add-observation-btn:hover {
+            background: #E15034;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.3);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .observations-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .observations-table th {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .observations-table th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .observations-table th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        .observations-table td {
+            padding: 15px;
+            border-bottom: 1px solid #EDA2A1;
+            color: #889F92;
+        }
+
+        .observations-table tr:hover {
+            background: rgba(231, 123, 102, 0.05);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-edit {
+            background: #EE9A5B;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #E77B66;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background: #EDA2A1;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #E15034;
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: #E15034;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #889F92;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #E15034;
+            transform: rotate(90deg);
+        }
+
+        .success-message {
+            background: rgba(136, 159, 146, 0.2);
+            color: #889F92;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #889F92;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .auth-container {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .observations-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .puzzle-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo-section">
+                <div class="puzzle-logo">
+                    <img src="IMG/logo.PNG" alt="Girl in a jacket" style="width:70px;height:70px;">
+                    
+                </div>
+                <div class="brand-text">
+                    <div class="brand-name">NeuroKids</div>
+                    <div class="brand-slogan">No son etiquetas, son mentes diferentes.</div>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a class="nav-link active" onclick="showSection('inicio')">Inicio</a>
+                <a class="nav-link" onclick="showSection('actividades')">Actividades</a>
+                <a class="nav-link" onclick="showSection('registro')">Registro</a>
+                <a class="nav-link" onclick="showSection('observaciones')">Observaciones</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- SECCIÓN INICIO -->
+        <div id="inicio" class="section active">
+            <div class="hero-section">
+                <h1 class="hero-title">Bienvenido a NeuroKids</h1>
+                <p class="hero-subtitle">Una plataforma diseñada especialmente para estudiantes neurodivergentes de
+                    secundaria. Aprende a tu ritmo, desarrolla tus fortalezas y alcanza tus metas académicas.</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary" onclick="showSection('actividades')">Explorar Actividades</button>
+                    <button class="btn-secondary" onclick="showSection('registro')">Registrarse</button>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧩</div>
+                    <div class="feature-title">Aprendizaje Adaptativo</div>
+                    <div class="feature-description">Actividades diseñadas específicamente para estudiantes
+                        neurodivergentes con diferentes niveles de dificultad.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Seguimiento del Progreso</div>
+                    <div class="feature-description">Padres y profesores pueden monitorear el avance y agregar
+                        observaciones personalizadas.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">Objetivos Personalizados</div>
+                    <div class="feature-description">Establece metas individuales y celebra cada logro alcanzado en el
+                        camino.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN ACTIVIDADES -->
+        <div id="actividades" class="section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">47</span>
+                    <span class="stat-label">Actividades Completadas</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">156</span>
+                    <span class="stat-label">Puntos Ganados</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">23</span>
+                    <span class="stat-label">Días Activo</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Logros Desbloqueados</span>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">🔢 Matemáticas y Lógica</h2>
+            </div>
+
+            <div class="puzzle-grid">
+                <div class="puzzle-card level-basic">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🧮</div>
+                            <div class="card-meta">
+                                <div class="card-title">Álgebra Visual</div>
+                                <div class="card-category">Ecuaciones Básicas</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-basic">Básico</div>
+                    </div>
+                    <div class="card-description">
+                        Aprende álgebra utilizando representaciones visuales y manipulables. Ideal para comprender
+                        conceptos abstractos de forma concreta.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E77B66;">x</div>
+                        <div class="preview-item" style="background: #EE9A5B;">+</div>
+                        <div class="preview-item" style="background: #EDA2A1;">3</div>
+                        <div class="preview-item" style="background: #889F92;">=</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                            75%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-intermediate">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">📊</div>
+                            <div class="card-meta">
+                                <div class="card-title">Estadística Interactiva</div>
+                                <div class="card-category">Análisis de Datos</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
+                    </div>
+                    <div class="card-description">
+                        Explora el mundo de la estadística con gráficos interactivos y ejercicios prácticos basados en
+                        situaciones reales.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #EE9A5B;">📈</div>
+                        <div class="preview-item" style="background: #E77B66;">📉</div>
+                        <div class="preview-item" style="background: #889F92;">📊</div>
+                        <div class="preview-item" style="background: #EDA2A1;">🎯</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%"></div>
+                            </div>
+                            40%
+                        </div>
+                        <button class="start-button">Empezar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-advanced">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🔺</div>
+                            <div class="card-meta">
+                                <div class="card-title">Geometría Espacial</div>
+                                <div class="card-category">Formas 3D</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-advanced">Avanzado</div>
+                    </div>
+                    <div class="card-description">
+                        Desarrolla tu visión espacial con modelos 3D interactivos. Calcula volúmenes, áreas y comprende
+                        las propiedades geométricas.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E15034;">🔺</div>
+                        <div class="preview-item" style="background: #E77B66;">⬜</div>
+                        <div class="preview-item" style="background: #EE9A5B;">🔵</div>
+                        <div class="preview-item" style="background: #889F92;">⬟</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 15%"></div>
+                            </div>
+                            15%
+                        </div>
+                        <button class="start-button">Empezar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-expert">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🧠</div>
+                            <div class="card-meta">
+                                <div class="card-title">Lógica Computacional</div>
+                                <div class="card-category">Algoritmos</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-expert">Experto</div>
+                    </div>
+                    <div class="card-description">
+                        Aprende a pensar como un programador. Resuelve problemas complejos usando lógica paso a paso.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #889F92;">💻</div>
+                        <div class="preview-item" style="background: #E77B66;">🔄</div>
+                        <div class="preview-item" style="background: #EE9A5B;">⚡</div>
+                        <div class="preview-item" style="background: #EDA2A1;">✓</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            0%
+                        </div>
+                        <button class="start-button">Empezar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">🧠 Ciencias Cognitivas</h2>
+            </div>
+
+            <div class="puzzle-grid">
+                <div class="puzzle-card level-intermediate">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🧠</div>
+                            <div class="card-meta">
+                                <div class="card-title">Memoria de Trabajo</div>
+                                <div class="card-category">Entrenamiento Cognitivo</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
+                    </div>
+                    <div class="card-description">
+                        Fortalece tu memoria de trabajo con ejercicios adaptativos diseñados para mejorar tu capacidad
+                        de retención.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #EE9A5B;">🔤</div>
+                        <div class="preview-item" style="background: #E77B66;">🔢</div>
+                        <div class="preview-item" style="background: #889F92;">🎵</div>
+                        <div class="preview-item" style="background: #EDA2A1;">🎨</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%"></div>
+                            </div>
+                            60%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-basic">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🎯</div>
+                            <div class="card-meta">
+                                <div class="card-title">Atención Selectiva</div>
+                                <div class="card-category">Concentración</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-basic">Básico</div>
+                    </div>
+                    <div class="card-description">
+                        Mejora tu capacidad de concentración con juegos interactivos que entrenan tu foco mental.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E77B66;">👁️</div>
+                        <div class="preview-item" style="background: #EE9A5B;">🎯</div>
+                        <div class="preview-item" style="background: #889F92;">⚡</div>
+                        <div class="preview-item" style="background: #EDA2A1;">✨</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                            85%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-advanced">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🎨</div>
+                            <div class="card-meta">
+                                <div class="card-title">Procesamiento Visual</div>
+                                <div class="card-category">Percepción</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-advanced">Avanzado</div>
+                    </div>
+                    <div class="card-description">
+                        Entrena tu capacidad de procesar información visual compleja y reconocer patrones.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E15034;">🔍</div>
+                        <div class="preview-item" style="background: #E77B66;">🎨</div>
+                        <div class="preview-item" style="background: #EE9A5B;">🌈</div>
+                        <div class="preview-item" style="background: #889F92;">👀</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 30%"></div>
+                            </div>
+                            30%
+                        </div>
+                        <button class="start-button">Empezar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">🔬 Ciencias Naturales</h2>
+            </div>
+
+            <div class="puzzle-grid">
+                <div class="puzzle-card level-basic">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🌱</div>
+                            <div class="card-meta">
+                                <div class="card-title">Laboratorio Virtual</div>
+                                <div class="card-category">Biología</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-basic">Básico</div>
+                    </div>
+                    <div class="card-description">
+                        Explora el mundo de las células y organismos vivos con experimentos interactivos seguros y educativos.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E77B66;">🔬</div>
+                        <div class="preview-item" style="background: #EE9A5B;">🧪</div>
+                        <div class="preview-item" style="background: #889F92;">🌱</div>
+                        <div class="preview-item" style="background: #EDA2A1;">🦠</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 50%"></div>
+                            </div>
+                            50%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-intermediate">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🌍</div>
+                            <div class="card-meta">
+                                <div class="card-title">Ecosistemas Dinámicos</div>
+                                <div class="card-category">Ecología</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
+                    </div>
+                    <div class="card-description">
+                        Crea y mantén ecosistemas equilibrados aprendiendo sobre cadenas alimenticias y conservación ambiental.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #EE9A5B;">🌳</div>
+                        <div class="preview-item" style="background: #E77B66;">🦋</div>
+                        <div class="preview-item" style="background: #889F92;">🐸</div>
+                        <div class="preview-item" style="background: #EDA2A1;">☀️</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 20%"></div>
+                            </div>
+                            20%
+                        </div>
+                        <button class="start-button">Empezar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-advanced">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">⚗️</div>
+                            <div class="card-meta">
+                                <div class="card-title">Química Molecular</div>
+                                <div class="card-category">Química</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-advanced">Avanzado</div>
+                    </div>
+                    <div class="card-description">
+                        Construye moléculas en 3D y comprende las reacciones químicas mediante simulaciones visuales interactivas.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E15034;">⚛️</div>
+                        <div class="preview-item" style="background: #E77B66;">🧬</div>
+                        <div class="preview-item" style="background: #EE9A5B;">💧</div>
+                        <div class="preview-item" style="background: #889F92;">🔥</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 10%"></div>
+                            </div>
+                            10%
+                        </div>
+                        <button class="start-button">Empezar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-expert">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🌌</div>
+                            <div class="card-meta">
+                                <div class="card-title">Sistema Solar</div>
+                                <div class="card-category">Astronomía</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-expert">Experto</div>
+                    </div>
+                    <div class="card-description">
+                        Viaja por el espacio y aprende sobre planetas, estrellas y fenómenos astronómicos con simulaciones realistas.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #889F92;">🪐</div>
+                        <div class="preview-item" style="background: #E77B66;">🌙</div>
+                        <div class="preview-item" style="background: #EE9A5B;">⭐</div>
+                        <div class="preview-item" style="background: #EDA2A1;">🚀</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            0%
+                        </div>
+                        <button class="start-button">Empezar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">📚 Lengua y Literatura (Español)</h2>
+            </div>
+
+            <div class="puzzle-grid">
+                <div class="puzzle-card level-basic">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">✍️</div>
+                            <div class="card-meta">
+                                <div class="card-title">Ortografía Divertida</div>
+                                <div class="card-category">Gramática y Ortografía</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-basic">Básico</div>
+                    </div>
+                    <div class="card-description">
+                        Mejora tu ortografía con juegos interactivos de acentuación, puntuación y uso correcto de letras.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E77B66;">á</div>
+                        <div class="preview-item" style="background: #EE9A5B;">¿?</div>
+                        <div class="preview-item" style="background: #889F92;">¡!</div>
+                        <div class="preview-item" style="background: #EDA2A1;">.</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                            80%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-intermediate">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">📖</div>
+                            <div class="card-meta">
+                                <div class="card-title">Comprensión Lectora</div>
+                                <div class="card-category">Lectura Crítica</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
+                    </div>
+                    <div class="card-description">
+                        Lee textos adaptados y responde preguntas que desarrollan tu pensamiento crítico y comprensión profunda.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #EE9A5B;">📚</div>
+                        <div class="preview-item" style="background: #E77B66;">🔍</div>
+                        <div class="preview-item" style="background: #889F92;">💡</div>
+                        <div class="preview-item" style="background: #EDA2A1;">✓</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 52%"></div>
+                            </div>
+                            52%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-advanced">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🎭</div>
+                            <div class="card-meta">
+                                <div class="card-title">Taller de Escritura</div>
+                                <div class="card-category">Redacción Creativa</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-advanced">Avanzado</div>
+                    </div>
+                    <div class="card-description">
+                        Desarrolla tu creatividad escribiendo cuentos, poemas y textos descriptivos con retroalimentación personalizada.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E15034;">📝</div>
+                        <div class="preview-item" style="background: #E77B66;">🎨</div>
+                        <div class="preview-item" style="background: #EE9A5B;">✨</div>
+                        <div class="preview-item" style="background: #889F92;">🌟</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 28%"></div>
+                            </div>
+                            28%
+                        </div>
+                        <button class="start-button">Empezar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-basic">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🗣️</div>
+                            <div class="card-meta">
+                                <div class="card-title">Juegos de Palabras</div>
+                                <div class="card-category">Vocabulario</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-basic">Básico</div>
+                    </div>
+                    <div class="card-description">
+                        Enriquece tu vocabulario con sinónimos, antónimos, familias de palabras y expresiones idiomáticas.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E77B66;">💬</div>
+                        <div class="preview-item" style="background: #EE9A5B;">🔤</div>
+                        <div class="preview-item" style="background: #889F92;">📖</div>
+                        <div class="preview-item" style="background: #EDA2A1;">🎯</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 62%"></div>
+                            </div>
+                            62%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">🌎 Ciencias Sociales</h2>
+            </div>
+
+            <div class="puzzle-grid">
+                <div class="puzzle-card level-basic">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🗺️</div>
+                            <div class="card-meta">
+                                <div class="card-title">Geografía Interactiva</div>
+                                <div class="card-category">Geografía Mundial</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-basic">Básico</div>
+                    </div>
+                    <div class="card-description">
+                        Explora mapas interactivos, aprende sobre países, capitales y características geográficas del mundo.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E77B66;">🗺️</div>
+                        <div class="preview-item" style="background: #EE9A5B;">🏔️</div>
+                        <div class="preview-item" style="background: #889F92;">🏝️</div>
+                        <div class="preview-item" style="background: #EDA2A1;">🌊</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            65%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-intermediate">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🏛️</div>
+                            <div class="card-meta">
+                                <div class="card-title">Viaje en el Tiempo</div>
+                                <div class="card-category">Historia Universal</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
+                    </div>
+                    <div class="card-description">
+                        Viaja a través de diferentes épocas históricas y descubre civilizaciones antiguas mediante líneas de tiempo interactivas.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #EE9A5B;">🏛️</div>
+                        <div class="preview-item" style="background: #E77B66;">⏳</div>
+                        <div class="preview-item" style="background: #889F92;">👑</div>
+                        <div class="preview-item" style="background: #EDA2A1;">📜</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%"></div>
+                            </div>
+                            35%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-advanced">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🏙️</div>
+                            <div class="card-meta">
+                                <div class="card-title">Ciudadano Digital</div>
+                                <div class="card-category">Educación Cívica</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-advanced">Avanzado</div>
+                    </div>
+                    <div class="card-description">
+                        Aprende sobre derechos, deberes y participación ciudadana a través de simulaciones de la vida real.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E15034;">⚖️</div>
+                        <div class="preview-item" style="background: #E77B66;">🗳️</div>
+                        <div class="preview-item" style="background: #EE9A5B;">📋</div>
+                        <div class="preview-item" style="background: #889F92;">🤝</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 25%"></div>
+                            </div>
+                            25%
+                        </div>
+                        <button class="start-button">Empezar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-basic">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🌐</div>
+                            <div class="card-meta">
+                                <div class="card-title">Culturas del Mundo</div>
+                                <div class="card-category">Diversidad Cultural</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-basic">Básico</div>
+                    </div>
+                    <div class="card-description">
+                        Descubre tradiciones, costumbres y celebraciones de diferentes culturas alrededor del mundo.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E77B66;">🎭</div>
+                        <div class="preview-item" style="background: #EE9A5B;">🎨</div>
+                        <div class="preview-item" style="background: #889F92;">🎵</div>
+                        <div class="preview-item" style="background: #EDA2A1;">🍜</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                            </div>
+                            45%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">🌍 English Learning</h2>
+            </div>
+
+            <div class="puzzle-grid">
+                <div class="puzzle-card level-basic">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🎮</div>
+                            <div class="card-meta">
+                                <div class="card-title">Word Adventures</div>
+                                <div class="card-category">Vocabulary</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-basic">Básico</div>
+                    </div>
+                    <div class="card-description">
+                        Aprende vocabulario en inglés a través de juegos visuales y asociaciones de palabras con imágenes interactivas.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E77B66;">🍎</div>
+                        <div class="preview-item" style="background: #EE9A5B;">🏠</div>
+                        <div class="preview-item" style="background: #889F92;">🐕</div>
+                        <div class="preview-item" style="background: #EDA2A1;">🚗</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 70%"></div>
+                            </div>
+                            70%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-intermediate">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">💬</div>
+                            <div class="card-meta">
+                                <div class="card-title">Conversation Quest</div>
+                                <div class="card-category">Speaking Practice</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
+                    </div>
+                    <div class="card-description">
+                        Practica conversaciones en inglés con diálogos interactivos y situaciones cotidianas adaptadas a tu nivel.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #EE9A5B;">👋</div>
+                        <div class="preview-item" style="background: #E77B66;">💭</div>
+                        <div class="preview-item" style="background: #889F92;">🗣️</div>
+                        <div class="preview-item" style="background: #EDA2A1;">😊</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%"></div>
+                            </div>
+                            40%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-advanced">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">📖</div>
+                            <div class="card-meta">
+                                <div class="card-title">Story Builder</div>
+                                <div class="card-category">Reading & Writing</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-advanced">Avanzado</div>
+                    </div>
+                    <div class="card-description">
+                        Crea y lee historias en inglés mientras mejoras tu comprensión lectora y habilidades de escritura creativa.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E15034;">📚</div>
+                        <div class="preview-item" style="background: #E77B66;">✍️</div>
+                        <div class="preview-item" style="background: #EE9A5B;">🎭</div>
+                        <div class="preview-item" style="background: #889F92;">⭐</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 18%"></div>
+                            </div>
+                            18%
+                        </div>
+                        <button class="start-button">Empezar</button>
+                    </div>
+                </div>
+
+                <div class="puzzle-card level-basic">
+                    <div class="card-header">
+                        <div class="card-info">
+                            <div class="card-icon">🎵</div>
+                            <div class="card-meta">
+                                <div class="card-title">Music & Rhymes</div>
+                                <div class="card-category">Pronunciation</div>
+                            </div>
+                        </div>
+                        <div class="difficulty-badge difficulty-basic">Básico</div>
+                    </div>
+                    <div class="card-description">
+                        Mejora tu pronunciación con canciones, rimas y juegos de ritmo diseñados para hacer el aprendizaje divertido.
+                    </div>
+                    <div class="preview-grid">
+                        <div class="preview-item" style="background: #E77B66;">🎤</div>
+                        <div class="preview-item" style="background: #EE9A5B;">🎶</div>
+                        <div class="preview-item" style="background: #889F92;">🔊</div>
+                        <div class="preview-item" style="background: #EDA2A1;">🎼</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 55%"></div>
+                            </div>
+                            55%
+                        </div>
+                        <button class="start-button">Continuar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN REGISTRO -->
+        <div id="registro" class="section">
+            <div class="hero-section">
+                <h2 class="hero-title" style="font-size: 2.5rem;">Únete a NeuroKids</h2>
+                <p class="hero-subtitle">Crea tu cuenta para acceder a todas las funcionalidades de la plataforma</p>
+            </div>
+
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h3 class="auth-title">Registro de Profesores</h3>
+                    <p class="auth-subtitle">Acompaña a tus estudiantes en su proceso de aprendizaje</p>
+
+                    <div class="success-message" id="successTeacher">
+                        ✓ Registro exitoso! Bienvenido a NeuroKids
+                    </div>
+
+                    <form id="teacherForm" onsubmit="registerTeacher(event)">
+                        <div class="form-group">
+                            <label class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-input" placeholder="Ej: María González" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-input" placeholder="profesor@colegio.edu" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Institución Educativa</label>
+                            <input type="text" class="form-input" placeholder="Nombre del colegio" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Especialidad</label>
+                            <select class="form-select" required>
+                                <option value="">Seleccione una especialidad</option>
+                                <option value="matematicas">Matemáticas</option>
+                                <option value="lengua">Lengua y Literatura</option>
+                                <option value="ciencias">Ciencias</option>
+                                <option value="sociales">Ciencias Sociales</option>
+                                <option value="educacion-especial">Educación Especial</option>
+                                <option value="psicopedagogia">Psicopedagogía</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-input" placeholder="Mínimo 8 caracteres" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Registrarse como Profesor</button>
+                    </form>
+                </div>
+
+                <div class="auth-card">
+                    <h3 class="auth-title">Registro de Padres</h3>
+                    <p class="auth-subtitle">Participa activamente en el desarrollo de tu hijo(a)</p>
+
+                    <div class="success-message" id="successParent">
+                        ✓ Registro exitoso! Bienvenido a NeuroKids
+                    </div>
+
+                    <form id="parentForm" onsubmit="registerParent(event)">
+                        <div class="form-group">
+                            <label class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-input" placeholder="Ej: Juan Pérez" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-input" placeholder="padre@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Teléfono de Contacto</label>
+                            <input type="tel" class="form-input" placeholder="300 123 4567" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nombre del Estudiante</label>
+                            <input type="text" class="form-input" placeholder="Nombre de su hijo(a)" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Grado Escolar</label>
+                            <select class="form-select" required>
+                                <option value="">Seleccione el grado</option>
+                                <option value="6">6° Grado</option>
+                                <option value="7">7° Grado</option>
+                                <option value="8">8° Grado</option>
+                                <option value="9">9° Grado</option>
+                                <option value="10">10° Grado</option>
+                                <option value="11">11° Grado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-input" placeholder="Mínimo 8 caracteres" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Registrarse como Padre</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN OBSERVACIONES -->
+        <div id="observaciones" class="section">
+            <div class="observations-container">
+                <div class="observations-header">
+                    <h2 class="observations-title">Registro de Observaciones</h2>
+                    <button class="add-observation-btn" onclick="openModal()">+ Nueva Observación</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="observations-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Estudiante</th>
+                                <th>Actividad</th>
+                                <th>Observador</th>
+                                <th>Observación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="observationsBody">
+                            <tr>
+                                <td>05/10/2025</td>
+                                <td>Carlos Mendoza</td>
+                                <td>Álgebra Visual</td>
+                                <td>Prof. María González</td>
+                                <td>Excelente comprensión de ecuaciones lineales. Muestra gran interés en problemas
+                                    visuales.</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-edit" onclick="editObservation(0)">Editar</button>
+                                        <button class="btn-delete" onclick="deleteObservation(0)">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>04/10/2025</td>
+                                <td>Ana Rodríguez</td>
+                                <td>Memoria de Trabajo</td>
+                                <td>Padre: Juan Pérez</td>
+                                <td>Ha mejorado significativamente en retención de información. Practica 15 minutos
+                                    diarios.</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-edit" onclick="editObservation(1)">Editar</button>
+                                        <button class="btn-delete" onclick="deleteObservation(1)">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>03/10/2025</td>
+                                <td>Luis Torres</td>
+                                <td>Estadística Interactiva</td>
+                                <td>Prof. Roberto Díaz</td>
+                                <td>Necesita más apoyo en interpretación de gráficos. Recomendar práctica adicional.
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-edit" onclick="editObservation(2)">Editar</button>
+                                        <button class="btn-delete" onclick="deleteObservation(2)">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>02/10/2025</td>
+                                <td>Sofía Martínez</td>
+                                <td>Atención Selectiva</td>
+                                <td>Madre: Laura Gómez</td>
+                                <td>Logra mantener concentración por períodos más largos. Muy motivada con los
+                                    ejercicios.</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-edit" onclick="editObservation(3)">Editar</button>
+                                        <button class="btn-delete" onclick="deleteObservation(3)">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>01/10/2025</td>
+                                <td>Diego Ramírez</td>
+                                <td>Geometría Espacial</td>
+                                <td>Prof. María González</td>
+                                <td>Destaca en visualización 3D. Proponer desafíos más complejos para mantener
+                                    motivación.</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-edit" onclick="editObservation(4)">Editar</button>
+                                        <button class="btn-delete" onclick="deleteObservation(4)">Eliminar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Nueva Observación -->
+    <div id="observationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nueva Observación</h3>
+                <button class="close-modal" onclick="closeModal()">×</button>
+            </div>
+
+            <form id="observationForm" onsubmit="saveObservation(event)">
+                <div class="form-group">
+                    <label class="form-label">Fecha</label>
+                    <input type="date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nombre del Estudiante</label>
+                    <input type="text" class="form-input" placeholder="Nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Actividad</label>
+                    <select class="form-select" required>
+                        <option value="">Seleccione una actividad</option>
+                        <option value="algebra">Álgebra Visual</option>
+                        <option value="estadistica">Estadística Interactiva</option>
+                        <option value="geometria">Geometría Espacial</option>
+                        <option value="memoria">Memoria de Trabajo</option>
+                        <option value="atencion">Atención Selectiva</option>
+                        <option value="logica">Lógica Computacional</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Observador (Nombre y Rol)</label>
+                    <input type="text" class="form-input" placeholder="Ej: Prof. María González" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Observación</label>
+                    <textarea class="form-textarea"
+                        placeholder="Describe el progreso, comportamiento, dificultades o logros del estudiante..."
+                        required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Guardar Observación</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            sections.forEach(section => section.classList.remove('active'));
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function registerTeacher(event) {
+            event.preventDefault();
+            document.getElementById('successTeacher').classList.add('show');
+            event.target.reset();
+            setTimeout(() => {
+                document.getElementById('successTeacher').classList.remove('show');
+            }, 3000);
+        }
+
+        function registerParent(event) {
+            event.preventDefault();
+            document.getElementById('successParent').classList.add('show');
+            event.target.reset();
+            setTimeout(() => {
+                document.getElementById('successParent').classList.remove('show');
+            }, 3000);
+        }
+
+        function openModal() {
+            document.getElementById('observationModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('observationModal').classList.remove('active');
+            document.getElementById('observationForm').reset();
+        }
+
+        function saveObservation(event) {
+            event.preventDefault();
+            const form = event.target;
+            const inputs = form.querySelectorAll('input, select, textarea');
+            const data = {
+                date: inputs[0].value,
+                student: inputs[1].value,
+                activity: inputs[2].value,
+                observer: inputs[3].value,
+                note: inputs[4].value
+            };
+
+            const tbody = document.getElementById('observationsBody');
+            const newRow = tbody.insertRow(0);
+            newRow.innerHTML = `
+                <td>${data.date}</td>
+                <td>${data.student}</td>
+                <td>${data.activity}</td>
+                <td>${data.observer}</td>
+                <td>${data.note}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn-edit" onclick="editObservation(0)">Editar</button>
+                        <button class="btn-delete" onclick="deleteObservation(this.parentElement.parentElement.parentElement)">Eliminar</button>
+                    </div>
+                </td>
+            `;
+
+            closeModal();
+            alert('✓ Observación guardada exitosamente');
+        }
+
+        function editObservation(index) {
+            alert('Función de edición - Observación #' + index);
+        }
+
+        function deleteObservation(element) {
+            if (confirm('¿Estás seguro de que deseas eliminar esta observación?')) {
+                if (typeof element === 'number') {
+                    const tbody = document.getElementById('observationsBody');
+                    tbody.deleteRow(element);
+                } else {
+                    element.remove();
+                }
+                alert('✓ Observación eliminada');
+            }
+        }
+
+        window.onclick = function (event) {
+            const modal = document.getElementById('observationModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+
+</html>

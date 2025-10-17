@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuentra el Valor Misterioso - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #E15034;
+            font-weight: 700;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 12px;
+            background: #FEF0F0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E77B66, #EE9A5B);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #E15034;
+            font-size: 1.1rem;
+        }
+
+        .subtitle {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .exercise-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .exercise-title {
+            font-size: 1.8rem;
+            color: #E15034;
+            font-weight: 600;
+        }
+
+        .level-badge {
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: rgba(231, 123, 102, 0.2);
+            color: #E77B66;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .equation-display {
+            background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .equation {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #E15034;
+            letter-spacing: 10px;
+        }
+
+        .visual-area {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: #FEF0F0;
+            border-radius: 15px;
+        }
+
+        .visual-block {
+            aspect-ratio: 1;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .visual-block:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .visual-block.x {
+            background: linear-gradient(135deg, #E77B66, #E15034);
+        }
+
+        .visual-block.number {
+            background: linear-gradient(135deg, #889F92, #6B8170);
+        }
+
+        .visual-block.operator {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+        }
+
+        .answer-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px dashed #EDA2A1;
+        }
+
+        .answer-label {
+            font-size: 1.3rem;
+            color: #E15034;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 20px;
+            font-size: 2rem;
+            border: 3px solid #EDA2A1;
+            border-radius: 15px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: #E15034;
+            transition: all 0.3s ease;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #E77B66;
+            box-shadow: 0 0 0 5px rgba(231, 123, 102, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(225, 80, 52, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 3px solid #E77B66;
+            color: #E77B66;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(231, 123, 102, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .btn-hint {
+            background: linear-gradient(135deg, #889F92, #6B8170);
+            color: white;
+        }
+
+        .btn-hint:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(136, 159, 146, 0.3);
+        }
+
+        .feedback {
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: rgba(136, 159, 146, 0.2);
+            color: #889F92;
+            border-left: 5px solid #889F92;
+        }
+
+        .feedback.incorrect {
+            background: rgba(225, 80, 52, 0.2);
+            color: #E15034;
+            border-left: 5px solid #E15034;
+        }
+
+        .hint-box {
+            background: linear-gradient(135deg, rgba(136, 159, 146, 0.1), rgba(136, 159, 146, 0.2));
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-left: 5px solid #889F92;
+            display: none;
+        }
+
+        .hint-box.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .hint-title {
+            color: #889F92;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .hint-text {
+            color: #6B8170;
+            line-height: 1.6;
+        }
+
+        .explanation {
+            background: linear-gradient(135deg, rgba(238, 154, 91, 0.1), rgba(238, 154, 91, 0.2));
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-left: 5px solid #EE9A5B;
+        }
+
+        .explanation-title {
+            color: #EE9A5B;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .explanation-text {
+            color: #889F92;
+            line-height: 1.6;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        .celebration.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .celebration-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+
+        .celebration-text {
+            font-size: 2rem;
+            color: #E15034;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .celebration-subtext {
+            color: #889F92;
+            font-size: 1.2rem;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.8rem;
+            }
+
+            .equation {
+                font-size: 2rem;
+                letter-spacing: 5px;
+            }
+
+            .visual-area {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            }
+
+            .answer-input {
+                font-size: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <h1 class="title">🔍 Encuentra el Valor Misterioso</h1>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">0%</span>
+                </div>
+            </div>
+            <p class="subtitle">Descubre el número secreto usando bloques de colores y operaciones matemáticas</p>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="currentExercise">1</span>
+                    <span class="stat-label">Ejercicio</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="correctAnswers">0</span>
+                    <span class="stat-label">Correctas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalPoints">0</span>
+                    <span class="stat-label">Puntos</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="streak">0</span>
+                    <span class="stat-label">Racha</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-container">
+            <div class="exercise-header">
+                <h2 class="exercise-title" id="exerciseTitle">¿Cuál es el número misterioso (x)?</h2>
+                <span class="level-badge" id="levelBadge">Nivel Básico</span>
+            </div>
+
+            <div class="equation-display">
+                <div class="equation" id="equationDisplay"></div>
+            </div>
+
+            <div class="visual-area" id="visualArea"></div>
+
+            <div class="answer-section">
+                <div class="answer-label">Escribe tu respuesta (¿Cuánto vale x?):</div>
+                <input type="number" class="answer-input" id="answerInput" placeholder="?" />
+            </div>
+
+            <div class="hint-box" id="hintBox">
+                <div class="hint-title">💡 Pista</div>
+                <div class="hint-text" id="hintText"></div>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="button-group">
+                <button class="btn btn-hint" onclick="showHint()">💡 Ver Pista</button>
+                <button class="btn btn-secondary" onclick="skipExercise()">⏭️ Saltar</button>
+                <button class="btn btn-primary" onclick="checkAnswer()">✓ Verificar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <div class="celebration-icon">🎉</div>
+        <div class="celebration-text">¡Excelente!</div>
+        <div class="celebration-subtext">Has completado todos los ejercicios</div>
+    </div>
+
+    <script>
+        const exercises = [
+            {
+                equation: "x + 2 = 5",
+                answer: 3,
+                hint: "¿Qué número más 2 es igual a 5? Piensa: 2 + ? = 5",
+                level: "Básico",
+                visual: ["x", "+", "1", "1", "=", "1", "1", "1", "1", "1"],
+                explanation: "Si x + 2 = 5, entonces x = 5 - 2 = 3. Puedes comprobarlo: 3 + 2 = 5 ✓"
+            },
+            {
+                equation: "x + 4 = 9",
+                answer: 5,
+                hint: "Resta 4 de ambos lados: x = 9 - 4",
+                level: "Básico",
+                visual: ["x", "+", "1", "1", "1", "1", "=", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+                explanation: "Para encontrar x, resta 4 de 9: x = 9 - 4 = 5. Comprueba: 5 + 4 = 9 ✓"
+            },
+            {
+                equation: "x - 3 = 5",
+                answer: 8,
+                hint: "Si le quitamos 3 a un número y queda 5, suma 5 + 3",
+                level: "Básico",
+                visual: ["x", "-", "1", "1", "1", "=", "1", "1", "1", "1", "1"],
+                explanation: "Si x - 3 = 5, suma 3 a ambos lados: x = 5 + 3 = 8. Comprueba: 8 - 3 = 5 ✓"
+            },
+            {
+                equation: "x + 6 = 12",
+                answer: 6,
+                hint: "¿Qué número sumado con 6 da 12?",
+                level: "Básico",
+                visual: ["x", "+", "1", "1", "1", "1", "1", "1", "=", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+                explanation: "x + 6 = 12, entonces x = 12 - 6 = 6. Es como decir: 6 + 6 = 12 ✓"
+            },
+            {
+                equation: "2x = 8",
+                answer: 4,
+                hint: "Dos grupos de x hacen 8. Divide 8 entre 2",
+                level: "Intermedio",
+                visual: ["x", "x", "=", "1", "1", "1", "1", "1", "1", "1", "1"],
+                explanation: "Si 2x = 8, divide ambos lados entre 2: x = 8 ÷ 2 = 4. Esto significa: 2 × 4 = 8 ✓"
+            },
+            {
+                equation: "3x = 12",
+                answer: 4,
+                hint: "Tres grupos de x son 12. ¿Cuánto vale cada grupo?",
+                level: "Intermedio",
+                visual: ["x", "x", "x", "=", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+                explanation: "Si 3x = 12, divide 12 entre 3: x = 12 ÷ 3 = 4. Comprueba: 3 × 4 = 12 ✓"
+            },
+            {
+                equation: "x - 4 = 7",
+                answer: 11,
+                hint: "A un número le quitamos 4 y queda 7. Suma 7 + 4",
+                level: "Intermedio",
+                visual: ["x", "-", "1", "1", "1", "1", "=", "1", "1", "1", "1", "1", "1", "1"],
+                explanation: "Si x - 4 = 7, suma 4 a ambos lados: x = 7 + 4 = 11. Verifica: 11 - 4 = 7 ✓"
+            },
+            {
+                equation: "2x + 3 = 11",
+                answer: 4,
+                hint: "Primero resta 3: 2x = 8, luego divide entre 2",
+                level: "Avanzado",
+                visual: ["x", "x", "+", "1", "1", "1", "=", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+                explanation: "Paso 1: Resta 3 de ambos lados: 2x = 11 - 3 = 8. Paso 2: Divide entre 2: x = 8 ÷ 2 = 4. Comprueba: (2 × 4) + 3 = 8 + 3 = 11 ✓"
+            }
+        ];
+
+        let currentIndex = 0;
+        let correctCount = 0;
+        let totalPoints = 0;
+        let streak = 0;
+        let hintUsed = false;
+
+        function loadExercise() {
+            const ex = exercises[currentIndex];
+            document.getElementById('equationDisplay').textContent = ex.equation;
+            document.getElementById('exerciseTitle').textContent = '¿Cuál es el número misterioso (x)?';
+            document.getElementById('levelBadge').textContent = `Nivel ${ex.level}`;
+            document.getElementById('answerInput').value = '';
+            document.getElementById('feedback').classList.remove('show');
+            document.getElementById('hintBox').classList.remove('show');
+            hintUsed = false;
+
+            const visualArea = document.getElementById('visualArea');
+            visualArea.innerHTML = '';
+            
+            ex.visual.forEach(item => {
+                const block = document.createElement('div');
+                block.className = 'visual-block';
+                block.textContent = item;
+                
+                if (item === 'x' || item === 'X') {
+                    block.classList.add('x');
+                } else if (item === '+' || item === '-' || item === '=' || item === '×' || item === '÷') {
+                    block.classList.add('operator');
+                } else {
+                    block.classList.add('number');
+                }
+                
+                visualArea.appendChild(block);
+            });
+
+            updateProgress();
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('answerInput').value);
+            const correctAnswer = exercises[currentIndex].answer;
+            const feedback = document.getElementById('feedback');
+
+            if (isNaN(userAnswer)) {
+                feedback.className = 'feedback incorrect show';
+                feedback.textContent = '⚠️ Por favor ingresa un número';
+                return;
+            }
+
+            if (userAnswer === correctAnswer) {
+                const points = hintUsed ? 5 : 10;
+                totalPoints += points;
+                correctCount++;
+                streak++;
+                
+                document.getElementById('correctAnswers').textContent = correctCount;
+                document.getElementById('totalPoints').textContent = totalPoints;
+                document.getElementById('streak').textContent = streak;
+
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = `
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🎉 ¡Correcto!</div>
+                    <div>Ganaste ${points} puntos. ${hintUsed ? '' : '¡Sin usar pistas! +5 puntos extra'}</div>
+                    <div class="explanation" style="margin-top: 15px;">
+                        <div class="explanation-title">📚 Explicación:</div>
+                        <div class="explanation-text">${exercises[currentIndex].explanation}</div>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    currentIndex++;
+                    if (currentIndex < exercises.length) {
+                        loadExercise();
+                    } else {
+                        document.getElementById('progressBar').style.width = '100%';
+                        document.getElementById('progressText').textContent = '100%';
+                        showCelebration();
+                    }
+                }, 4000);
+            } else {
+                streak = 0;
+                document.getElementById('streak').textContent = streak;
+                
+                feedback.className = 'feedback incorrect show';
+                feedback.innerHTML = `
+                    <div style="font-size: 2rem; margin-bottom: 10px;">❌ Incorrecto</div>
+                    <div>La respuesta correcta es ${correctAnswer}. ¡Intenta con el siguiente!</div>
+                    <div class="explanation" style="margin-top: 15px;">
+                        <div class="explanation-title">📚 Explicación:</div>
+                        <div class="explanation-text">${exercises[currentIndex].explanation}</div>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    currentIndex++;
+                    if (currentIndex < exercises.length) {
+                        loadExercise();
+                    } else {
+                        document.getElementById('progressBar').style.width = '100%';
+                        document.getElementById('progressText').textContent = '100%';
+                        showCelebration();
+                    }
+                }, 5000);
+            }
+        }
+
+        function showHint() {
+            const hintBox = document.getElementById('hintBox');
+            document.getElementById('hintText').textContent = exercises[currentIndex].hint;
+            hintBox.classList.add('show');
+            hintUsed = true;
+        }
+
+        function skipExercise() {
+            streak = 0;
+            document.getElementById('streak').textContent = streak;
+            
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback incorrect show';
+            feedback.innerHTML = `
+                <div style="font-size: 1.5rem; margin-bottom: 10px;">⏭️ Ejercicio saltado</div>
+                <div>La respuesta era ${exercises[currentIndex].answer}</div>
+                <div class="explanation" style="margin-top: 15px;">
+                    <div class="explanation-title">📚 Explicación:</div>
+                    <div class="explanation-text">${exercises[currentIndex].explanation}</div>
+                </div>
+            `;
+
+            setTimeout(() => {
+                currentIndex++;
+                if (currentIndex < exercises.length) {
+                    loadExercise();
+                } else {
+                    document.getElementById('progressBar').style.width = '100%';
+                    document.getElementById('progressText').textContent = '100%';
+                    showCelebration();
+                }
+            }, 3000);
+        }
+
+        function updateProgress() {
+            const progress = ((currentIndex) / exercises.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = Math.round(progress) + '%';
+            document.getElementById('currentExercise').textContent = currentIndex + 1;
+        }
+
+        function showCelebration() {
+            const percentage = (correctCount / exercises.length) * 100;
+            document.getElementById('celebration').innerHTML = `
+                <div class="celebration-icon">${percentage >= 80 ? '🏆' : percentage >= 60 ? '🎉' : '💪'}</div>
+                <div class="celebration-text">¡Completaste la actividad!</div>
+                <div class="celebration-subtext">
+                    Obtuviste ${correctCount} de ${exercises.length} respuestas correctas<br>
+                    Puntos totales: ${totalPoints}
+                </div>
+                <button class="btn btn-primary" onclick="location.reload()" style="margin-top: 30px;">
+                    🔄 Reintentar
+                </button>
+            `;
+            document.getElementById('celebration').classList.add('show');
+        }
+
+        document.getElementById('answerInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        loadExercise();
+    </script>
+</body>
+</html>
