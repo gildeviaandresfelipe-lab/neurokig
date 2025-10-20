@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Álgebra Visual - NeuroKids</title>
+    <title>Estadística Interactiva - NeuroKids</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -85,7 +85,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -120,7 +120,7 @@
 
         .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, #E15034, #E77B66);
+            background: linear-gradient(90deg, #EE9A5B, #E77B66);
             transition: width 0.5s ease;
             border-radius: 10px;
             width: 20%;
@@ -138,7 +138,7 @@
         }
 
         .score {
-            color: #E15034;
+            color: #EE9A5B;
         }
 
         .exercise-card {
@@ -148,96 +148,145 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
         }
 
-        .equation {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #E15034;
-            text-align: center;
-            margin-bottom: 15px;
+        .scenario {
+            background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
         }
 
-        .question {
-            font-size: 1.3rem;
-            color: #889F92;
+        .scenario-title {
+            font-size: 1.5rem;
+            color: #E15034;
+            font-weight: 600;
+            margin-bottom: 15px;
             text-align: center;
-            margin-bottom: 30px;
+        }
+
+        .scenario-text {
+            font-size: 1.1rem;
+            color: #889F92;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .data-display {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 2px solid #EDA2A1;
+        }
+
+        .data-title {
+            font-size: 1.2rem;
+            color: #EE9A5B;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 250px;
+            padding: 20px;
+            background: linear-gradient(to top, #FEF0F0 0%, transparent 100%);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .bar {
+            width: 60px;
+            background: linear-gradient(to top, #E77B66, #EE9A5B);
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(238, 154, 91, 0.3);
+        }
+
+        .bar:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(238, 154, 91, 0.5);
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 700;
+            color: #E15034;
+            font-size: 1rem;
+        }
+
+        .bar-label {
+            text-align: center;
+            margin-top: 10px;
+            color: #889F92;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #EDA2A1;
+            color: #889F92;
             font-weight: 500;
         }
 
-        .visual-container {
-            margin: 30px 0;
-            padding: 30px;
+        .data-table tr:hover {
+            background: rgba(238, 154, 91, 0.1);
+        }
+
+        .question-section {
+            margin-top: 30px;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            color: #E15034;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px;
             background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
             border-radius: 15px;
-        }
-
-        .equation-visual {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .left-side,
-        .right-side {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .x-box {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #E77B66, #EE9A5B);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
-            box-shadow: 0 4px 15px rgba(225, 80, 52, 0.3);
-        }
-
-        .number-display {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #E15034;
-            padding: 0 10px;
-        }
-
-        .equals {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #889F92;
-            padding: 0 15px;
-        }
-
-        .total-box {
-            min-width: 80px;
-            padding: 15px 25px;
-            background: linear-gradient(135deg, #889F92, #9AAFA0);
-            border-radius: 12px;
-            font-size: 2rem;
-            font-weight: 700;
-            color: white;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(136, 159, 146, 0.3);
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin: 30px 0;
+            margin: 20px 0;
         }
 
         .option-btn {
             padding: 20px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 600;
             border: 3px solid #EDA2A1;
             background: white;
@@ -245,12 +294,13 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
+            color: #889F92;
         }
 
         .option-btn:hover:not(:disabled) {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.2);
-            border-color: #E77B66;
+            box-shadow: 0 8px 20px rgba(238, 154, 91, 0.3);
+            border-color: #EE9A5B;
         }
 
         .option-btn:disabled {
@@ -382,13 +432,13 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #E15034, #E77B66);
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(225, 80, 52, 0.3);
+            box-shadow: 0 10px 30px rgba(238, 154, 91, 0.4);
         }
 
         .btn-secondary {
@@ -430,10 +480,6 @@
                 font-size: 1.5rem;
             }
 
-            .equation {
-                font-size: 2rem;
-            }
-
             .exercise-card {
                 padding: 25px;
             }
@@ -446,10 +492,12 @@
                 grid-template-columns: 1fr;
             }
 
-            .x-box {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+            .chart-container {
+                height: 200px;
+            }
+
+            .bar {
+                width: 40px;
             }
         }
     </style>
@@ -476,7 +524,7 @@
     <div class="container">
         <div class="header" id="header">
             <div class="header-content">
-                <h1 class="title">🧮 Álgebra Visual</h1>
+                <h1 class="title">📊 Estadística Interactiva</h1>
             </div>
             <div class="progress-bar-container">
                 <div class="progress-bar-fill" id="progressBar"></div>
@@ -488,14 +536,17 @@
         </div>
 
         <div class="exercise-card" id="exerciseCard">
-            <h2 class="equation" id="equation"></h2>
-            <p class="question" id="question"></p>
-
-            <div class="visual-container">
-                <div class="equation-visual" id="visualRepresentation"></div>
+            <div class="scenario">
+                <h2 class="scenario-title" id="scenarioTitle"></h2>
+                <p class="scenario-text" id="scenarioText"></p>
             </div>
 
-            <div class="options-grid" id="optionsGrid"></div>
+            <div class="data-display" id="dataDisplay"></div>
+
+            <div class="question-section">
+                <div class="question-text" id="questionText"></div>
+                <div class="options-grid" id="optionsGrid"></div>
+            </div>
 
             <div class="feedback" id="feedback">
                 <p class="feedback-title" id="feedbackTitle"></p>
@@ -504,9 +555,9 @@
         </div>
 
         <div class="completion-screen" id="completionScreen">
-            <div class="completion-icon">🏆</div>
-            <h1>¡Felicidades! 🎉</h1>
-            <p class="completion-text">Has completado todas las ecuaciones</p>
+            <div class="completion-icon">📈</div>
+            <h1>¡Excelente Trabajo! 🎉</h1>
+            <p class="completion-text">Has dominado el análisis de datos</p>
             <div class="final-stats">
                 <div class="stat-item">
                     <span class="stat-number" id="finalScore">0</span>
@@ -531,44 +582,54 @@
     <script>
         const levels = [
             {
-                equation: "x + 3 = 7",
-                question: "¿Cuánto vale x?",
-                visual: { boxes: 1, numbers: 3, total: 7 },
-                options: [2, 4, 5, 10],
-                correct: 4,
-                explanation: "Si x + 3 = 7, entonces x = 7 - 3 = 4"
+                title: "🍎 Frutas Favoritas de la Clase",
+                scenario: "La profesora preguntó a 20 estudiantes de 5° grado cuál es su fruta favorita. Los resultados fueron:",
+                data: { Manzanas: 8, Bananos: 5, Naranjas: 4, Uvas: 3 },
+                dataType: "chart",
+                question: "¿Cuál es la fruta más popular en la clase?",
+                options: ["Manzanas", "Bananos", "Naranjas", "Uvas"],
+                correct: "Manzanas",
+                explanation: "Las manzanas tienen 8 votos, que es el número más alto. En estadística, el valor que más se repite se llama 'moda'."
             },
             {
-                equation: "2x = 10",
-                question: "¿Cuánto vale x?",
-                visual: { boxes: 2, numbers: 0, total: 10 },
-                options: [3, 5, 8, 12],
-                correct: 5,
-                explanation: "Si 2x = 10, entonces x = 10 ÷ 2 = 5"
+                title: "⚽ Goles del Equipo",
+                scenario: "El equipo de fútbol del colegio anotó goles en sus últimos 5 partidos:",
+                data: { "Partido 1": 2, "Partido 2": 3, "Partido 3": 2, "Partido 4": 4, "Partido 5": 4 },
+                dataType: "chart",
+                question: "¿Cuál es el promedio (media) de goles por partido?",
+                options: ["2 goles", "3 goles", "4 goles", "5 goles"],
+                correct: "3 goles",
+                explanation: "El promedio se calcula sumando todos los goles (2+3+2+4+4=15) y dividiendo entre el número de partidos (15÷5=3)."
             },
             {
-                equation: "x - 4 = 6",
-                question: "¿Cuánto vale x?",
-                visual: { boxes: 1, numbers: -4, total: 6 },
-                options: [2, 8, 10, 12],
-                correct: 10,
-                explanation: "Si x - 4 = 6, entonces x = 6 + 4 = 10"
+                title: "📚 Libros Leídos",
+                scenario: "En un mes, cinco amigos leyeron estos libros: Ana (3), Luis (1), María (5), Carlos (2) y Sofía (4).",
+                data: { Ana: 3, Luis: 1, María: 5, Carlos: 2, Sofía: 4 },
+                dataType: "chart",
+                question: "¿Cuál es la mediana (valor del medio)?",
+                options: ["1 libro", "2 libros", "3 libros", "4 libros"],
+                correct: "3 libros",
+                explanation: "Al ordenar los datos (1, 2, 3, 4, 5), el valor del medio es 3. Este valor se llama 'mediana'."
             },
             {
-                equation: "3x + 2 = 14",
-                question: "¿Cuánto vale x?",
-                visual: { boxes: 3, numbers: 2, total: 14 },
-                options: [3, 4, 5, 6],
-                correct: 4,
-                explanation: "Si 3x + 2 = 14, entonces 3x = 12, y x = 4"
+                title: "🌡️ Temperaturas de la Semana",
+                scenario: "Las temperaturas máximas en tu ciudad fueron:",
+                data: { Lunes: 25, Martes: 28, Miércoles: 26, Jueves: 30, Viernes: 26 },
+                dataType: "chart",
+                question: "¿Qué temperatura se repitió más veces (moda)?",
+                options: ["25°C", "26°C", "28°C", "30°C"],
+                correct: "26°C",
+                explanation: "26°C apareció dos veces (miércoles y viernes), mientras que las demás temperaturas aparecieron solo una vez."
             },
             {
-                equation: "2x - 5 = 9",
-                question: "¿Cuánto vale x?",
-                visual: { boxes: 2, numbers: -5, total: 9 },
-                options: [5, 6, 7, 8],
-                correct: 7,
-                explanation: "Si 2x - 5 = 9, entonces 2x = 14, y x = 7"
+                title: "🎮 Tiempo de Juego",
+                scenario: "En una encuesta a 25 estudiantes sobre horas de juego a la semana:",
+                data: { "1-2 horas": 8, "3-4 horas": 10, "5-6 horas": 5, "7+ horas": 2 },
+                dataType: "chart",
+                question: "¿Cuántos estudiantes juegan 4 horas o menos?",
+                options: ["8 estudiantes", "10 estudiantes", "18 estudiantes", "25 estudiantes"],
+                correct: "18 estudiantes",
+                explanation: "Sumamos los que juegan 1-2 horas (8) y los que juegan 3-4 horas (10): 8 + 10 = 18 estudiantes."
             }
         ];
 
@@ -581,36 +642,41 @@
             const level = levels[currentLevel];
             answered = false;
 
-            document.getElementById('equation').textContent = level.equation;
-            document.getElementById('question').textContent = level.question;
+            document.getElementById('scenarioTitle').textContent = level.title;
+            document.getElementById('scenarioText').textContent = level.scenario;
+            document.getElementById('questionText').textContent = level.question;
             document.getElementById('levelInfo').textContent = `Nivel: ${currentLevel + 1}/${levels.length}`;
             document.getElementById('progressBar').style.width = `${((currentLevel + 1) / levels.length) * 100}%`;
 
-            renderVisual(level.visual);
+            renderData(level.data, level.dataType);
             renderOptions(level.options, level.correct);
 
             document.getElementById('feedback').classList.remove('show');
         }
 
-        function renderVisual(visual) {
-            const container = document.getElementById('visualRepresentation');
-            let html = '<div class="left-side">';
+        function renderData(data, type) {
+            const container = document.getElementById('dataDisplay');
 
-            for (let i = 0; i < visual.boxes; i++) {
-                html += '<div class="x-box">x</div>';
+            if (type === 'chart') {
+                const maxValue = Math.max(...Object.values(data));
+                let html = '<div class="data-title">📊 Datos Recolectados</div>';
+                html += '<div class="chart-container">';
+
+                Object.entries(data).forEach(([label, value]) => {
+                    const height = (value / maxValue) * 200;
+                    html += `
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <div class="bar" style="height: ${height}px;">
+                                <div class="bar-value">${value}</div>
+                            </div>
+                            <div class="bar-label">${label}</div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                container.innerHTML = html;
             }
-
-            if (visual.numbers !== 0) {
-                const sign = visual.numbers > 0 ? '+' : '-';
-                const num = Math.abs(visual.numbers);
-                html += `<span class="number-display">${sign} ${num}</span>`;
-            }
-
-            html += '</div>';
-            html += '<div class="equals">=</div>';
-            html += `<div class="right-side"><div class="total-box">${visual.total}</div></div>`;
-
-            container.innerHTML = html;
         }
 
         function renderOptions(options, correct) {
@@ -654,11 +720,11 @@
                     } else {
                         showCompletion();
                     }
-                }, 2000);
+                }, 2500);
             } else {
                 button.classList.add('incorrect');
                 buttons.forEach(btn => {
-                    if (parseInt(btn.textContent) === correct) {
+                    if (btn.textContent === correct) {
                         btn.classList.add('correct');
                     }
                 });
@@ -691,7 +757,6 @@
 
         loadLevel();
     </script>
-
 </body>
 
 </html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroKids - Memoria de Trabajo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #EE9A5B, rgba(255, 255, 255, 0.3));
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #E15034;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #889F92;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: rgba(238, 154, 91, 0.2);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: #889F92;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            color: #EE9A5B;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            min-height: 500px;
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .instructions h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .phase-indicator {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #EE9A5B;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(238, 154, 91, 0.1);
+            border-radius: 15px;
+        }
+
+        .sequence-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 200px;
+            margin: 30px 0;
+        }
+
+        .sequence-item {
+            font-size: 4rem;
+            padding: 20px;
+            background: linear-gradient(135deg, #EE9A5B, rgba(255, 255, 255, 0.3));
+            border-radius: 20px;
+            min-width: 100px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .memory-button {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
+            border: 3px solid transparent;
+            border-radius: 15px;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .memory-button:hover:not(:disabled) {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-color: #EE9A5B;
+        }
+
+        .memory-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .memory-button.selected {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            border-color: #E15034;
+            transform: scale(1.05);
+        }
+
+        .memory-button.correct {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            animation: pulse 0.5s ease;
+        }
+
+        .memory-button.wrong {
+            background: linear-gradient(135deg, #F44336, #E57373);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .input-area {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .sequence-input {
+            font-size: 2rem;
+            padding: 15px 30px;
+            border: 3px solid #EE9A5B;
+            border-radius: 15px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            width: 300px;
+            max-width: 90%;
+        }
+
+        .sequence-input:focus {
+            outline: none;
+            border-color: #E15034;
+            box-shadow: 0 0 15px rgba(238, 154, 91, 0.3);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            border: none;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #889F92, #B8C9C1);
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            min-height: 50px;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .feedback.correct {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .feedback.wrong {
+            color: #F44336;
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .countdown {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #EE9A5B;
+            animation: countdown 1s ease;
+        }
+
+        @keyframes countdown {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .level-info {
+            background: rgba(238, 154, 91, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .level-info p {
+            margin: 5px 0;
+            color: #889F92;
+            font-weight: 500;
+        }
+
+        .level-info strong {
+            color: #EE9A5B;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .sequence-item {
+                font-size: 3rem;
+                min-width: 80px;
+            }
+
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .memory-button {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <a href="actividades.html" class="back-button">← Volver</a>
+                <div>
+                    <div class="title">🧠 Memoria de Trabajo</div>
+                    <div class="subtitle">Entrenamiento Cognitivo Adaptativo</div>
+                </div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-label">Nivel</div>
+                    <div class="stat-value" id="level">1</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Puntuación</div>
+                    <div class="stat-value" id="score">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Racha</div>
+                    <div class="stat-value" id="streak">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Mejor Racha</div>
+                    <div class="stat-value" id="bestStreak">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-container">
+            <div class="instructions">
+                <h3>📋 Instrucciones</h3>
+                <p>Memoriza la secuencia que aparece y repítela correctamente. ¡La dificultad aumenta con cada nivel!</p>
+            </div>
+
+            <div class="level-info" id="levelInfo">
+                <p>Tipo de ejercicio: <strong id="exerciseType">Números</strong></p>
+                <p>Elementos a memorizar: <strong id="sequenceLength">3</strong></p>
+            </div>
+
+            <div class="phase-indicator" id="phaseIndicator">
+                Presiona "Comenzar" para iniciar
+            </div>
+
+            <div class="sequence-display" id="sequenceDisplay"></div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div id="inputArea" style="display: none;"></div>
+
+            <div class="controls">
+                <button class="btn" id="startBtn" onclick="startGame()">Comenzar Juego</button>
+                <button class="btn" id="checkBtn" onclick="checkAnswer()" style="display: none;">Verificar Respuesta</button>
+                <button class="btn" id="nextBtn" onclick="nextRound()" style="display: none;">Siguiente Ronda</button>
+                <button class="btn btn-secondary" id="skipBtn" onclick="skipRound()" style="display: none;">Saltar (Penalización)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exercises = {
+            numbers: { name: 'Números', items: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] },
+            letters: { name: 'Letras', items: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'] },
+            emojis: { name: 'Emojis', items: ['😀', '😎', '🎨', '🎵', '🎮', '⭐', '🌟', '💎', '🔥', '⚡'] },
+            colors: { name: 'Colores', items: ['🔴', '🟢', '🔵', '🟡', '🟠', '🟣', '🟤', '⚫', '⚪', '🟢'] }
+        };
+
+        let currentExercise = 'numbers';
+        let level = 1;
+        let score = 0;
+        let streak = 0;
+        let bestStreak = 0;
+        let sequence = [];
+        let userSequence = [];
+        let sequenceLength = 3;
+        let isShowingSequence = false;
+
+        function startGame() {
+            level = 1;
+            score = 0;
+            streak = 0;
+            updateStats();
+            document.getElementById('startBtn').style.display = 'none';
+            nextRound();
+        }
+
+        function nextRound() {
+            // Limpiar
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('inputArea').innerHTML = '';
+            document.getElementById('inputArea').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('skipBtn').style.display = 'none';
+            document.getElementById('checkBtn').style.display = 'none';
+            userSequence = [];
+
+            // Determinar tipo de ejercicio según nivel
+            if (level <= 3) currentExercise = 'numbers';
+            else if (level <= 6) currentExercise = 'letters';
+            else if (level <= 9) currentExercise = 'emojis';
+            else currentExercise = 'colors';
+
+            // Calcular longitud de secuencia
+            sequenceLength = Math.min(3 + Math.floor(level / 2), 10);
+
+            updateLevelInfo();
+            showSequence();
+        }
+
+        function updateLevelInfo() {
+            document.getElementById('exerciseType').textContent = exercises[currentExercise].name;
+            document.getElementById('sequenceLength').textContent = sequenceLength;
+        }
+
+        async function showSequence() {
+            isShowingSequence = true;
+            sequence = [];
+            const items = exercises[currentExercise].items;
+
+            // Generar secuencia aleatoria
+            for (let i = 0; i < sequenceLength; i++) {
+                sequence.push(items[Math.floor(Math.random() * items.length)]);
+            }
+
+            document.getElementById('phaseIndicator').textContent = '👀 ¡Memoriza la secuencia!';
+            
+            // Cuenta regresiva
+            for (let i = 3; i > 0; i--) {
+                document.getElementById('sequenceDisplay').innerHTML = 
+                    `<div class="countdown">${i}</div>`;
+                await sleep(1000);
+            }
+
+            // Mostrar secuencia
+            for (let i = 0; i < sequence.length; i++) {
+                document.getElementById('sequenceDisplay').innerHTML = 
+                    `<div class="sequence-item">${sequence[i]}</div>`;
+                await sleep(1000);
+                document.getElementById('sequenceDisplay').innerHTML = '';
+                await sleep(300);
+            }
+
+            isShowingSequence = false;
+            showInputArea();
+        }
+
+        function showInputArea() {
+            document.getElementById('phaseIndicator').textContent = '✍️ ¡Reproduce la secuencia!';
+            document.getElementById('sequenceDisplay').innerHTML = '';
+            
+            const inputArea = document.getElementById('inputArea');
+            inputArea.style.display = 'block';
+            inputArea.innerHTML = '<div class="memory-grid" id="memoryGrid"></div>';
+
+            const grid = document.getElementById('memoryGrid');
+            const items = exercises[currentExercise].items;
+
+            items.forEach(item => {
+                const button = document.createElement('button');
+                button.className = 'memory-button';
+                button.textContent = item;
+                button.onclick = () => selectItem(item, button);
+                grid.appendChild(button);
+            });
+
+            document.getElementById('checkBtn').style.display = 'inline-block';
+            document.getElementById('skipBtn').style.display = 'inline-block';
+        }
+
+        function selectItem(item, button) {
+            userSequence.push(item);
+            button.classList.add('selected');
+            button.disabled = true;
+
+            // Mostrar selección en el display
+            const display = document.getElementById('sequenceDisplay');
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'sequence-item';
+            itemDiv.textContent = item;
+            itemDiv.style.fontSize = '2.5rem';
+            display.appendChild(itemDiv);
+        }
+
+        function checkAnswer() {
+            document.getElementById('checkBtn').style.display = 'none';
+            document.getElementById('skipBtn').style.display = 'none';
+
+            let correct = true;
+            const buttons = document.querySelectorAll('.memory-button');
+
+            if (userSequence.length !== sequence.length) {
+                correct = false;
+            } else {
+                for (let i = 0; i < sequence.length; i++) {
+                    if (userSequence[i] !== sequence[i]) {
+                        correct = false;
+                        break;
+                    }
+                }
+            }
+
+            if (correct) {
+                handleCorrect();
+            } else {
+                handleWrong();
+            }
+        }
+
+        function handleCorrect() {
+            streak++;
+            bestStreak = Math.max(bestStreak, streak);
+            score += 50 * level + (streak * 10);
+            level++;
+
+            document.getElementById('feedback').textContent = 
+                `🎉 ¡Correcto! +${50 * (level-1) + (streak * 10)} puntos`;
+            document.getElementById('feedback').className = 'feedback correct';
+
+            updateStats();
+            document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+
+        function handleWrong() {
+            streak = 0;
+            score = Math.max(0, score - 25);
+
+            document.getElementById('feedback').innerHTML = 
+                `❌ ¡Incorrecto!<br>La secuencia correcta era: ${sequence.join(' ')}`;
+            document.getElementById('feedback').className = 'feedback wrong';
+
+            updateStats();
+            document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+
+        function skipRound() {
+            score = Math.max(0, score - 50);
+            streak = 0;
+            
+            document.getElementById('feedback').innerHTML = 
+                `⏭️ Ronda saltada (Penalización: -50 puntos)<br>La secuencia era: ${sequence.join(' ')}`;
+            document.getElementById('feedback').className = 'feedback wrong';
+
+            updateStats();
+            document.getElementById('skipBtn').style.display = 'none';
+            document.getElementById('checkBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+
+        function updateStats() {
+            document.getElementById('level').textContent = level;
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = streak;
+            document.getElementById('bestStreak').textContent = bestStreak;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    </script>
+</body>
+</html>

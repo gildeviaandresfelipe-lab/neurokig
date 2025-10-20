@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroKids - Atención Selectiva</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #E77B66, rgba(255, 255, 255, 0.3));
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #E15034;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #889F92;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: rgba(225, 80, 52, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: #889F92;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            color: #E15034;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .instructions h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .target-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(225, 80, 52, 0.1);
+            border-radius: 15px;
+        }
+
+        .target-emoji {
+            font-size: 3rem;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .target-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .grid-item.correct {
+            animation: correct 0.5s ease;
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            border-color: #2E7D32;
+        }
+
+        .grid-item.wrong {
+            animation: wrong 0.5s ease;
+            background: linear-gradient(135deg, #F44336, #E57373);
+            border-color: #C62828;
+        }
+
+        @keyframes correct {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2) rotate(5deg); }
+        }
+
+        @keyframes wrong {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            border: none;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #E15034;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            min-height: 40px;
+            margin: 15px 0;
+        }
+
+        .feedback.correct {
+            color: #4CAF50;
+        }
+
+        .feedback.wrong {
+            color: #F44336;
+        }
+
+        .level-complete {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .level-complete.show {
+            display: block;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .level-complete h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .level-complete p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+
+            .grid-item {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <a href="actividades.html" class="back-button">← Volver</a>
+                <div>
+                    <div class="title">🎯 Atención Selectiva</div>
+                    <div class="subtitle">Entrenamiento de Concentración</div>
+                </div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-label">Nivel</div>
+                    <div class="stat-value" id="level">1</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Puntuación</div>
+                    <div class="stat-value" id="score">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Aciertos</div>
+                    <div class="stat-value" id="correct">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Errores</div>
+                    <div class="stat-value" id="errors">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-container">
+            <div class="instructions">
+                <h3>📋 Instrucciones</h3>
+                <p>Encuentra y haz clic en todos los emojis que coincidan con el objetivo. ¡Sé rápido y preciso!</p>
+            </div>
+
+            <div class="target-display">
+                <span>Busca:</span>
+                <span class="target-emoji" id="target">🎯</span>
+                <span class="target-text">¡Encuéntralos todos!</span>
+            </div>
+
+            <div class="timer" id="timer">Tiempo: 30s</div>
+            
+            <div class="feedback" id="feedback"></div>
+
+            <div class="grid" id="grid"></div>
+
+            <div class="controls">
+                <button class="btn" id="startBtn" onclick="startGame()">Comenzar Juego</button>
+                <button class="btn" id="nextBtn" onclick="nextLevel()" style="display: none;">Siguiente Nivel</button>
+            </div>
+        </div>
+
+        <div class="level-complete" id="levelComplete">
+            <h2>🎉 ¡Nivel Completado!</h2>
+            <p id="completionMessage"></p>
+            <p id="completionStats"></p>
+        </div>
+    </div>
+
+    <script>
+        const emojis = ['🎯', '⭐', '🎨', '🎵', '🎮', '🏆', '💎', '🔥', '⚡', '✨', '🌟', '💫', '🎪', '🎭', '🎬', '🎤'];
+        
+        let level = 1;
+        let score = 0;
+        let correct = 0;
+        let errors = 0;
+        let targetEmoji = '';
+        let targetCount = 0;
+        let foundCount = 0;
+        let timeLeft = 30;
+        let timerInterval;
+        let isPlaying = false;
+
+        function startGame() {
+            level = 1;
+            score = 0;
+            correct = 0;
+            errors = 0;
+            updateStats();
+            startLevel();
+            document.getElementById('startBtn').style.display = 'none';
+        }
+
+        function startLevel() {
+            isPlaying = true;
+            foundCount = 0;
+            timeLeft = 30;
+            
+            // Seleccionar emoji objetivo aleatorio
+            targetEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            document.getElementById('target').textContent = targetEmoji;
+            
+            // Calcular cantidad de elementos según nivel
+            const gridSize = Math.min(16 + (level - 1) * 4, 36);
+            targetCount = Math.min(3 + level, 8);
+            
+            generateGrid(gridSize);
+            startTimer();
+            
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('levelComplete').classList.remove('show');
+        }
+
+        function generateGrid(size) {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            
+            // Crear array con emojis
+            let gridEmojis = [];
+            
+            // Agregar los objetivos
+            for (let i = 0; i < targetCount; i++) {
+                gridEmojis.push(targetEmoji);
+            }
+            
+            // Llenar el resto con otros emojis
+            while (gridEmojis.length < size) {
+                const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                if (randomEmoji !== targetEmoji) {
+                    gridEmojis.push(randomEmoji);
+                }
+            }
+            
+            // Mezclar array
+            gridEmojis.sort(() => Math.random() - 0.5);
+            
+            // Crear elementos del grid
+            gridEmojis.forEach(emoji => {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.textContent = emoji;
+                item.onclick = () => checkItem(item, emoji);
+                grid.appendChild(item);
+            });
+        }
+
+        function checkItem(item, emoji) {
+            if (!isPlaying || item.classList.contains('correct') || item.classList.contains('wrong')) {
+                return;
+            }
+
+            if (emoji === targetEmoji) {
+                item.classList.add('correct');
+                foundCount++;
+                correct++;
+                score += 10 * level;
+                
+                document.getElementById('feedback').textContent = '¡Correcto! ✓';
+                document.getElementById('feedback').className = 'feedback correct';
+                
+                if (foundCount === targetCount) {
+                    completeLevel();
+                }
+            } else {
+                item.classList.add('wrong');
+                errors++;
+                score = Math.max(0, score - 5);
+                
+                document.getElementById('feedback').textContent = '¡Incorrecto! ✗';
+                document.getElementById('feedback').className = 'feedback wrong';
+            }
+            
+            updateStats();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = `Tiempo: ${timeLeft}s`;
+                
+                if (timeLeft <= 0) {
+                    gameOver();
+                }
+            }, 1000);
+        }
+
+        function completeLevel() {
+            isPlaying = false;
+            clearInterval(timerInterval);
+            
+            const bonus = timeLeft * 5;
+            score += bonus;
+            updateStats();
+            
+            document.getElementById('completionMessage').textContent = 
+                `¡Encontraste todos los ${targetEmoji}!`;
+            document.getElementById('completionStats').textContent = 
+                `Bonificación de tiempo: +${bonus} puntos`;
+            
+            document.getElementById('levelComplete').classList.add('show');
+            document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+
+        function nextLevel() {
+            level++;
+            updateStats();
+            document.getElementById('nextBtn').style.display = 'none';
+            startLevel();
+        }
+
+        function gameOver() {
+            isPlaying = false;
+            clearInterval(timerInterval);
+            
+            document.getElementById('feedback').textContent = '⏱️ ¡Tiempo agotado!';
+            document.getElementById('feedback').className = 'feedback wrong';
+            
+            setTimeout(() => {
+                alert(`¡Juego terminado!\n\nNivel alcanzado: ${level}\nPuntuación final: ${score}\nAciertos: ${correct}\nErrores: ${errors}`);
+                document.getElementById('startBtn').style.display = 'inline-block';
+                document.getElementById('grid').innerHTML = '';
+            }, 2000);
+        }
+
+        function updateStats() {
+            document.getElementById('level').textContent = level;
+            document.getElementById('score').textContent = score;
+            document.getElementById('correct').textContent = correct;
+            document.getElementById('errors').textContent = errors;
+        }
+    </script>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Álgebra Visual - NeuroKids</title>
+    <title>Geometría Espacial - NeuroKids</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -85,7 +85,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -148,96 +148,261 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
         }
 
-        .equation {
-            font-size: 2.5rem;
-            font-weight: 700;
+        .shape-title {
+            font-size: 1.8rem;
             color: #E15034;
+            font-weight: 600;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        .question {
-            font-size: 1.3rem;
+        .shape-subtitle {
+            font-size: 1.1rem;
             color: #889F92;
             text-align: center;
             margin-bottom: 30px;
-            font-weight: 500;
         }
 
-        .visual-container {
-            margin: 30px 0;
-            padding: 30px;
+        .shape-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
             background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
-            border-radius: 15px;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
         }
 
-        .equation-visual {
+        .shape-3d {
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate3d 8s infinite linear;
+        }
+
+        @keyframes rotate3d {
+            0% {
+                transform: rotateX(15deg) rotateY(0deg);
+            }
+            100% {
+                transform: rotateX(15deg) rotateY(360deg);
+            }
+        }
+
+        .cube {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 3px solid #E15034;
+            opacity: 0.9;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
         }
 
-        .left-side,
-        .right-side {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
+        .cube-front {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            transform: translateZ(75px);
         }
 
-        .x-box {
-            width: 60px;
+        .cube-back {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            transform: translateZ(-75px) rotateY(180deg);
+        }
+
+        .cube-right {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            transform: rotateY(90deg) translateZ(75px);
+        }
+
+        .cube-left {
+            background: linear-gradient(135deg, #E77B66, #E15034);
+            transform: rotateY(-90deg) translateZ(75px);
+        }
+
+        .cube-top {
+            background: linear-gradient(135deg, #EDA2A1, #E77B66);
+            transform: rotateX(90deg) translateZ(75px);
+        }
+
+        .cube-bottom {
+            background: linear-gradient(135deg, #E77B66, #EDA2A1);
+            transform: rotateX(-90deg) translateZ(75px);
+        }
+
+        .cylinder {
+            width: 120px;
+            height: 180px;
+            position: relative;
+        }
+
+        .cylinder-top,
+        .cylinder-bottom {
+            width: 120px;
             height: 60px;
             background: linear-gradient(135deg, #E77B66, #EE9A5B);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
-            box-shadow: 0 4px 15px rgba(225, 80, 52, 0.3);
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            border: 3px solid #E15034;
         }
 
-        .number-display {
-            font-size: 1.8rem;
-            font-weight: 700;
+        .cylinder-top {
+            top: 0;
+            box-shadow: 0 3px 10px rgba(225, 80, 52, 0.3);
+        }
+
+        .cylinder-bottom {
+            bottom: 0;
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+        }
+
+        .cylinder-body {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(90deg, #E15034, #E77B66, #EE9A5B, #E77B66, #E15034);
+            position: absolute;
+            top: 30px;
+            border-left: 3px solid #E15034;
+            border-right: 3px solid #E15034;
+        }
+
+        .sphere {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at 30% 30%, #EE9A5B, #E77B66, #E15034);
+            border-radius: 50%;
+            box-shadow: inset -20px -20px 40px rgba(0, 0, 0, 0.2),
+                0 10px 30px rgba(225, 80, 52, 0.3);
+            position: relative;
+        }
+
+        .sphere::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
+            border-radius: 50%;
+            top: 30px;
+            left: 40px;
+        }
+
+        .pyramid {
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 160px solid #E77B66;
+            position: relative;
+            filter: drop-shadow(0 10px 20px rgba(225, 80, 52, 0.3));
+        }
+
+        .pyramid::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 160px solid #E15034;
+            left: -100px;
+            opacity: 0.7;
+            transform: rotateY(30deg);
+        }
+
+        .cone {
+            width: 0;
+            height: 0;
+            border-left: 80px solid transparent;
+            border-right: 80px solid transparent;
+            border-bottom: 180px solid #E77B66;
+            position: relative;
+            filter: drop-shadow(0 10px 20px rgba(225, 80, 52, 0.3));
+        }
+
+        .cone::after {
+            content: '';
+            position: absolute;
+            width: 160px;
+            height: 80px;
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            border-radius: 50%;
+            bottom: -40px;
+            left: -80px;
+        }
+
+        .dimensions-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #EDA2A1;
+            margin-bottom: 25px;
+        }
+
+        .dimensions-title {
+            font-size: 1.2rem;
             color: #E15034;
-            padding: 0 10px;
-        }
-
-        .equals {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #889F92;
-            padding: 0 15px;
-        }
-
-        .total-box {
-            min-width: 80px;
-            padding: 15px 25px;
-            background: linear-gradient(135deg, #889F92, #9AAFA0);
-            border-radius: 12px;
-            font-size: 2rem;
-            font-weight: 700;
-            color: white;
+            font-weight: 600;
+            margin-bottom: 15px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(136, 159, 146, 0.3);
+        }
+
+        .dimension-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 8px 0;
+            background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
+            border-radius: 10px;
+        }
+
+        .dimension-label {
+            color: #889F92;
+            font-weight: 600;
+        }
+
+        .dimension-value {
+            color: #E15034;
+            font-weight: 700;
+        }
+
+        .question-section {
+            margin-top: 30px;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            color: #E15034;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
+            border-radius: 15px;
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin: 30px 0;
+            margin: 20px 0;
         }
 
         .option-btn {
             padding: 20px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 600;
             border: 3px solid #EDA2A1;
             background: white;
@@ -245,11 +410,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
+            color: #889F92;
         }
 
         .option-btn:hover:not(:disabled) {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.2);
+            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.3);
             border-color: #E77B66;
         }
 
@@ -388,7 +554,7 @@
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(225, 80, 52, 0.3);
+            box-shadow: 0 10px 30px rgba(225, 80, 52, 0.4);
         }
 
         .btn-secondary {
@@ -430,10 +596,6 @@
                 font-size: 1.5rem;
             }
 
-            .equation {
-                font-size: 2rem;
-            }
-
             .exercise-card {
                 padding: 25px;
             }
@@ -446,10 +608,9 @@
                 grid-template-columns: 1fr;
             }
 
-            .x-box {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+            .shape-container {
+                min-height: 250px;
+                padding: 30px;
             }
         }
     </style>
@@ -476,7 +637,7 @@
     <div class="container">
         <div class="header" id="header">
             <div class="header-content">
-                <h1 class="title">🧮 Álgebra Visual</h1>
+                <h1 class="title">🔺 Geometría Espacial</h1>
             </div>
             <div class="progress-bar-container">
                 <div class="progress-bar-fill" id="progressBar"></div>
@@ -488,14 +649,17 @@
         </div>
 
         <div class="exercise-card" id="exerciseCard">
-            <h2 class="equation" id="equation"></h2>
-            <p class="question" id="question"></p>
+            <h2 class="shape-title" id="shapeTitle"></h2>
+            <p class="shape-subtitle" id="shapeSubtitle"></p>
 
-            <div class="visual-container">
-                <div class="equation-visual" id="visualRepresentation"></div>
+            <div class="shape-container" id="shapeContainer"></div>
+
+            <div class="dimensions-box" id="dimensionsBox"></div>
+
+            <div class="question-section">
+                <div class="question-text" id="questionText"></div>
+                <div class="options-grid" id="optionsGrid"></div>
             </div>
-
-            <div class="options-grid" id="optionsGrid"></div>
 
             <div class="feedback" id="feedback">
                 <p class="feedback-title" id="feedbackTitle"></p>
@@ -504,9 +668,9 @@
         </div>
 
         <div class="completion-screen" id="completionScreen">
-            <div class="completion-icon">🏆</div>
-            <h1>¡Felicidades! 🎉</h1>
-            <p class="completion-text">Has completado todas las ecuaciones</p>
+            <div class="completion-icon">🎯</div>
+            <h1>¡Geometría Dominada! 🎉</h1>
+            <p class="completion-text">Has completado todos los desafíos de geometría espacial</p>
             <div class="final-stats">
                 <div class="stat-item">
                     <span class="stat-number" id="finalScore">0</span>
@@ -514,7 +678,7 @@
                 </div>
                 <div class="stat-item">
                     <span class="stat-number">5</span>
-                    <span class="stat-label">Niveles Completados</span>
+                    <span class="stat-label">Figuras Exploradas</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-number" id="totalAttempts">0</span>
@@ -531,44 +695,54 @@
     <script>
         const levels = [
             {
-                equation: "x + 3 = 7",
-                question: "¿Cuánto vale x?",
-                visual: { boxes: 1, numbers: 3, total: 7 },
-                options: [2, 4, 5, 10],
-                correct: 4,
-                explanation: "Si x + 3 = 7, entonces x = 7 - 3 = 4"
+                title: "🎲 El Cubo Mágico",
+                subtitle: "Un cubo es una figura con 6 caras cuadradas iguales",
+                shape: "cube",
+                dimensions: { Lado: "5 cm" },
+                question: "Si cada lado del cubo mide 5 cm, ¿cuál es el área de UNA cara?",
+                options: ["15 cm²", "20 cm²", "25 cm²", "30 cm²"],
+                correct: "25 cm²",
+                explanation: "El área de un cuadrado es lado × lado. Entonces: 5 cm × 5 cm = 25 cm². Cada cara del cubo es un cuadrado de 25 cm²."
             },
             {
-                equation: "2x = 10",
-                question: "¿Cuánto vale x?",
-                visual: { boxes: 2, numbers: 0, total: 10 },
-                options: [3, 5, 8, 12],
-                correct: 5,
-                explanation: "Si 2x = 10, entonces x = 10 ÷ 2 = 5"
+                title: "🥫 El Cilindro Perfecto",
+                subtitle: "Un cilindro tiene dos círculos y un cuerpo curvo",
+                shape: "cylinder",
+                dimensions: { Radio: "3 cm", Altura: "8 cm" },
+                question: "¿Cuántas caras planas tiene un cilindro?",
+                options: ["1 cara", "2 caras", "3 caras", "4 caras"],
+                correct: "2 caras",
+                explanation: "Un cilindro tiene exactamente 2 caras planas: la de arriba y la de abajo (ambas son círculos). El resto es una superficie curva."
             },
             {
-                equation: "x - 4 = 6",
-                question: "¿Cuánto vale x?",
-                visual: { boxes: 1, numbers: -4, total: 6 },
-                options: [2, 8, 10, 12],
-                correct: 10,
-                explanation: "Si x - 4 = 6, entonces x = 6 + 4 = 10"
+                title: "⚽ La Esfera Saltarina",
+                subtitle: "Una esfera es perfectamente redonda en todas direcciones",
+                shape: "sphere",
+                dimensions: { Radio: "4 cm" },
+                question: "¿Cuántas caras planas tiene una esfera?",
+                options: ["0 caras", "1 cara", "2 caras", "Infinitas caras"],
+                correct: "0 caras",
+                explanation: "Una esfera no tiene caras planas, ¡toda su superficie es curva! Es como una pelota perfectamente redonda."
             },
             {
-                equation: "3x + 2 = 14",
-                question: "¿Cuánto vale x?",
-                visual: { boxes: 3, numbers: 2, total: 14 },
-                options: [3, 4, 5, 6],
-                correct: 4,
-                explanation: "Si 3x + 2 = 14, entonces 3x = 12, y x = 4"
+                title: "🏔️ La Pirámide Egipcia",
+                subtitle: "Una pirámide tiene una base y caras triangulares",
+                shape: "pyramid",
+                dimensions: { "Base (lado)": "6 cm", Altura: "8 cm" },
+                question: "Si la base de la pirámide es un cuadrado de 6 cm de lado, ¿cuál es el área de la base?",
+                options: ["12 cm²", "24 cm²", "36 cm²", "48 cm²"],
+                correct: "36 cm²",
+                explanation: "El área de la base cuadrada es: 6 cm × 6 cm = 36 cm². Una pirámide con base cuadrada tiene 5 caras en total (1 base + 4 triángulos)."
             },
             {
-                equation: "2x - 5 = 9",
-                question: "¿Cuánto vale x?",
-                visual: { boxes: 2, numbers: -5, total: 9 },
-                options: [5, 6, 7, 8],
-                correct: 7,
-                explanation: "Si 2x - 5 = 9, entonces 2x = 14, y x = 7"
+                title: "🍦 El Cono de Helado",
+                subtitle: "Un cono tiene una base circular y termina en punta",
+                shape: "cone",
+                dimensions: { Radio: "3 cm", Altura: "9 cm" },
+                question: "¿Cuántas aristas (líneas donde se juntan dos caras) tiene un cono?",
+                options: ["0 aristas", "1 arista", "2 aristas", "3 aristas"],
+                correct: "1 arista",
+                explanation: "Un cono tiene solo 1 arista, que es el borde circular de su base. No tiene más aristas porque su superficie lateral es curva."
             }
         ];
 
@@ -581,34 +755,72 @@
             const level = levels[currentLevel];
             answered = false;
 
-            document.getElementById('equation').textContent = level.equation;
-            document.getElementById('question').textContent = level.question;
+            document.getElementById('shapeTitle').textContent = level.title;
+            document.getElementById('shapeSubtitle').textContent = level.subtitle;
+            document.getElementById('questionText').textContent = level.question;
             document.getElementById('levelInfo').textContent = `Nivel: ${currentLevel + 1}/${levels.length}`;
             document.getElementById('progressBar').style.width = `${((currentLevel + 1) / levels.length) * 100}%`;
 
-            renderVisual(level.visual);
+            renderShape(level.shape);
+            renderDimensions(level.dimensions);
             renderOptions(level.options, level.correct);
 
             document.getElementById('feedback').classList.remove('show');
         }
 
-        function renderVisual(visual) {
-            const container = document.getElementById('visualRepresentation');
-            let html = '<div class="left-side">';
+        function renderShape(shapeType) {
+            const container = document.getElementById('shapeContainer');
+            let html = '<div class="shape-3d">';
 
-            for (let i = 0; i < visual.boxes; i++) {
-                html += '<div class="x-box">x</div>';
-            }
-
-            if (visual.numbers !== 0) {
-                const sign = visual.numbers > 0 ? '+' : '-';
-                const num = Math.abs(visual.numbers);
-                html += `<span class="number-display">${sign} ${num}</span>`;
+            switch (shapeType) {
+                case 'cube':
+                    html += `
+                        <div class="cube">
+                            <div class="cube-face cube-front"></div>
+                            <div class="cube-face cube-back"></div>
+                            <div class="cube-face cube-right"></div>
+                            <div class="cube-face cube-left"></div>
+                            <div class="cube-face cube-top"></div>
+                            <div class="cube-face cube-bottom"></div>
+                        </div>
+                    `;
+                    break;
+                case 'cylinder':
+                    html += `
+                        <div class="cylinder">
+                            <div class="cylinder-top"></div>
+                            <div class="cylinder-body"></div>
+                            <div class="cylinder-bottom"></div>
+                        </div>
+                    `;
+                    break;
+                case 'sphere':
+                    html += '<div class="sphere"></div>';
+                    break;
+                case 'pyramid':
+                    html += '<div class="pyramid"></div>';
+                    break;
+                case 'cone':
+                    html += '<div class="cone"></div>';
+                    break;
             }
 
             html += '</div>';
-            html += '<div class="equals">=</div>';
-            html += `<div class="right-side"><div class="total-box">${visual.total}</div></div>`;
+            container.innerHTML = html;
+        }
+
+        function renderDimensions(dimensions) {
+            const container = document.getElementById('dimensionsBox');
+            let html = '<div class="dimensions-title">📏 Medidas de la Figura</div>';
+
+            Object.entries(dimensions).forEach(([key, value]) => {
+                html += `
+                    <div class="dimension-item">
+                        <span class="dimension-label">${key}:</span>
+                        <span class="dimension-value">${value}</span>
+                    </div>
+                `;
+            });
 
             container.innerHTML = html;
         }
@@ -643,7 +855,7 @@
                 button.classList.add('correct');
                 feedback.classList.add('success', 'show');
                 feedback.classList.remove('error');
-                feedbackTitle.textContent = '¡Correcto! 🎉';
+                feedbackTitle.textContent = '¡Excelente! 🎉';
                 score += 20;
                 document.getElementById('scoreInfo').textContent = `Puntos: ${score}`;
 
@@ -654,17 +866,17 @@
                     } else {
                         showCompletion();
                     }
-                }, 2000);
+                }, 2500);
             } else {
                 button.classList.add('incorrect');
                 buttons.forEach(btn => {
-                    if (parseInt(btn.textContent) === correct) {
+                    if (btn.textContent === correct) {
                         btn.classList.add('correct');
                     }
                 });
                 feedback.classList.add('error', 'show');
                 feedback.classList.remove('success');
-                feedbackTitle.textContent = 'Intenta de nuevo 💪';
+                feedbackTitle.textContent = 'Sigue intentando 💪';
             }
 
             feedbackText.textContent = levels[currentLevel].explanation;
@@ -691,7 +903,4 @@
 
         loadLevel();
     </script>
-
 </body>
-
-</html>
