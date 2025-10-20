@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroKids - Procesamiento Visual</title>
+    <title>NeuroKids - Ecosistemas Dinámicos</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -21,7 +21,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -41,7 +41,7 @@
         }
 
         .back-button {
-            background: linear-gradient(135deg, #E15034, rgba(255, 255, 255, 0.3));
+            background: linear-gradient(135deg, #EE9A5B, rgba(255, 255, 255, 0.3));
             border: none;
             color: white;
             padding: 10px 20px;
@@ -78,7 +78,7 @@
         }
 
         .stat-item {
-            background: rgba(225, 80, 52, 0.2);
+            background: rgba(238, 154, 91, 0.2);
             padding: 15px;
             border-radius: 15px;
             text-align: center;
@@ -91,21 +91,27 @@
         }
 
         .stat-value {
-            color: #E15034;
+            color: #EE9A5B;
             font-size: 1.8rem;
             font-weight: 700;
         }
 
-        .game-container {
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .ecosystem-container {
             background: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
         }
 
         .instructions {
-            background: linear-gradient(135deg, #E15034, #E77B66);
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
             color: white;
             padding: 20px;
             border-radius: 15px;
@@ -118,118 +124,34 @@
             font-size: 1.3rem;
         }
 
-        .challenge-info {
-            background: rgba(225, 80, 52, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .challenge-type {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #E15034;
-            margin-bottom: 10px;
-        }
-
-        .challenge-description {
-            color: #889F92;
-            font-size: 1rem;
-        }
-
-        .pattern-display {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 300px;
-            margin: 30px 0;
-            background: linear-gradient(135deg, #FEF0F0, rgba(237, 162, 161, 0.3));
+        .ecosystem-display {
+            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
             border-radius: 20px;
-            padding: 30px;
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #889F92;
         }
 
-        .pattern-grid {
-            display: grid;
-            gap: 10px;
-            justify-content: center;
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to bottom, #87CEEB, #B0E0E6);
         }
 
-        .pattern-grid.grid-3x3 {
-            grid-template-columns: repeat(3, 80px);
-        }
-
-        .pattern-grid.grid-4x4 {
-            grid-template-columns: repeat(4, 70px);
-        }
-
-        .pattern-grid.grid-5x5 {
-            grid-template-columns: repeat(5, 60px);
-        }
-
-        .pattern-cell {
-            aspect-ratio: 1;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
-        }
-
-        .pattern-cell.colored {
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .options-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .option-card {
-            background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
-            padding: 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
-            text-align: center;
-        }
-
-        .option-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            border-color: #E15034;
-        }
-
-        .option-card.selected {
-            background: linear-gradient(135deg, #E15034, #E77B66);
-            color: white;
-            border-color: #E15034;
-        }
-
-        .option-card.correct {
-            background: linear-gradient(135deg, #4CAF50, #81C784);
-            color: white;
-            animation: pulse 0.5s ease;
-        }
-
-        .option-card.wrong {
-            background: linear-gradient(135deg, #F44336, #E57373);
-            color: white;
-            animation: shake 0.5s ease;
+        .sun {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            animation: pulse 3s ease-in-out infinite;
         }
 
         @keyframes pulse {
@@ -237,65 +159,218 @@
             50% { transform: scale(1.1); }
         }
 
+        .ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to bottom, #8B7355, #654321);
+        }
+
+        .grass-layer {
+            position: absolute;
+            bottom: 60%;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: #228B22;
+        }
+
+        .organism {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .organism:hover {
+            transform: scale(1.2);
+            filter: brightness(1.2);
+        }
+
+        .organism.plant {
+            font-size: 2.5rem;
+            z-index: 1;
+        }
+
+        .organism.herbivore {
+            font-size: 2rem;
+            z-index: 2;
+            animation: move 10s linear infinite;
+        }
+
+        .organism.carnivore {
+            font-size: 2.5rem;
+            z-index: 3;
+            animation: move 15s linear infinite;
+        }
+
+        @keyframes move {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(50px); }
+        }
+
+        .organism-info {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #E15034;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .organism:hover .organism-info {
+            opacity: 1;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .organisms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .add-organism-btn {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .add-organism-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-organism-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .organism-label {
+            font-size: 0.7rem;
+            color: #889F92;
+            text-align: center;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .chain-display {
+            background: rgba(238, 154, 91, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        .chain-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .chain-arrow {
+            color: #EE9A5B;
+            font-weight: 700;
+        }
+
+        .health-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .alert {
+            background: linear-gradient(135deg, #F44336, #E57373);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 15px;
+            display: none;
+            animation: shake 0.5s ease;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .option-content {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .option-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .shape-canvas {
-            width: 100%;
-            max-width: 400px;
-            height: 300px;
-            background: white;
-            border-radius: 15px;
-            margin: 0 auto;
-        }
-
-        .timer {
-            text-align: center;
-            font-size: 1.8rem;
-            color: #E15034;
-            font-weight: 700;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(225, 80, 52, 0.1);
-            border-radius: 15px;
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
         .controls {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 25px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .btn {
-            background: linear-gradient(135deg, #E15034, #E77B66);
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
             border: none;
             color: white;
-            padding: 15px 35px;
-            border-radius: 25px;
+            padding: 12px 25px;
+            border-radius: 20px;
             font-weight: 600;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
 
         .btn:hover:not(:disabled) {
             transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .btn:disabled {
@@ -303,39 +378,47 @@
             cursor: not-allowed;
         }
 
-        .feedback {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 600;
-            min-height: 50px;
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 15px;
+        .btn-danger {
+            background: linear-gradient(135deg, #F44336, #E57373);
         }
 
-        .feedback.correct {
-            color: #4CAF50;
-            background: rgba(76, 175, 80, 0.1);
+        .btn-success {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
         }
 
-        .feedback.wrong {
-            color: #F44336;
-            background: rgba(244, 67, 54, 0.1);
+        .population-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: rgba(225, 80, 52, 0.2);
+        .pop-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(238, 154, 91, 0.1);
             border-radius: 10px;
-            overflow: hidden;
-            margin: 20px 0;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #E15034, #E77B66);
-            transition: width 0.3s ease;
+        .pop-icon {
+            font-size: 1.5rem;
+        }
+
+        .pop-count {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #EE9A5B;
+        }
+
+        @media (max-width: 1024px) {
+            .game-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+            }
         }
 
         @media (max-width: 768px) {
@@ -343,23 +426,11 @@
                 font-size: 1.5rem;
             }
 
-            .pattern-grid.grid-3x3 {
-                grid-template-columns: repeat(3, 60px);
+            .ecosystem-display {
+                min-height: 400px;
             }
 
-            .pattern-grid.grid-4x4 {
-                grid-template-columns: repeat(4, 50px);
-            }
-
-            .pattern-grid.grid-5x5 {
-                grid-template-columns: repeat(5, 45px);
-            }
-
-            .pattern-cell {
-                font-size: 1.5rem;
-            }
-
-            .options-container {
+            .organisms-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
@@ -371,388 +442,349 @@
             <div class="header-top">
                 <a href="actividades.html" class="back-button">← Volver</a>
                 <div>
-                    <div class="title">🎨 Procesamiento Visual</div>
-                    <div class="subtitle">Reconocimiento de Patrones Avanzado</div>
+                    <div class="title">🌍 Ecosistemas Dinámicos</div>
+                    <div class="subtitle">Crea y Mantén el Equilibrio Natural</div>
                 </div>
             </div>
             
             <div class="stats">
                 <div class="stat-item">
-                    <div class="stat-label">Nivel</div>
-                    <div class="stat-value" id="level">1</div>
+                    <div class="stat-label">Salud del Ecosistema</div>
+                    <div class="stat-value" id="health">100%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Biodiversidad</div>
+                    <div class="stat-value" id="biodiversity">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Días Simulados</div>
+                    <div class="stat-value" id="days">0</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Puntuación</div>
                     <div class="stat-value" id="score">0</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-label">Aciertos</div>
-                    <div class="stat-value" id="correct">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Precisión</div>
-                    <div class="stat-value" id="accuracy">100%</div>
-                </div>
             </div>
         </div>
 
-        <div class="game-container">
-            <div class="instructions">
-                <h3>📋 Instrucciones</h3>
-                <p>Analiza cuidadosamente los patrones visuales y selecciona la respuesta correcta. ¡Entrena tu percepción!</p>
+        <div class="game-layout">
+            <div class="ecosystem-container">
+                <div class="instructions">
+                    <h3>🌿 Instrucciones</h3>
+                    <p>Crea un ecosistema equilibrado agregando productores, consumidores primarios y secundarios. ¡Mantén el equilibrio!</p>
+                </div>
+
+                <div class="ecosystem-display" id="ecosystemDisplay">
+                    <div class="sky">
+                        <div class="sun"></div>
+                    </div>
+                    <div class="grass-layer"></div>
+                    <div class="ground"></div>
+                </div>
+
+                <div class="alert" id="alert"></div>
             </div>
 
-            <div class="challenge-info">
-                <div class="challenge-type" id="challengeType">Desafío de Patrones</div>
-                <div class="challenge-description" id="challengeDesc">Prepárate para comenzar</div>
-            </div>
+            <div class="sidebar">
+                <div class="panel">
+                    <div class="panel-title">➕ Agregar Organismos</div>
+                    
+                    <p style="color: #889F92; font-size: 0.9rem; margin-bottom: 15px;">
+                        Haz clic para agregar al ecosistema
+                    </p>
 
-            <div class="timer" id="timer" style="display: none;">Tiempo: 30s</div>
+                    <div class="organisms-grid">
+                        <div>
+                            <button class="add-organism-btn" onclick="addOrganism('plant', '🌳')">🌳</button>
+                            <div class="organism-label">Árbol</div>
+                        </div>
+                        <div>
+                            <button class="add-organism-btn" onclick="addOrganism('plant', '🌱')">🌱</button>
+                            <div class="organism-label">Planta</div>
+                        </div>
+                        <div>
+                            <button class="add-organism-btn" onclick="addOrganism('plant', '🌾')">🌾</button>
+                            <div class="organism-label">Hierba</div>
+                        </div>
+                        <div>
+                            <button class="add-organism-btn" onclick="addOrganism('herbivore', '🐰')">🐰</button>
+                            <div class="organism-label">Conejo</div>
+                        </div>
+                        <div>
+                            <button class="add-organism-btn" onclick="addOrganism('herbivore', '🦋')">🦋</button>
+                            <div class="organism-label">Mariposa</div>
+                        </div>
+                        <div>
+                            <button class="add-organism-btn" onclick="addOrganism('herbivore', '🐸')">🐸</button>
+                            <div class="organism-label">Rana</div>
+                        </div>
+                        <div>
+                            <button class="add-organism-btn" onclick="addOrganism('carnivore', '🦅')">🦅</button>
+                            <div class="organism-label">Águila</div>
+                        </div>
+                        <div>
+                            <button class="add-organism-btn" onclick="addOrganism('carnivore', '🦊')">🦊</button>
+                            <div class="organism-label">Zorro</div>
+                        </div>
+                        <div>
+                            <button class="add-organism-btn" onclick="addOrganism('carnivore', '🐍')">🐍</button>
+                            <div class="organism-label">Serpiente</div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
-            </div>
+                <div class="panel">
+                    <div class="panel-title">📊 Población</div>
+                    <div class="population-stats">
+                        <div class="pop-item">
+                            <span class="pop-icon">🌱</span>
+                            <span>Productores</span>
+                            <span class="pop-count" id="plants">0</span>
+                        </div>
+                        <div class="pop-item">
+                            <span class="pop-icon">🐰</span>
+                            <span>Herbívoros</span>
+                            <span class="pop-count" id="herbivores">0</span>
+                        </div>
+                        <div class="pop-item">
+                            <span class="pop-icon">🦅</span>
+                            <span>Carnívoros</span>
+                            <span class="pop-count" id="carnivores">0</span>
+                        </div>
+                    </div>
 
-            <div class="pattern-display" id="patternDisplay">
-                <p style="color: #889F92; font-size: 1.2rem;">Presiona "Comenzar" para iniciar el desafío</p>
-            </div>
+                    <div class="health-bar">
+                        <div class="health-fill" id="healthBar">100%</div>
+                    </div>
+                </div>
 
-            <div class="feedback" id="feedback"></div>
+                <div class="panel">
+                    <div class="panel-title">🔗 Cadena Alimenticia</div>
+                    <div class="chain-display">
+                        <div class="chain-item">
+                            <span>☀️ Sol</span>
+                            <span class="chain-arrow">→</span>
+                            <span>🌱 Plantas</span>
+                        </div>
+                        <div class="chain-item">
+                            <span>🌱 Plantas</span>
+                            <span class="chain-arrow">→</span>
+                            <span>🐰 Herbívoros</span>
+                        </div>
+                        <div class="chain-item">
+                            <span>🐰 Herbívoros</span>
+                            <span class="chain-arrow">→</span>
+                            <span>🦅 Carnívoros</span>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="options-container" id="optionsContainer" style="display: none;"></div>
-
-            <div class="controls">
-                <button class="btn" id="startBtn" onclick="startGame()">Comenzar Juego</button>
-                <button class="btn" id="checkBtn" onclick="checkAnswer()" style="display: none;">Verificar Respuesta</button>
-                <button class="btn" id="nextBtn" onclick="nextChallenge()" style="display: none;">Siguiente Desafío</button>
+                <div class="panel">
+                    <div class="panel-title">⚙️ Controles</div>
+                    <div class="controls">
+                        <button class="btn" onclick="startSimulation()" id="startBtn">▶️ Iniciar Simulación</button>
+                        <button class="btn btn-danger" onclick="stopSimulation()" id="stopBtn" style="display: none;">⏸️ Pausar</button>
+                        <button class="btn btn-danger" onclick="resetEcosystem()">🔄 Reiniciar</button>
+                        <button class="btn btn-success" onclick="balanceEcosystem()">⚖️ Equilibrar Auto</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const colors = ['#E15034', '#E77B66', '#EE9A5B', '#889F92', '#EDA2A1', '#FEF0F0'];
-        const shapes = ['●', '■', '▲', '★', '◆', '▼'];
-        
-        let level = 1;
+        let organisms = { plants: 0, herbivores: 0, carnivores: 0 };
+        let health = 100;
         let score = 0;
-        let correct = 0;
-        let total = 0;
-        let currentAnswer = null;
-        let selectedAnswer = null;
-        let timeLeft = 30;
-        let timerInterval;
-        let challengeType = 'pattern';
+        let days = 0;
+        let simulationInterval = null;
+        let organismElements = [];
 
-        const challenges = [
-            'pattern', // Completar patrón
-            'symmetry', // Encontrar el simétrico
-            'rotation', // Identificar rotación
-            'difference', // Encontrar diferencias
-            'sequence' // Secuencias lógicas
-        ];
+        const organismData = {
+            plant: { name: 'Productor', energy: 100 },
+            herbivore: { name: 'Consumidor Primario', energy: 50 },
+            carnivore: { name: 'Consumidor Secundario', energy: 25 }
+        };
 
-        function startGame() {
-            level = 1;
-            score = 0;
-            correct = 0;
-            total = 0;
+        function addOrganism(type, emoji) {
+            const display = document.getElementById('ecosystemDisplay');
+            const organism = document.createElement('div');
+            organism.className = `organism ${type}`;
+            organism.textContent = emoji;
+            
+            // Posición aleatoria
+            const x = Math.random() * 80 + 5;
+            const groundHeight = type === 'plant' ? 60 : (type === 'herbivore' ? 55 : 20);
+            const y = groundHeight + (Math.random() * 10);
+            
+            organism.style.left = x + '%';
+            organism.style.bottom = y + '%';
+            
+            // Info hover
+            const info = document.createElement('div');
+            info.className = 'organism-info';
+            info.textContent = organismData[type].name;
+            organism.appendChild(info);
+            
+            // Click para eliminar
+            organism.onclick = (e) => {
+                e.stopPropagation();
+                removeOrganism(organism, type);
+            };
+            
+            display.appendChild(organism);
+            organismElements.push({ element: organism, type: type });
+            
+            // Actualizar contadores
+            if (type === 'plant') organisms.plants++;
+            else if (type === 'herbivore') organisms.herbivores++;
+            else if (type === 'carnivore') organisms.carnivores++;
+            
             updateStats();
+            checkBalance();
+        }
+
+        function removeOrganism(element, type) {
+            element.remove();
+            organismElements = organismElements.filter(o => o.element !== element);
+            
+            if (type === 'plant') organisms.plants--;
+            else if (type === 'herbivore') organisms.herbivores--;
+            else if (type === 'carnivore') organisms.carnivores--;
+            
+            updateStats();
+            checkBalance();
+        }
+
+        function checkBalance() {
+            const alert = document.getElementById('alert');
+            alert.classList.remove('show');
+            
+            let message = '';
+            let balanced = true;
+            
+            // Verificar equilibrio
+            if (organisms.herbivores > organisms.plants && organisms.plants > 0) {
+                message = '⚠️ ¡Demasiados herbívoros! Las plantas están siendo sobreexplotadas.';
+                health -= 5;
+                balanced = false;
+            }
+            
+            if (organisms.carnivores > organisms.herbivores && organisms.herbivores > 0) {
+                message = '⚠️ ¡Demasiados carnívoros! Los herbívoros están en peligro.';
+                health -= 5;
+                balanced = false;
+            }
+            
+            if (organisms.plants === 0 && (organisms.herbivores > 0 || organisms.carnivores > 0)) {
+                message = '⚠️ ¡Sin productores! Los consumidores no tienen fuente de energía.';
+                health -= 10;
+                balanced = false;
+            }
+            
+            if (!balanced) {
+                alert.textContent = message;
+                alert.classList.add('show');
+            } else if (organisms.plants > 0 && organisms.herbivores > 0 && organisms.carnivores > 0) {
+                score += 10;
+            }
+            
+            health = Math.max(0, Math.min(100, health));
+            updateStats();
+        }
+
+        function startSimulation() {
             document.getElementById('startBtn').style.display = 'none';
-            nextChallenge();
-        }
-
-        function nextChallenge() {
-            document.getElementById('feedback').textContent = '';
-            document.getElementById('feedback').className = 'feedback';
-            document.getElementById('nextBtn').style.display = 'none';
-            document.getElementById('checkBtn').style.display = 'none';
-            document.getElementById('optionsContainer').style.display = 'none';
-            selectedAnswer = null;
+            document.getElementById('stopBtn').style.display = 'block';
             
-            // Seleccionar tipo de desafío
-            challengeType = challenges[Math.floor(Math.random() * Math.min(challenges.length, 1 + Math.floor(level / 3)))];
-            
-            generateChallenge();
-            startTimer();
-            updateProgress();
-        }
-
-        function generateChallenge() {
-            switch(challengeType) {
-                case 'pattern':
-                    generatePatternChallenge();
-                    break;
-                case 'symmetry':
-                    generateSymmetryChallenge();
-                    break;
-                case 'rotation':
-                    generateRotationChallenge();
-                    break;
-                case 'difference':
-                    generateDifferenceChallenge();
-                    break;
-                case 'sequence':
-                    generateSequenceChallenge();
-                    break;
-            }
-        }
-
-        function generatePatternChallenge() {
-            document.getElementById('challengeType').textContent = '🔍 Completar el Patrón';
-            document.getElementById('challengeDesc').textContent = '¿Qué elemento falta en la secuencia?';
-            
-            const display = document.getElementById('patternDisplay');
-            const gridSize = Math.min(3 + Math.floor(level / 3), 5);
-            
-            display.innerHTML = `<div class="pattern-grid grid-${gridSize}x${gridSize}" id="patternGrid"></div>`;
-            
-            const grid = document.getElementById('patternGrid');
-            const pattern = [];
-            const missingIndex = Math.floor(Math.random() * (gridSize * gridSize));
-            
-            for (let i = 0; i < gridSize * gridSize; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'pattern-cell colored';
+            simulationInterval = setInterval(() => {
+                days++;
                 
-                if (i === missingIndex) {
-                    cell.textContent = '?';
-                    cell.style.background = 'rgba(225, 80, 52, 0.2)';
-                    cell.style.fontSize = '3rem';
-                    currentAnswer = (i % 2 === 0) ? shapes[0] : shapes[1];
+                // Regenerar salud si está equilibrado
+                const ratio1 = organisms.plants / Math.max(1, organisms.herbivores);
+                const ratio2 = organisms.herbivores / Math.max(1, organisms.carnivores);
+                
+                if (ratio1 >= 1.5 && ratio1 <= 3 && ratio2 >= 1.5 && ratio2 <= 3) {
+                    health = Math.min(100, health + 2);
+                    score += 5;
                 } else {
-                    const shape = (i % 2 === 0) ? shapes[0] : shapes[1];
-                    const color = colors[i % colors.length];
-                    cell.textContent = shape;
-                    cell.style.background = color;
-                    cell.style.color = 'white';
+                    health -= 1;
                 }
                 
-                grid.appendChild(cell);
-            }
-            
-            generateOptions('shape');
-        }
-
-        function generateSymmetryChallenge() {
-            document.getElementById('challengeType').textContent = '🔄 Simetría';
-            document.getElementById('challengeDesc').textContent = '¿Cuál es el reflejo simétrico?';
-            
-            const display = document.getElementById('patternDisplay');
-            display.innerHTML = `<div class="pattern-grid grid-3x3" id="patternGrid"></div>`;
-            
-            const grid = document.getElementById('patternGrid');
-            const pattern = [];
-            
-            for (let i = 0; i < 9; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'pattern-cell colored';
-                const shape = shapes[Math.floor(Math.random() * 3)];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                cell.textContent = shape;
-                cell.style.background = color;
-                cell.style.color = 'white';
-                grid.appendChild(cell);
-                pattern.push({ shape, color });
-            }
-            
-            currentAnswer = pattern[4].shape; // Centro
-            generateOptions('shape');
-        }
-
-        function generateRotationChallenge() {
-            document.getElementById('challengeType').textContent = '🔃 Rotación';
-            document.getElementById('challengeDesc').textContent = '¿Cómo se ve después de rotar?';
-            
-            const display = document.getElementById('patternDisplay');
-            display.innerHTML = `<div class="pattern-grid grid-3x3" id="patternGrid"></div>`;
-            
-            const grid = document.getElementById('patternGrid');
-            
-            for (let i = 0; i < 9; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'pattern-cell colored';
-                const shape = (i === 1) ? '▲' : '';
-                cell.textContent = shape;
-                cell.style.background = colors[2];
-                cell.style.color = 'white';
-                grid.appendChild(cell);
-            }
-            
-            currentAnswer = '▼';
-            generateOptions('rotation');
-        }
-
-        function generateDifferenceChallenge() {
-            document.getElementById('challengeType').textContent = '🔎 Encuentra la Diferencia';
-            document.getElementById('challengeDesc').textContent = '¿Cuál es diferente?';
-            
-            const display = document.getElementById('patternDisplay');
-            display.innerHTML = `<div class="pattern-grid grid-4x4" id="patternGrid"></div>`;
-            
-            const grid = document.getElementById('patternGrid');
-            const differentIndex = Math.floor(Math.random() * 16);
-            
-            for (let i = 0; i < 16; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'pattern-cell colored';
-                const shape = (i === differentIndex) ? shapes[1] : shapes[0];
-                cell.textContent = shape;
-                cell.style.background = colors[0];
-                cell.style.color = 'white';
-                grid.appendChild(cell);
-            }
-            
-            currentAnswer = differentIndex;
-            generateOptions('position');
-        }
-
-        function generateSequenceChallenge() {
-            document.getElementById('challengeType').textContent = '📊 Secuencia Lógica';
-            document.getElementById('challengeDesc').textContent = '¿Qué sigue en la secuencia?';
-            
-            const display = document.getElementById('patternDisplay');
-            display.innerHTML = `<div class="pattern-grid grid-3x3" id="patternGrid"></div>`;
-            
-            const grid = document.getElementById('patternGrid');
-            const sequence = [shapes[0], shapes[1], shapes[2], shapes[0], shapes[1], shapes[2], shapes[0], shapes[1]];
-            
-            for (let i = 0; i < 8; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'pattern-cell colored';
-                cell.textContent = sequence[i];
-                cell.style.background = colors[i % colors.length];
-                cell.style.color = 'white';
-                grid.appendChild(cell);
-            }
-            
-            const questionCell = document.createElement('div');
-            questionCell.className = 'pattern-cell colored';
-            questionCell.textContent = '?';
-            questionCell.style.background = 'rgba(225, 80, 52, 0.2)';
-            questionCell.style.fontSize = '3rem';
-            grid.appendChild(questionCell);
-            
-            currentAnswer = shapes[2];
-            generateOptions('shape');
-        }
-
-        function generateOptions(type) {
-            const container = document.getElementById('optionsContainer');
-            container.innerHTML = '';
-            container.style.display = 'grid';
-            
-            let options = [];
-            
-            if (type === 'shape') {
-                options = [currentAnswer, shapes[2], shapes[3], shapes[4]];
-            } else if (type === 'rotation') {
-                options = ['▲', '▼', '◀', '▶'];
-            } else if (type === 'position') {
-                options = ['Posición 5', 'Posición 10', 'Posición ' + (currentAnswer + 1), 'Posición 16'];
-            }
-            
-            options.sort(() => Math.random() - 0.5);
-            
-            options.forEach((opt, index) => {
-                const card = document.createElement('div');
-                card.className = 'option-card';
-                card.innerHTML = `
-                    <div class="option-content">${opt}</div>
-                    <div class="option-label">Opción ${index + 1}</div>
-                `;
-                card.onclick = () => selectOption(card, opt);
-                container.appendChild(card);
-            });
-            
-            document.getElementById('checkBtn').style.display = 'inline-block';
-        }
-
-        function selectOption(card, value) {
-            document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-            selectedAnswer = value;
-        }
-
-        function checkAnswer() {
-            if (!selectedAnswer) {
-                alert('Por favor selecciona una opción');
-                return;
-            }
-            
-            clearInterval(timerInterval);
-            document.getElementById('checkBtn').style.display = 'none';
-            total++;
-            
-            const isCorrect = selectedAnswer === currentAnswer || 
-                             selectedAnswer.includes(String(currentAnswer + 1));
-            
-            if (isCorrect) {
-                correct++;
-                score += 100 * level + (timeLeft * 2);
-                document.getElementById('feedback').textContent = `🎉 ¡Correcto! +${100 * level + (timeLeft * 2)} puntos`;
-                document.getElementById('feedback').className = 'feedback correct';
+                health = Math.max(0, health);
+                updateStats();
+                checkBalance();
                 
-                document.querySelectorAll('.option-card').forEach(card => {
-                    if (card.classList.contains('selected')) {
-                        card.classList.add('correct');
-                    }
-                });
-                
-                level++;
-            } else {
-                score = Math.max(0, score - 50);
-                document.getElementById('feedback').textContent = '❌ Incorrecto. ¡Sigue intentando!';
-                document.getElementById('feedback').className = 'feedback wrong';
-                
-                document.querySelectorAll('.option-card').forEach(card => {
-                    if (card.classList.contains('selected')) {
-                        card.classList.add('wrong');
-                    }
-                });
-            }
-            
+                if (health === 0) {
+                    stopSimulation();
+                    alert('¡El ecosistema ha colapsado! Intenta mantener el equilibrio.');
+                }
+            }, 2000);
+        }
+
+        function stopSimulation() {
+            clearInterval(simulationInterval);
+            document.getElementById('startBtn').style.display = 'block';
+            document.getElementById('stopBtn').style.display = 'none';
+        }
+
+        function resetEcosystem() {
+            stopSimulation();
+            organismElements.forEach(o => o.element.remove());
+            organismElements = [];
+            organisms = { plants: 0, herbivores: 0, carnivores: 0 };
+            health = 100;
+            score = 0;
+            days = 0;
+            document.getElementById('alert').classList.remove('show');
             updateStats();
-            document.getElementById('nextBtn').style.display = 'inline-block';
         }
 
-        function startTimer() {
-            timeLeft = 30;
-            document.getElementById('timer').style.display = 'block';
-            document.getElementById('timer').textContent = `Tiempo: ${timeLeft}s`;
+        function balanceEcosystem() {
+            // Agregar organismos para equilibrar
+            const idealPlants = 6;
+            const idealHerbivores = 3;
+            const idealCarnivores = 1;
             
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                document.getElementById('timer').textContent = `Tiempo: ${timeLeft}s`;
-                
-                if (timeLeft <= 0) {
-                    timeOut();
-                }
-            }, 1000);
-        }
-
-        function timeOut() {
-            clearInterval(timerInterval);
-            total++;
-            document.getElementById('feedback').textContent = '⏱️ ¡Tiempo agotado!';
-            document.getElementById('feedback').className = 'feedback wrong';
-            document.getElementById('checkBtn').style.display = 'none';
-            document.getElementById('nextBtn').style.display = 'inline-block';
+            while (organisms.plants < idealPlants) {
+                addOrganism('plant', ['🌳', '🌱', '🌾'][Math.floor(Math.random() * 3)]);
+            }
+            
+            while (organisms.herbivores < idealHerbivores) {
+                addOrganism('herbivore', ['🐰', '🦋', '🐸'][Math.floor(Math.random() * 3)]);
+            }
+            
+            while (organisms.carnivores < idealCarnivores) {
+                addOrganism('carnivore', ['🦅', '🦊', '🐍'][Math.floor(Math.random() * 3)]);
+            }
+            
+            health = Math.min(100, health + 20);
+            score += 50;
             updateStats();
         }
 
         function updateStats() {
-            document.getElementById('level').textContent = level;
+            document.getElementById('health').textContent = health + '%';
+            document.getElementById('biodiversity').textContent = 
+                organisms.plants + organisms.herbivores + organisms.carnivores;
+            document.getElementById('days').textContent = days;
             document.getElementById('score').textContent = score;
-            document.getElementById('correct').textContent = correct;
             
-            const accuracy = total > 0 ? Math.round((correct / total) * 100) : 100;
-            document.getElementById('accuracy').textContent = accuracy + '%';
-        }
-
-        function updateProgress() {
-            const progress = Math.min((level / 20) * 100, 100);
-            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('plants').textContent = organisms.plants;
+            document.getElementById('herbivores').textContent = organisms.herbivores;
+            document.getElementById('carnivores').textContent = organisms.carnivores;
+            
+            const healthBar = document.getElementById('healthBar');
+            healthBar.style.width = health + '%';
+            healthBar.textContent = health + '%';
+            
+            if (health < 30) {
+                healthBar.style.background = 'linear-gradient(135deg, #F44336, #E57373)';
+            } else if (health < 60) {
+                healthBar.style.background = 'linear-gradient(135deg, #FF9800, #FFB74D)';
+            } else {
+                healthBar.style.background = 'linear-gradient(135deg, #4CAF50, #81C784)';
+            }
         }
     </script>
 </body>
