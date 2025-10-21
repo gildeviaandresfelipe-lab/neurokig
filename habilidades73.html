@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autorregulación - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #E15034;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        .progress-track {
+            background: #f0f0f0;
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #E15034, #889F92);
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .activity-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: #E15034;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .instruction-box {
+            background: linear-gradient(135deg, #E15034, #889F92);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .techniques-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .technique-card {
+            background: white;
+            border: 3px solid #f0f0f0;
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .technique-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #E15034;
+        }
+
+        .technique-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .technique-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .technique-description {
+            color: #889F92;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .breathing-exercise {
+            background: linear-gradient(135deg, #889F92, #EDA2A1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .exercise-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .breathing-circle {
+            width: 200px;
+            height: 200px;
+            margin: 30px auto;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            transition: transform 4s ease-in-out;
+        }
+
+        .breathing-circle.inhale {
+            transform: scale(1.5);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .breathing-circle.exhale {
+            transform: scale(1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .breathing-instructions {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .breath-counter {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #E15034;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .thermometer-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .thermometer-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .thermometer {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .thermometer-level {
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .thermometer-level:hover {
+            transform: translateX(10px);
+        }
+
+        .thermometer-level.selected {
+            border-color: #E15034;
+            box-shadow: 0 5px 20px rgba(225, 80, 52, 0.3);
+        }
+
+        .level-5 {
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            color: white;
+        }
+
+        .level-4 {
+            background: linear-gradient(135deg, #f57c00, #ff9800);
+            color: white;
+        }
+
+        .level-3 {
+            background: linear-gradient(135deg, #fbc02d, #ffeb3b);
+            color: #333;
+        }
+
+        .level-2 {
+            background: linear-gradient(135deg, #7cb342, #8bc34a);
+            color: white;
+        }
+
+        .level-1 {
+            background: linear-gradient(135deg, #388e3c, #4caf50);
+            color: white;
+        }
+
+        .level-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .level-icon {
+            font-size: 2rem;
+        }
+
+        .level-description {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .strategies-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .strategies-box.show {
+            display: block;
+        }
+
+        .strategies-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .strategy-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #E15034;
+        }
+
+        .strategy-item strong {
+            color: #E15034;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .scenario-practice {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 3px solid #f0f0f0;
+        }
+
+        .scenario-header {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 20px;
+        }
+
+        .scenario-text {
+            background: linear-gradient(135deg, #EDA2A1, #889F92);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .response-options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .response-option {
+            background: #f8f9fa;
+            border: 3px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .response-option:hover {
+            border-color: #E15034;
+            transform: translateX(5px);
+        }
+
+        .response-option.selected {
+            background: #E15034;
+            color: white;
+            border-color: #d32f2f;
+        }
+
+        .response-option.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #388e3c;
+        }
+
+        .response-option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #d32f2f;
+        }
+
+        .option-letter {
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .feedback {
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 3px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 3px solid #f5c6cb;
+        }
+
+        .feedback-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .check-button {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        .check-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(225, 80, 52, 0.3);
+        }
+
+        .check-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, #889F92, #EDA2A1);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+            margin: 20px auto 0;
+        }
+
+        .next-button.show {
+            display: block;
+        }
+
+        .next-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(136, 159, 146, 0.3);
+        }
+
+        .score-card {
+            background: linear-gradient(135deg, #E15034, #889F92);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .score-card.show {
+            display: block;
+        }
+
+        .score-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .score-message {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .final-tips {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .final-tips h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .final-tips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .final-tips li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .final-tips li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .back-button {
+            background: white;
+            color: #E15034;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .activity-section {
+                padding: 25px;
+            }
+
+            .techniques-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .breathing-circle {
+                width: 150px;
+                height: 150px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧘 Autorregulación Emocional</h1>
+            <p>Aprende técnicas para manejar tus emociones de manera saludable</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-info">
+                <span>Progreso</span>
+                <span id="progressText">0%</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Sección 1: Introducción a Técnicas -->
+        <div class="activity-section" id="section1">
+            <h2 class="section-title">📚 Técnicas de Autorregulación</h2>
+            <div class="instruction-box">
+                La autorregulación es la capacidad de manejar tus emociones y reacciones de manera apropiada. Conoce estas técnicas útiles que puedes usar cuando te sientes abrumado.
+            </div>
+
+            <div class="techniques-grid">
+                <div class="technique-card">
+                    <span class="technique-icon">🌬️</span>
+                    <div class="technique-name">Respiración Profunda</div>
+                    <div class="technique-description">Inhala lentamente por la nariz contando hasta 4, mantén el aire por 4 segundos y exhala por la boca contando hasta 6.</div>
+                </div>
+
+                <div class="technique-card">
+                    <span class="technique-icon">🧊</span>
+                    <div class="technique-name">Pausa y Enfría</div>
+                    <div class="technique-description">Toma un descanso, bebe agua fría, lávate la cara o sal a caminar para calmar tu cuerpo.</div>
+                </div>
+
+                <div class="technique-card">
+                    <span class="technique-icon">🔢</span>
+                    <div class="technique-name">Cuenta hasta 10</div>
+                    <div class="technique-description">Cuenta lentamente del 1 al 10 antes de reaccionar. Esto da tiempo a tu cerebro para calmarse.</div>
+                </div>
+
+                <div class="technique-card">
+                    <span class="technique-icon">💭</span>
+                    <div class="technique-name">Pensamientos Positivos</div>
+                    <div class="technique-description">Reemplaza pensamientos negativos con afirmaciones positivas como "Puedo manejar esto" o "Esto pasará".</div>
+                </div>
+
+                <div class="technique-card">
+                    <span class="technique-icon">🎯</span>
+                    <div class="technique-name">Identifica el Desencadenante</div>
+                    <div class="technique-description">Reconoce qué situación o pensamiento causó tu emoción para poder manejarlo mejor.</div>
+                </div>
+
+                <div class="technique-card">
+                    <span class="technique-icon">🗣️</span>
+                    <div class="technique-name">Habla sobre ello</div>
+                    <div class="technique-description">Expresa tus sentimientos con alguien de confianza: un adulto, amigo o familiar.</div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="nextSection(2)">Continuar a la Práctica →</button>
+        </div>
+
+        <!-- Sección 2: Ejercicio de Respiración -->
+        <div class="activity-section" id="section2" style="display: none;">
+            <h2 class="section-title">🌬️ Práctica de Respiración</h2>
+            <div class="instruction-box">
+                La respiración profunda ayuda a calmar tu sistema nervioso. Vamos a practicar juntos. Encuentra un lugar cómodo y sigue las instrucciones.
+            </div>
+
+            <div class="breathing-exercise">
+                <div class="exercise-title">Ejercicio de Respiración 4-4-6</div>
+                <div class="breath-counter" id="breathCounter">Preparado para comenzar</div>
+                <div class="breathing-instructions" id="breathInstructions">
+                    Haz clic en "Iniciar" cuando estés listo
+                </div>
+                <div class="breathing-circle" id="breathingCircle">
+                    <span id="circleText">Listo</span>
+                </div>
+                <div class="control-buttons">
+                    <button class="btn btn-primary" onclick="startBreathing()" id="startBtn">Iniciar Ejercicio</button>
+                    <button class="btn btn-secondary" onclick="stopBreathing()" id="stopBtn" style="display: none;">Detener</button>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="nextSection(3)" style="margin-top: 20px;">Continuar al Termómetro Emocional →</button>
+        </div>
+
+        <!-- Sección 3: Termómetro Emocional -->
+        <div class="activity-section" id="section3" style="display: none;">
+            <h2 class="section-title">🌡️ Termómetro Emocional</h2>
+            <div class="instruction-box">
+                El termómetro emocional te ayuda a identificar qué tan intensas son tus emociones. Haz clic en el nivel que mejor describe cómo te sientes y descubre estrategias para ese nivel.
+            </div>
+
+            <div class="thermometer-container">
+                <div class="thermometer-title">¿Qué tan intenso es lo que sientes?</div>
+                <div class="thermometer">
+                    <div class="thermometer-level level-5" onclick="selectLevel(5)">
+                        <div class="level-header">
+                            <span class="level-icon">🔥</span>
+                            <span>Nivel 5 - Explosión Emocional</span>
+                        </div>
+                        <div class="level-description">
+                            Fuera de control, muy enojado o muy ansioso, no puedo pensar con claridad
+                        </div>
+                    </div>
+
+                    <div class="thermometer-level level-4" onclick="selectLevel(4)">
+                        <div class="level-header">
+                            <span class="level-icon">😤</span>
+                            <span>Nivel 4 - Muy Alterado</span>
+                        </div>
+                        <div class="level-description">
+                            Muy molesto o nervioso, es difícil calmarme, mi cuerpo está tenso
+                        </div>
+                    </div>
+
+                    <div class="thermometer-level level-3" onclick="selectLevel(3)">
+                        <div class="level-header">
+                            <span class="level-icon">😟</span>
+                            <span>Nivel 3 - Moderadamente Alterado</span>
+                        </div>
+                        <div class="level-description">
+                            Molesto o preocupado, pero aún puedo controlarme con esfuerzo
+                        </div>
+                    </div>
+
+                    <div class="thermometer-level level-2" onclick="selectLevel(2)">
+                        <div class="level-header">
+                            <span class="level-icon">😊</span>
+                            <span>Nivel 2 - Ligeramente Alterado</span>
+                        </div>
+                        <div class="level-description">
+                            Un poco molesto o inquieto, pero manejable, puedo seguir con mis actividades
+                        </div>
+                    </div>
+
+                    <div class="thermometer-level level-1" onclick="selectLevel(1)">
+                        <div class="level-header">
+                            <span class="level-icon">😌</span>
+                            <span>Nivel 1 - Calmado</span>
+                        </div>
+                        <div class="level-description">
+                            Tranquilo, relajado, en control de mis emociones
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategies-box" id="strategiesBox"></div>
+            </div>
+
+            <button class="btn btn-primary" onclick="nextSection(4)" style="margin-top: 20px;">Continuar a Escenarios →</button>
+        </div>
+
+        <!-- Sección 4: Escenarios de Práctica -->
+        <div class="activity-section" id="section4" style="display: none;">
+            <h2 class="section-title">🎯 Practica la Autorregulación</h2>
+            <div class="instruction-box">
+                Lee cada escenario y selecciona la mejor estrategia de autorregulación para esa situación.
+            </div>
+
+            <!-- Escenario 1 -->
+            <div class="scenario-practice" id="scenario1">
+                <div class="scenario-header">Escenario 1: Durante un Examen</div>
+                <div class="scenario-text">
+                    Estás haciendo un examen importante de matemáticas. Llegas a un problema que no entiendes y empiezas a sentir mucha ansiedad. Tu corazón late rápido y sientes que no puedes concentrarte en las demás preguntas.
+                </div>
+                <div class="response-options">
+                    <div class="response-option" onclick="selectScenarioAnswer(1, 'a', this)">
+                        <span class="option-letter">A)</span>
+                        Dejar el examen y salir del salón porque estás muy ansioso.
+                    </div>
+                    <div class="response-option" onclick="selectScenarioAnswer(1, 'b', this)">
+                        <span class="option-letter">B)</span>
+                        Cerrar los ojos por un momento, hacer 3 respiraciones profundas (4-4-6), recordarte "Puedo hacer esto", y seguir con las preguntas que sí sabes.
+                    </div>
+                    <div class="response-option" onclick="selectScenarioAnswer(1, 'c', this)">
+                        <span class="option-letter">C)</span>
+                        Seguir intentando el problema difícil sin parar, incluso si te sientes más ansioso.
+                    </div>
+                </div>
+                <button class="check-button" onclick="checkScenario(1, 'b')" id="checkScenario1" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedbackScenario1"></div>
+                <button class="next-button" onclick="showNextScenario(2)" id="nextScenario1">Siguiente →</button>
+            </div>
+
+            <!-- Escenario 2 -->
+            <div class="scenario-practice" id="scenario2" style="display: none;">
+                <div class="scenario-header">Escenario 2: Conflicto con un Compañero</div>
+                <div class="scenario-text">
+                    Tu compañero te acaba de decir algo que te molestó mucho durante el recreo. Sientes que tu cara se pone caliente y quieres gritarle o empujarlo. Estás en nivel 4 del termómetro emocional.
+                </div>
+                <div class="response-options">
+                    <div class="response-option" onclick="selectScenarioAnswer(2, 'a', this)">
+                        <span class="option-letter">A)</span>
+                        Gritarle o empujarlo para demostrarle que no puede hablarte así.
+                    </div>
+                    <div class="response-option" onclick="selectScenarioAnswer(2, 'b', this)">
+                        <span class="option-letter">B)</span>
+                        Alejarte de la situación, contar hasta 10, tomar agua o lavarte la cara. Cuando estés más calmado, hablar con un adulto o con tu compañero sobre lo que pasó.
+                    </div>
+                    <div class="response-option" onclick="selectScenarioAnswer(2, 'c', this)">
+                        <span class="option-letter">C)</span>
+                        Quedarte ahí pensando en lo que dijo y sentirte cada vez más enojado.
+                    </div>
+                </div>
+                <button class="check-button" onclick="checkScenario(2, 'b')" id="checkScenario2" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedbackScenario2"></div>
+                <button class="next-button" onclick="showNextScenario(3)" id="nextScenario2">Siguiente →</button>
+            </div>
+
+            <!-- Escenario 3 -->
+            <div class="scenario-practice" id="scenario3" style="display: none;">
+                <div class="scenario-header">Escenario 3: Trabajo en Equipo Frustrante</div>
+                <div class="scenario-text">
+                    Estás trabajando en un proyecto grupal y tus compañeros no están haciendo su parte. Te sientes frustrado porque tú estás haciendo todo el trabajo y el proyecto se entrega mañana.
+                </div>
+                <div class="response-options">
+                    <div class="response-option" onclick="selectScenarioAnswer(3, 'a', this)">
+                        <span class="option-letter">A)</span>
+                        Hacer todo el trabajo tú solo sin decir nada, pero sintiéndote cada vez más resentido.
+                    </div>
+                    <div class="response-option" onclick="selectScenarioAnswer(3, 'b', this)">
+                        <span class="option-letter">B)</span>
+                        Tomar una respiración profunda, identificar que te sientes frustrado, hablar calmadamente con tus compañeros: "Me siento preocupado porque el proyecto se entrega mañana. ¿Podemos dividirnos las tareas ahora?"
+                    </div>
+                    <div class="response-option" onclick="selectScenarioAnswer(3, 'c', this)">
+                        <span class="option-letter">C)</span>
+                        Quejarte con tus compañeros de forma agresiva: "¡Nunca hacen nada! ¡Siempre me dejan todo a mí!"
+                    </div>
+                </div>
+                <button class="check-button" onclick="checkScenario(3, 'b')" id="checkScenario3" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedbackScenario3"></div>
+                <button class="next-button" onclick="finishActivity()" id="nextScenario3">Ver Resultados →</button>
+            </div>
+        </div>
+
+        <!-- Sección de Resultados -->
+        <div class="activity-section score-card" id="scoreSection">
+            <h2>🎉 ¡Actividad Completada!</h2>
+            <div class="score-number" id="finalScore">0/3</div>
+            <div class="score-message" id="scoreMessage"></div>
+            
+            <div class="final-tips">
+                <h3>🌟 Recuerda Estas Claves de Autorregulación</h3>
+                <ul>
+                    <li>Reconoce tus emociones temprano - es más fácil regularlas en niveles 2-3 que en nivel 5</li>
+                    <li>La respiración profunda es tu herramienta de emergencia - úsala siempre que lo necesites</li>
+                    <li>Está bien tomarte un descanso cuando te sientes abrumado</li>
+                    <li>Identifica qué situaciones te afectan para prepararte mejor</li>
+                    <li>Hablar con adultos de confianza siempre es una buena estrategia</li>
+                    <li>La práctica hace al maestro - cada vez te será más fácil autorregularte</li>
+                    <li>Todas las emociones son válidas, lo importante es cómo las manejas</li>
+                </ul>
+            </div>
+            
+            <button class="back-button" onclick="window.location.href='actividadesgrados.html'">Volver a Actividades</button>
+        </div>
+    </div>
+
+    <script>
+        let breathingInterval = null;
+        let breathCount = 0;
+        let currentPhase = 'ready';
+        let selectedLevel = null;
+        let scenarioAnswers = {};
+        let score = 0;
+
+        const levelStrategies = {
+            5: {
+                title: "Estrategias para Nivel 5 - Explosión Emocional",
+                strategies: [
+                    {
+                        name: "Alejarse inmediatamente",
+                        description: "Sal del lugar si es posible. Ve a un espacio seguro donde puedas calmarte."
+                    },
+                    {
+                        name: "Buscar ayuda de un adulto",
+                        description: "En este nivel necesitas apoyo. Busca a un profesor, padre o adulto de confianza."
+                    },
+                    {
+                        name: "Técnicas físicas intensas",
+                        description: "Respiración profunda muy lenta, agua fría en la cara, o caminar enérgicamente."
+                    },
+                    {
+                        name: "No tomar decisiones importantes",
+                        description: "Espera a estar más calmado para hablar o decidir sobre la situación."
+                    }
+                ]
+            },
+            4: {
+                title: "Estrategias para Nivel 4 - Muy Alterado",
+                strategies: [
+                    {
+                        name: "Pausa obligatoria",
+                        description: "Detente completamente. No continues con lo que estabas haciendo."
+                    },
+                    {
+                        name: "Respiración 4-4-6",
+                        description: "Haz al menos 5 ciclos de respiración profunda antes de continuar."
+                    },
+                    {
+                        name: "Cambio de ambiente",
+                        description: "Si puedes, cambia de lugar o actividad por unos minutos."
+                    },
+                    {
+                        name: "Habla contigo mismo",
+                        description: "Usa afirmaciones: 'Puedo calmarme', 'Esto pasará', 'Estoy seguro'."
+                    }
+                ]
+            },
+            3: {
+                title: "Estrategias para Nivel 3 - Moderadamente Alterado",
+                strategies: [
+                    {
+                        name: "Identifica el desencadenante",
+                        description: "¿Qué causó esta emoción? Reconocerlo te ayuda a manejarlo."
+                    },
+                    {
+                        name: "Respiración consciente",
+                        description: "3-5 respiraciones profundas mientras reconoces cómo te sientes."
+                    },
+                    {
+                        name: "Reevalúa la situación",
+                        description: "Pregúntate: ¿Es realmente tan grave? ¿Cómo me sentiré sobre esto mañana?"
+                    },
+                    {
+                        name: "Busca soluciones",
+                        description: "Piensa en 2-3 formas de manejar la situación de forma constructiva."
+                    }
+                ]
+            },
+            2: {
+                title: "Estrategias para Nivel 2 - Ligeramente Alterado",
+                strategies: [
+                    {
+                        name: "Reconocimiento temprano",
+                        description: "¡Bien hecho! Notaste la emoción temprano cuando es más fácil manejarla."
+                    },
+                    {
+                        name: "Respiración preventiva",
+                        description: "Una o dos respiraciones profundas pueden prevenir que escale."
+                    },
+                    {
+                        name: "Pensamiento positivo",
+                        description: "Reemplaza pensamientos negativos: 'Puedo manejar esto', 'Voy a estar bien'."
+                    },
+                    {
+                        name: "Continúa con atención",
+                        description: "Puedes seguir con tus actividades pero mantente consciente de tus emociones."
+                    }
+                ]
+            },
+            1: {
+                title: "Estrategias para Nivel 1 - Calmado",
+                strategies: [
+                    {
+                        name: "Mantén este estado",
+                        description: "¡Excelente! Estás en un buen lugar emocional."
+                    },
+                    {
+                        name: "Practica prevención",
+                        description: "Este es el mejor momento para practicar técnicas de respiración."
+                    },
+                    {
+                        name: "Reflexiona",
+                        description: "Piensa en qué te ayuda a mantenerte calmado y hazlo más seguido."
+                    },
+                    {
+                        name: "Prepárate",
+                        description: "Recuerda tus estrategias para cuando las necesites en el futuro."
+                    }
+                ]
+            }
+        };
+
+        function nextSection(sectionNum) {
+            const currentSection = document.querySelector('.activity-section:not([style*="display: none"])');
+            if (currentSection) {
+                currentSection.style.display = 'none';
+            }
+            document.getElementById('section' + sectionNum).style.display = 'block';
+            updateProgress(sectionNum * 25);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startBreathing() {
+            breathCount = 0;
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            breathingCycle();
+        }
+
+        function breathingCycle() {
+            const circle = document.getElementById('breathingCircle');
+            const instructions = document.getElementById('breathInstructions');
+            const circleText = document.getElementById('circleText');
+            const counter = document.getElementById('breathCounter');
+
+            currentPhase = 'inhale';
+            instructions.textContent = 'Inhala profundamente por la nariz...';
+            circleText.textContent = 'Inhala';
+            circle.className = 'breathing-circle inhale';
+
+            setTimeout(() => {
+                currentPhase = 'hold';
+                instructions.textContent = 'Mantén el aire...';
+                circleText.textContent = 'Mantén';
+
+                setTimeout(() => {
+                    currentPhase = 'exhale';
+                    instructions.textContent = 'Exhala lentamente por la boca...';
+                    circleText.textContent = 'Exhala';
+                    circle.className = 'breathing-circle exhale';
+
+                    setTimeout(() => {
+                        breathCount++;
+                        counter.textContent = `Respiraciones completadas: ${breathCount}/5`;
+
+                        if (breathCount < 5 && document.getElementById('stopBtn').style.display !== 'none') {
+                            breathingCycle();
+                        } else if (breathCount >= 5) {
+                            stopBreathing();
+                            instructions.textContent = '¡Excelente! Has completado el ejercicio de respiración';
+                            circleText.textContent = '✓';
+                        }
+                    }, 6000);
+                }, 4000);
+            }, 4000);
+        }
+
+        function stopBreathing() {
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('stopBtn').style.display = 'none';
+            document.getElementById('breathingCircle').className = 'breathing-circle';
+            document.getElementById('circleText').textContent = 'Listo';
+        }
+
+        function selectLevel(level) {
+            const levels = document.querySelectorAll('.thermometer-level');
+            levels.forEach(l => l.classList.remove('selected'));
+            
+            event.target.closest('.thermometer-level').classList.add('selected');
+            selectedLevel = level;
+            
+            showStrategies(level);
+        }
+
+        function showStrategies(level) {
+            const strategiesBox = document.getElementById('strategiesBox');
+            const data = levelStrategies[level];
+            
+            let html = `<div class="strategies-title">${data.title}</div>`;
+            data.strategies.forEach(strategy => {
+                html += `
+                    <div class="strategy-item">
+                        <strong>${strategy.name}</strong>
+                        ${strategy.description}
+                    </div>
+                `;
+            });
+            
+            strategiesBox.innerHTML = html;
+            strategiesBox.classList.add('show');
+        }
+
+        function selectScenarioAnswer(scenarioNum, answer, element) {
+            const options = element.parentElement.querySelectorAll('.response-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            element.classList.add('selected');
+            scenarioAnswers[scenarioNum] = answer;
+            
+            document.getElementById('checkScenario' + scenarioNum).disabled = false;
+        }
+
+        function checkScenario(scenarioNum, correctAnswer) {
+            const userAnswer = scenarioAnswers[scenarioNum];
+            const feedback = document.getElementById('feedbackScenario' + scenarioNum);
+            const checkBtn = document.getElementById('checkScenario' + scenarioNum);
+            const nextBtn = document.getElementById('nextScenario' + scenarioNum);
+            const options = document.querySelectorAll(`#scenario${scenarioNum} .response-option`);
+            
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            checkBtn.style.display = 'none';
+            
+            options.forEach(opt => {
+                const letter = opt.querySelector('.option-letter').textContent.toLowerCase();
+                if (letter.includes(correctAnswer)) {
+                    opt.classList.add('correct');
+                }
+                if (opt.classList.contains('selected') && userAnswer !== correctAnswer) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            const feedbackContent = {
+                1: {
+                    correct: {
+                        title: "✅ ¡Excelente estrategia!",
+                        text: "Reconociste la ansiedad y usaste múltiples técnicas: respiración profunda para calmar tu cuerpo, autoafirmación positiva para tu mente, y estrategia práctica de continuar con lo que sabes. Esto demuestra autorregulación efectiva."
+                    },
+                    incorrect: {
+                        title: "❌ Hay una mejor opción",
+                        text: "La opción B combina varias técnicas efectivas: respiración para calmar el cuerpo, pensamiento positivo para la mente, y estrategia práctica. Salir del examen o seguir en pánico no resuelve el problema y puede empeorar la ansiedad."
+                    }
+                },
+                2: {
+                    correct: {
+                        title: "✅ ¡Muy bien!",
+                        text: "Reconociste que estabas en un nivel alto de enojo y aplicaste la estrategia perfecta: alejarte (prevenir reacciones impulsivas), técnicas de enfriamiento físico, y esperar a estar calmado antes de abordar el conflicto. Esto evita consecuencias negativas."
+                    },
+                    incorrect: {
+                        title: "❌ Esa respuesta podría causar problemas",
+                        text: "Cuando estás en nivel 4-5, lo primero es alejarte y calmarte físicamente. Reaccionar con violencia o quedarte en la situación solo intensifica la emoción. La opción B te da tiempo y espacio para bajar al nivel 2-3 donde puedes pensar claramente."
+                    }
+                },
+                3: {
+                    correct: {
+                        title: "✅ ¡Perfecto!",
+                        text: "Usaste autorregulación emocional (respiración, identificar tu emoción) y comunicación asertiva. Expresaste tu preocupación sin atacar y propusiste una solución. Esta es una respuesta madura que resuelve el problema sin dañar relaciones."
+                    },
+                    incorrect: {
+                        title: "❌ Considera una mejor forma",
+                        text: "Guardar resentimiento o ser agresivo no resuelve el problema. La opción B muestra madurez: regulas tu emoción primero, luego comunicas tus necesidades de forma clara y respetuosa, y ofreces una solución colaborativa."
+                    }
+                }
+            };
+            
+            const isCorrect = userAnswer === correctAnswer;
+            if (isCorrect) {
+                score++;
+                feedback.className = 'feedback correct show';
+                const data = feedbackContent[scenarioNum].correct;
+                feedback.innerHTML = `
+                    <div class="feedback-title">${data.title}</div>
+                    <div class="feedback-text" style="font-size: 1.05rem; line-height: 1.6;">${data.text}</div>
+                `;
+            } else {
+                feedback.className = 'feedback incorrect show';
+                const data = feedbackContent[scenarioNum].incorrect;
+                feedback.innerHTML = `
+                    <div class="feedback-title">${data.title}</div>
+                    <div class="feedback-text" style="font-size: 1.05rem; line-height: 1.6;">${data.text}</div>
+                `;
+            }
+            
+            nextBtn.classList.add('show');
+            
+            const progressPercent = 75 + (scenarioNum * 8);
+            updateProgress(progressPercent);
+        }
+
+        function showNextScenario(scenarioNum) {
+            document.getElementById('scenario' + (scenarioNum - 1)).style.display = 'none';
+            document.getElementById('scenario' + scenarioNum).style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function finishActivity() {
+            document.getElementById('section4').style.display = 'none';
+            document.getElementById('scoreSection').classList.add('show');
+            
+            const finalScore = document.getElementById('finalScore');
+            const scoreMessage = document.getElementById('scoreMessage');
+            
+            finalScore.textContent = score + '/3';
+            
+            let message = '';
+            if (score === 3) {
+                message = '¡Excelente! Comprendes muy bien cómo autorregular tus emociones. Continúa practicando estas técnicas en tu vida diaria. 🌟';
+            } else if (score === 2) {
+                message = '¡Muy bien! Tienes una buena comprensión de la autorregulación. Sigue practicando para fortalecer estas habilidades. 👏';
+            } else if (score === 1) {
+                message = '¡Buen intento! Estás aprendiendo estrategias importantes. La autorregulación mejora con la práctica constante. 💪';
+            } else {
+                message = 'Sigue practicando. La autorregulación es una habilidad que se desarrolla con el tiempo y la experiencia. ¡No te rindas! 🌱';
+            }
+            
+            scoreMessage.textContent = message;
+            updateProgress(100);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateProgress(percent) {
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = Math.round(percent) + '%';
+        }
+    </script>
+</body>
+</html>

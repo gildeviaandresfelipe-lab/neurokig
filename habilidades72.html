@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habilidades Sociales - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #E15034;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        .progress-track {
+            background: #f0f0f0;
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #EE9A5B, #E15034);
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .activity-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: #E15034;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .instruction-box {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .skill-card {
+            background: white;
+            border: 3px solid #f0f0f0;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #EE9A5B;
+        }
+
+        .skill-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .skill-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 10px;
+        }
+
+        .skill-description {
+            color: #889F92;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .scenario-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border: 3px solid #f0f0f0;
+        }
+
+        .scenario-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .situation-box {
+            background: linear-gradient(135deg, #EDA2A1, #889F92);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .dialogue-box {
+            background: #f8f9fa;
+            border-left: 5px solid #EE9A5B;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .dialogue-label {
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .dialogue-text {
+            color: #333;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .options-container {
+            margin-top: 25px;
+        }
+
+        .option-label {
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .response-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .response-option {
+            background: white;
+            border: 3px solid #f0f0f0;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .response-option:hover {
+            border-color: #EE9A5B;
+            transform: translateX(5px);
+        }
+
+        .response-option.selected {
+            background: #EE9A5B;
+            color: white;
+            border-color: #E15034;
+        }
+
+        .response-option.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #45a049;
+        }
+
+        .response-option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #da190b;
+        }
+
+        .response-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .response-text {
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .feedback {
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 3px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 3px solid #f5c6cb;
+        }
+
+        .feedback-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .feedback-text {
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .tips-box {
+            background: linear-gradient(135deg, #889F92, #EDA2A1);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .tips-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .tips-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .check-button {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        .check-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(225, 80, 52, 0.3);
+        }
+
+        .check-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, #889F92, #EDA2A1);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+            margin: 20px auto 0;
+        }
+
+        .next-button.show {
+            display: block;
+        }
+
+        .next-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(136, 159, 146, 0.3);
+        }
+
+        .score-card {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .score-card.show {
+            display: block;
+        }
+
+        .score-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .score-message {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            background: white;
+            color: #E15034;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .activity-section {
+                padding: 25px;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤝 Habilidades Sociales</h1>
+            <p>Aprende a comunicarte de manera efectiva en diferentes situaciones</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-info">
+                <span>Progreso</span>
+                <span id="progressText">0%</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Sección 1: Habilidades Sociales Clave -->
+        <div class="activity-section" id="section1">
+            <h2 class="section-title">📚 Habilidades Sociales Importantes</h2>
+            <div class="instruction-box">
+                Las habilidades sociales nos ayudan a relacionarnos mejor con los demás. Conoce estas habilidades clave que practicaremos hoy.
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <span class="skill-icon">👋</span>
+                    <div class="skill-name">Saludar</div>
+                    <div class="skill-description">Iniciar una conversación de manera apropiada, hacer contacto visual y usar un tono amigable.</div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="skill-icon">👂</span>
+                    <div class="skill-name">Escuchar Activamente</div>
+                    <div class="skill-description">Prestar atención cuando alguien habla, mostrar interés y responder de forma adecuada.</div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="skill-icon">💬</span>
+                    <div class="skill-name">Mantener una Conversación</div>
+                    <div class="skill-description">Hacer preguntas, compartir información y respetar los turnos al hablar.</div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="skill-icon">🙏</span>
+                    <div class="skill-name">Pedir Ayuda</div>
+                    <div class="skill-description">Expresar necesidades de manera clara y respetuosa cuando necesitas apoyo.</div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="skill-icon">🤗</span>
+                    <div class="skill-name">Dar Cumplidos</div>
+                    <div class="skill-description">Reconocer cualidades positivas en otros de manera sincera y apropiada.</div>
+                </div>
+
+                <div class="skill-card">
+                    <span class="skill-icon">🚫</span>
+                    <div class="skill-name">Decir "No"</div>
+                    <div class="skill-description">Establecer límites de manera respetuosa pero firme cuando sea necesario.</div>
+                </div>
+            </div>
+
+            <button class="check-button" onclick="nextSection()">Comenzar Práctica →</button>
+        </div>
+
+        <!-- Sección 2: Escenarios Prácticos -->
+        <div class="activity-section" id="section2" style="display: none;">
+            <h2 class="section-title">🎭 Práctica de Situaciones Sociales</h2>
+            <div class="instruction-box">
+                Lee cada situación y selecciona la respuesta que consideres más apropiada. Piensa en cómo te gustaría que te hablaran a ti.
+            </div>
+
+            <!-- Escenario 1: Saludar -->
+            <div class="scenario-container" id="scenario1">
+                <div class="scenario-title">📍 Escenario 1: Llegar al Salón</div>
+                <div class="situation-box">
+                    Es lunes por la mañana y llegas al salón de clases. Ves a tu compañero Juan sentado en su puesto. Quieres saludarlo.
+                </div>
+
+                <div class="options-container">
+                    <div class="option-label">¿Qué es lo más apropiado para hacer?</div>
+                    <div class="response-grid">
+                        <div class="response-option" onclick="selectAnswer(1, 'a', this)">
+                            <span class="response-label">A)</span>
+                            <div class="response-text">Caminar directamente a tu puesto sin decir nada.</div>
+                        </div>
+                        <div class="response-option" onclick="selectAnswer(1, 'b', this)">
+                            <span class="response-label">B)</span>
+                            <div class="response-text">"¡Buenos días, Juan! ¿Cómo estuvo tu fin de semana?"</div>
+                        </div>
+                        <div class="response-option" onclick="selectAnswer(1, 'c', this)">
+                            <span class="response-label">C)</span>
+                            <div class="response-text">Gritar desde la puerta: "¡Ey! ¿Qué hay?"</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="check-button" onclick="checkAnswer(1, 'b')" id="check1" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedback1"></div>
+                <button class="next-button" onclick="showScenario(2)" id="next1">Siguiente Escenario →</button>
+            </div>
+
+            <!-- Escenario 2: Pedir Ayuda -->
+            <div class="scenario-container" id="scenario2" style="display: none;">
+                <div class="scenario-title">📍 Escenario 2: Necesitas Ayuda con la Tarea</div>
+                <div class="situation-box">
+                    Estás trabajando en un problema de matemáticas y no entiendes cómo resolverlo. Tu profesora está ocupada ayudando a otros estudiantes.
+                </div>
+
+                <div class="options-container">
+                    <div class="option-label">¿Cómo pedirías ayuda de manera apropiada?</div>
+                    <div class="response-grid">
+                        <div class="response-option" onclick="selectAnswer(2, 'a', this)">
+                            <span class="response-label">A)</span>
+                            <div class="response-text">Interrumpir inmediatamente: "¡Profesora! ¡No entiendo nada!"</div>
+                        </div>
+                        <div class="response-option" onclick="selectAnswer(2, 'b', this)">
+                            <span class="response-label">B)</span>
+                            <div class="response-text">Esperar tu turno, levantar la mano y decir: "Disculpe profesora, cuando tenga un momento, ¿podría ayudarme con este ejercicio?"</div>
+                        </div>
+                        <div class="response-option" onclick="selectAnswer(2, 'c', this)">
+                            <span class="response-label">C)</span>
+                            <div class="response-text">No pedir ayuda y dejar el ejercicio en blanco.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="check-button" onclick="checkAnswer(2, 'b')" id="check2" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedback2"></div>
+                <button class="next-button" onclick="showScenario(3)" id="next2">Siguiente Escenario →</button>
+            </div>
+
+            <!-- Escenario 3: Mantener Conversación -->
+            <div class="scenario-container" id="scenario3" style="display: none;">
+                <div class="scenario-title">📍 Escenario 3: Conversación en el Recreo</div>
+                <div class="situation-box">
+                    Tu compañera María te está contando sobre su proyecto de ciencias que presentó ayer.
+                </div>
+
+                <div class="dialogue-box">
+                    <div class="dialogue-label">María dice:</div>
+                    <div class="dialogue-text">"Ayer presenté mi proyecto sobre el sistema solar. Me puse muy nerviosa pero creo que salió bien."</div>
+                </div>
+
+                <div class="options-container">
+                    <div class="option-label">¿Cuál sería la mejor respuesta para mantener la conversación?</div>
+                    <div class="response-grid">
+                        <div class="response-option" onclick="selectAnswer(3, 'a', this)">
+                            <span class="response-label">A)</span>
+                            <div class="response-text">"Ah, ok." (Y cambias de tema o te quedas en silencio)</div>
+                        </div>
+                        <div class="response-option" onclick="selectAnswer(3, 'b', this)">
+                            <span class="response-label">B)</span>
+                            <div class="response-text">"¡Qué bien! ¿Sobre qué planeta hablaste? Me gustaría saber más."</div>
+                        </div>
+                        <div class="response-option" onclick="selectAnswer(3, 'c', this)">
+                            <span class="response-label">C)</span>
+                            <div class="response-text">"Yo hice un proyecto mejor el año pasado sobre volcanes."</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="check-button" onclick="checkAnswer(3, 'b')" id="check3" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedback3"></div>
+                <button class="next-button" onclick="showScenario(4)" id="next3">Siguiente Escenario →</button>
+            </div>
+
+            <!-- Escenario 4: Dar Cumplidos -->
+            <div class="scenario-container" id="scenario4" style="display: none;">
+                <div class="scenario-title">📍 Escenario 4: Reconocer el Esfuerzo de Otros</div>
+                <div class="situation-box">
+                    Tu compañero Carlos hizo una excelente presentación en clase de historia. Terminó y está regresando a su puesto.
+                </div>
+
+                <div class="options-container">
+                    <div class="option-label">¿Cómo le darías un cumplido sincero?</div>
+                    <div class="response-grid">
+                        <div class="response-option" onclick="selectAnswer(4, 'a', this)">
+                            <span class="response-label">A)</span>
+                            <div class="response-text">No decir nada.</div>
+                        </div>
+                        <div class="response-option" onclick="selectAnswer(4, 'b', this)">
+                            <span class="response-label">B)</span>
+                            <div class="response-text">"Carlos, tu presentación estuvo muy clara. Me gustó cómo explicaste la línea de tiempo."</div>
+                        </div>
+                        <div class="response-option" onclick="selectAnswer(4, 'c', this)">
+                            <span class="response-label">C)</span>
+                            <div class="response-text">"Estuvo bien, pero yo lo hubiera hecho diferente."</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="check-button" onclick="checkAnswer(4, 'b')" id="check4" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedback4"></div>
+                <button class="next-button" onclick="showScenario(5)" id="next4">Siguiente Escenario →</button>
+            </div>
+
+            <!-- Escenario 5: Decir "No" -->
+            <div class="scenario-container" id="scenario5" style="display: none;">
+                <div class="scenario-title">📍 Escenario 5: Establecer Límites</div>
+                <div class="situation-box">
+                    Tu amigo te pide que le prestes tu tarea de matemáticas para copiarla. Sabes que eso no está bien y no quieres hacerlo.
+                </div>
+
+                <div class="options-container">
+                    <div class="option-label">¿Cómo establecerías este límite de manera apropiada?</div>
+                    <div class="response-grid">
+                        <div class="response-option" onclick="selectAnswer(5, 'a', this)">
+                            <span class="response-label">A)</span>
+                            <div class="response-text">Prestarle la tarea para no tener problemas con él.</div>
+                        </div>
+                        <div class="response-option" onclick="selectAnswer(5, 'b', this)">
+                            <span class="response-label">B)</span>
+                            <div class="response-text">"Lo siento, pero no me siento cómodo prestándote mi tarea. Si quieres, puedo explicarte cómo resolví los ejercicios."</div>
+                        </div>
+                        <div class="response-option" onclick="selectAnswer(5, 'c', this)">
+                            <span class="response-label">C)</span>
+                            <div class="response-text">"¡No! ¡Nunca te presto nada!" (De manera brusca)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="check-button" onclick="checkAnswer(5, 'b')" id="check5" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedback5"></div>
+                <button class="next-button" onclick="finishActivity()" id="next5">Ver Resultados →</button>
+            </div>
+        </div>
+
+        <!-- Sección de Resultados -->
+        <div class="activity-section score-card" id="scoreSection">
+            <h2>🎉 ¡Actividad Completada!</h2>
+            <div class="score-number" id="finalScore">0/5</div>
+            <div class="score-message" id="scoreMessage"></div>
+            
+            <div class="tips-box">
+                <div class="tips-title">💡 Consejos para Recordar</div>
+                <ul class="tips-list">
+                    <li>Piensa antes de hablar: considera cómo se sentirá la otra persona</li>
+                    <li>Usa un tono de voz amable y apropiado para la situación</li>
+                    <li>Escucha activamente: presta atención cuando otros hablan</li>
+                    <li>Respeta los turnos en la conversación</li>
+                    <li>Está bien decir "no" de manera respetuosa cuando algo no te parece correcto</li>
+                    <li>Los cumplidos sinceros fortalecen las amistades</li>
+                </ul>
+            </div>
+            
+            <button class="back-button" onclick="window.location.href='actividadesgrados.html'">Volver a Actividades</button>
+        </div>
+    </div>
+
+    <script>
+        let currentAnswers = {};
+        let score = 0;
+        let totalScenarios = 5;
+
+        const feedbackData = {
+            1: {
+                correct: {
+                    title: "✅ ¡Excelente elección!",
+                    text: "Saludar de manera amigable, usando el nombre de la persona y haciendo una pregunta muestra interés genuino. El contacto visual y un tono cálido hacen que el saludo sea más efectivo.",
+                    tips: "Recuerda: Un buen saludo incluye contacto visual, sonrisa, usar el nombre de la persona y un tono amigable."
+                },
+                incorrect: {
+                    title: "❌ Piénsalo otra vez",
+                    text: "Saludar es importante para mantener buenas relaciones. Ignorar a las personas o ser demasiado ruidoso puede hacer que otros se sientan incómodos o ignorados.",
+                    tips: "La opción B es la mejor porque muestra interés, usa el nombre de la persona y abre espacio para una conversación."
+                }
+            },
+            2: {
+                correct: {
+                    title: "✅ ¡Muy bien!",
+                    text: "Pedir ayuda de manera respetuosa, esperando tu turno y siendo específico sobre lo que necesitas es la forma más efectiva. Los profesores aprecian cuando los estudiantes son pacientes y claros.",
+                    tips: "Recuerda: Espera tu turno, usa palabras como 'disculpe' y 'por favor', y sé específico sobre qué necesitas."
+                },
+                incorrect: {
+                    title: "❌ Hay una mejor forma",
+                    text: "Interrumpir puede molestar a otros y no pedir ayuda te impide aprender. Es importante encontrar el balance entre ser paciente y expresar tus necesidades.",
+                    tips: "La opción B muestra respeto por el tiempo del profesor y comunica claramente lo que necesitas."
+                }
+            },
+            3: {
+                correct: {
+                    title: "✅ ¡Perfecto!",
+                    text: "Hacer preguntas relacionadas con lo que la otra persona está diciendo muestra que estás escuchando y te interesa. Esto hace que las conversaciones fluyan naturalmente.",
+                    tips: "Recuerda: Escucha activamente, haz preguntas relevantes y muestra interés genuino en lo que otros comparten."
+                },
+                incorrect: {
+                    title: "❌ Esa respuesta interrumpe la conexión",
+                    text: "Respuestas muy cortas o cambiar el tema a ti mismo puede hacer que la otra persona sienta que no te importa lo que dice. Las conversaciones requieren dar y recibir.",
+                    tips: "La opción B mantiene el enfoque en María, muestra interés y la invita a compartir más."
+                }
+            },
+            4: {
+                correct: {
+                    title: "✅ ¡Excelente!",
+                    text: "Dar cumplidos específicos y sinceros hace que las personas se sientan valoradas. Mencionar detalles específicos muestra que realmente prestaste atención y aprecias su esfuerzo.",
+                    tips: "Recuerda: Los cumplidos deben ser sinceros, específicos y enfocarse en el esfuerzo o logro de la persona."
+                },
+                incorrect: {
+                    title: "❌ Puedes mejorar esto",
+                    text: "No reconocer el esfuerzo de otros o hacer comparaciones puede hacer que se sientan mal. Los cumplidos deben centrarse en la otra persona, no en ti.",
+                    tips: "La opción B es específica, sincera y hace que Carlos se sienta bien por su trabajo."
+                }
+            },
+            5: {
+                correct: {
+                    title: "✅ ¡Muy bien!",
+                    text: "Decir 'no' de manera firme pero respetuosa es una habilidad importante. Ofrecer una alternativa (como explicar cómo resolver los ejercicios) muestra que te importa ayudar de la manera correcta.",
+                    tips: "Recuerda: Puedes decir 'no' y mantener la amistad siendo honesto, respetuoso y ofreciendo alternativas cuando sea posible."
+                },
+                incorrect: {
+                    title: "❌ Considera otras opciones",
+                    text: "Hacer algo que sabes que está mal por presión social no es correcto, y ser brusco puede dañar la relación. Hay formas de establecer límites siendo amable pero firme.",
+                    tips: "La opción B establece un límite claro, explica por qué y ofrece una alternativa de ayuda apropiada."
+                }
+            }
+        };
+
+        function nextSection() {
+            document.getElementById('section1').style.display = 'none';
+            document.getElementById('section2').style.display = 'block';
+            updateProgress(20);
+        }
+
+        function selectAnswer(scenarioNum, answer, button) {
+            const buttons = button.parentElement.querySelectorAll('.response-option');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            
+            button.classList.add('selected');
+            currentAnswers[scenarioNum] = answer;
+            
+            document.getElementById('check' + scenarioNum).disabled = false;
+        }
+
+        function checkAnswer(scenarioNum, correctAnswer) {
+            const userAnswer = currentAnswers[scenarioNum];
+            const feedback = document.getElementById('feedback' + scenarioNum);
+            const checkBtn = document.getElementById('check' + scenarioNum);
+            const nextBtn = document.getElementById('next' + scenarioNum);
+            const buttons = document.querySelectorAll(`#scenario${scenarioNum} .response-option`);
+            
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            checkBtn.style.display = 'none';
+            
+            buttons.forEach(btn => {
+                const label = btn.querySelector('.response-label').textContent.toLowerCase();
+                if (label.includes(correctAnswer)) {
+                    btn.classList.add('correct');
+                }
+                if (btn.classList.contains('selected') && userAnswer !== correctAnswer) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            const isCorrect = userAnswer === correctAnswer;
+            if (isCorrect) {
+                score++;
+                feedback.className = 'feedback correct show';
+                const data = feedbackData[scenarioNum].correct;
+                feedback.innerHTML = `
+                    <div class="feedback-title">${data.title}</div>
+                    <div class="feedback-text">${data.text}</div>
+                    <div class="tips-box" style="margin-top: 15px;">
+                        <div class="tips-title">💡 Tip Importante</div>
+                        <div style="font-size: 1rem;">${data.tips}</div>
+                    </div>
+                `;
+            } else {
+                feedback.className = 'feedback incorrect show';
+                const data = feedbackData[scenarioNum].incorrect;
+                feedback.innerHTML = `
+                    <div class="feedback-title">${data.title}</div>
+                    <div class="feedback-text">${data.text}</div>
+                    <div class="tips-box" style="margin-top: 15px;">
+                        <div class="tips-title">💡 ¿Por qué es mejor la otra opción?</div>
+                        <div style="font-size: 1rem;">${data.tips}</div>
+                    </div>
+                `;
+            }
+            
+            nextBtn.classList.add('show');
+            
+            const progressPercent = 20 + (scenarioNum * 16);
+            updateProgress(progressPercent);
+        }
+
+        function showScenario(scenarioNum) {
+            const currentScenario = document.getElementById('scenario' + (scenarioNum - 1));
+            const nextScenario = document.getElementById('scenario' + scenarioNum);
+            
+            currentScenario.style.display = 'none';
+            nextScenario.style.display = 'block';
+            
+            nextScenario.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function finishActivity() {
+            document.getElementById('section2').style.display = 'none';
+            document.getElementById('scoreSection').classList.add('show');
+            
+            const finalScore = document.getElementById('finalScore');
+            const scoreMessage = document.getElementById('scoreMessage');
+            
+            finalScore.textContent = score + '/' + totalScenarios;
+            
+            let message = '';
+            if (score === totalScenarios) {
+                message = '¡Perfecto! Tienes excelentes habilidades sociales. Continúa practicándolas en tu vida diaria. 🌟';
+            } else if (score >= 4) {
+                message = '¡Muy bien! Comprendes cómo comunicarte efectivamente. Sigue desarrollando estas habilidades. 👏';
+            } else if (score >= 3) {
+                message = '¡Buen trabajo! Estás aprendiendo habilidades importantes. La práctica te ayudará a mejorar. 💪';
+            } else {
+                message = 'Sigue practicando. Las habilidades sociales mejoran con el tiempo y la experiencia. 🌱';
+            }
+            
+            scoreMessage.textContent = message;
+            updateProgress(100);
+            
+            document.getElementById('scoreSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateProgress(percent) {
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = Math.round(percent) + '%';
+        }
+    </script>
+</body>
+</html>

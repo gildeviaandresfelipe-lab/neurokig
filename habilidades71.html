@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconocimiento de Emociones - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #E15034;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        .progress-track {
+            background: #f0f0f0;
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #E77B66, #E15034);
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .activity-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: #E15034;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .instruction-box {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .emotions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .emotion-card {
+            background: white;
+            border: 3px solid #f0f0f0;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .emotion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #E77B66;
+        }
+
+        .emotion-icon {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .emotion-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 10px;
+        }
+
+        .emotion-description {
+            color: #889F92;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border: 2px solid #f0f0f0;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .scenario-box {
+            background: linear-gradient(135deg, #EDA2A1, #889F92);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-button {
+            background: white;
+            border: 3px solid #f0f0f0;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .option-button:hover {
+            border-color: #E77B66;
+            transform: scale(1.05);
+        }
+
+        .option-button.selected {
+            background: #E77B66;
+            color: white;
+            border-color: #E15034;
+        }
+
+        .option-button.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #45a049;
+        }
+
+        .option-button.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #da190b;
+        }
+
+        .feedback {
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .check-button {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        .check-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(225, 80, 52, 0.3);
+        }
+
+        .check-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, #889F92, #EDA2A1);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+            margin: 20px auto 0;
+        }
+
+        .next-button.show {
+            display: block;
+        }
+
+        .next-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(136, 159, 146, 0.3);
+        }
+
+        .score-card {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .score-card.show {
+            display: block;
+        }
+
+        .score-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .score-message {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            background: white;
+            color: #E15034;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .activity-section {
+                padding: 25px;
+            }
+
+            .emotions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>😊 Reconocimiento de Emociones</h1>
+            <p>Aprende a identificar y comprender diferentes emociones</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-info">
+                <span>Progreso</span>
+                <span id="progressText">0%</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Sección 1: Introducción a las Emociones -->
+        <div class="activity-section" id="section1">
+            <h2 class="section-title">📚 Conoce las Emociones Básicas</h2>
+            <div class="instruction-box">
+                Las emociones son sentimientos que experimentamos todos los días. Es importante reconocerlas para entender cómo nos sentimos y cómo se sienten los demás. Observa cada emoción y su descripción.
+            </div>
+
+            <div class="emotions-grid">
+                <div class="emotion-card">
+                    <span class="emotion-icon">😊</span>
+                    <div class="emotion-name">Alegría</div>
+                    <div class="emotion-description">Te sientes feliz, con energía y quieres sonreír. Tu cuerpo se siente ligero y relajado.</div>
+                </div>
+
+                <div class="emotion-card">
+                    <span class="emotion-icon">😢</span>
+                    <div class="emotion-name">Tristeza</div>
+                    <div class="emotion-description">Te sientes triste, con ganas de llorar. Tu cuerpo puede sentirse pesado y sin energía.</div>
+                </div>
+
+                <div class="emotion-card">
+                    <span class="emotion-icon">😠</span>
+                    <div class="emotion-name">Enojo</div>
+                    <div class="emotion-description">Te sientes molesto o frustrado. Tu cuerpo puede tensarse y tu corazón late más rápido.</div>
+                </div>
+
+                <div class="emotion-card">
+                    <span class="emotion-icon">😰</span>
+                    <div class="emotion-name">Miedo</div>
+                    <div class="emotion-description">Te sientes asustado o nervioso. Tu cuerpo puede temblar y tu respiración se acelera.</div>
+                </div>
+
+                <div class="emotion-card">
+                    <span class="emotion-icon">😲</span>
+                    <div class="emotion-name">Sorpresa</div>
+                    <div class="emotion-description">Algo inesperado sucede. Tus ojos se abren grandes y tu boca puede abrirse.</div>
+                </div>
+
+                <div class="emotion-card">
+                    <span class="emotion-icon">🤢</span>
+                    <div class="emotion-name">Disgusto</div>
+                    <div class="emotion-description">Algo te desagrada o te parece desagradable. Tu nariz puede arrugarse.</div>
+                </div>
+            </div>
+
+            <button class="check-button" onclick="nextSection(2)">Continuar →</button>
+        </div>
+
+        <!-- Sección 2: Quiz de Situaciones -->
+        <div class="activity-section" id="section2" style="display: none;">
+            <h2 class="section-title">🎯 Identifica la Emoción</h2>
+            <div class="instruction-box">
+                Lee cada situación con atención y selecciona la emoción que mejor describe cómo se sentiría la persona.
+            </div>
+
+            <!-- Pregunta 1 -->
+            <div class="quiz-container" id="q1">
+                <div class="question">Situación 1:</div>
+                <div class="scenario-box">
+                    María recibió un regalo sorpresa de su mejor amiga en su cumpleaños. Era algo que deseaba hace mucho tiempo.
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(1, 'alegria', this)">
+                        <span>😊</span> Alegría
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(1, 'tristeza', this)">
+                        <span>😢</span> Tristeza
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(1, 'enojo', this)">
+                        <span>😠</span> Enojo
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(1, 'miedo', this)">
+                        <span>😰</span> Miedo
+                    </button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(1, 'alegria')" id="check1" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedback1"></div>
+                <button class="next-button" onclick="showQuestion(2)" id="next1">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 2 -->
+            <div class="quiz-container" id="q2" style="display: none;">
+                <div class="question">Situación 2:</div>
+                <div class="scenario-box">
+                    Carlos escuchó un ruido fuerte en la noche mientras estaba solo en su habitación. No sabe qué lo causó.
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(2, 'alegria', this)">
+                        <span>😊</span> Alegría
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(2, 'sorpresa', this)">
+                        <span>😲</span> Sorpresa
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(2, 'miedo', this)">
+                        <span>😰</span> Miedo
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(2, 'disgusto', this)">
+                        <span>🤢</span> Disgusto
+                    </button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(2, 'miedo')" id="check2" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedback2"></div>
+                <button class="next-button" onclick="showQuestion(3)" id="next2">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 3 -->
+            <div class="quiz-container" id="q3" style="display: none;">
+                <div class="question">Situación 3:</div>
+                <div class="scenario-box">
+                    Ana trabajó muy duro en su proyecto de ciencias, pero su compañero tomó todo el crédito frente al profesor.
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(3, 'alegria', this)">
+                        <span>😊</span> Alegría
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(3, 'enojo', this)">
+                        <span>😠</span> Enojo
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(3, 'miedo', this)">
+                        <span>😰</span> Miedo
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(3, 'sorpresa', this)">
+                        <span>😲</span> Sorpresa
+                    </button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(3, 'enojo')" id="check3" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedback3"></div>
+                <button class="next-button" onclick="showQuestion(4)" id="next3">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 4 -->
+            <div class="quiz-container" id="q4" style="display: none;">
+                <div class="question">Situación 4:</div>
+                <div class="scenario-box">
+                    La mascota de Pedro murió después de estar enferma por varias semanas. Pedro la extraña mucho.
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(4, 'tristeza', this)">
+                        <span>😢</span> Tristeza
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(4, 'alegria', this)">
+                        <span>😊</span> Alegría
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(4, 'enojo', this)">
+                        <span>😠</span> Enojo
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(4, 'disgusto', this)">
+                        <span>🤢</span> Disgusto
+                    </button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(4, 'tristeza')" id="check4" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedback4"></div>
+                <button class="next-button" onclick="showQuestion(5)" id="next4">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 5 -->
+            <div class="quiz-container" id="q5" style="display: none;">
+                <div class="question">Situación 5:</div>
+                <div class="scenario-box">
+                    Laura encontró comida descompuesta en su lonchera que llevaba varios días olvidada. El olor era muy fuerte.
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(5, 'alegria', this)">
+                        <span>😊</span> Alegría
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(5, 'disgusto', this)">
+                        <span>🤢</span> Disgusto
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(5, 'miedo', this)">
+                        <span>😰</span> Miedo
+                    </button>
+                    <button class="option-button" onclick="selectAnswer(5, 'tristeza', this)">
+                        <span>😢</span> Tristeza
+                    </button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(5, 'disgusto')" id="check5" disabled>Verificar Respuesta</button>
+                <div class="feedback" id="feedback5"></div>
+                <button class="next-button" onclick="finishQuiz()" id="next5">Ver Resultados →</button>
+            </div>
+        </div>
+
+        <!-- Sección de Resultados -->
+        <div class="activity-section score-card" id="scoreSection">
+            <h2>🎉 ¡Actividad Completada!</h2>
+            <div class="score-number" id="finalScore">0/5</div>
+            <div class="score-message" id="scoreMessage"></div>
+            <button class="back-button" onclick="window.location.href='actividadesgrados.html'">Volver a Actividades</button>
+        </div>
+    </div>
+
+    <script>
+        let currentAnswers = {};
+        let score = 0;
+        let totalQuestions = 5;
+
+        function nextSection(section) {
+            document.getElementById('section1').style.display = 'none';
+            document.getElementById('section2').style.display = 'block';
+            updateProgress(20);
+        }
+
+        function selectAnswer(questionNum, answer, button) {
+            // Remover selección previa
+            const buttons = button.parentElement.querySelectorAll('.option-button');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            
+            // Seleccionar nueva respuesta
+            button.classList.add('selected');
+            currentAnswers[questionNum] = answer;
+            
+            // Habilitar botón de verificar
+            document.getElementById('check' + questionNum).disabled = false;
+        }
+
+        function checkAnswer(questionNum, correctAnswer) {
+            const userAnswer = currentAnswers[questionNum];
+            const feedback = document.getElementById('feedback' + questionNum);
+            const checkBtn = document.getElementById('check' + questionNum);
+            const nextBtn = document.getElementById('next' + questionNum);
+            const buttons = document.querySelectorAll(`#q${questionNum} .option-button`);
+            
+            // Deshabilitar botones y botón de verificar
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            checkBtn.style.display = 'none';
+            
+            // Marcar respuesta correcta e incorrecta
+            buttons.forEach(btn => {
+                const btnText = btn.textContent.trim().toLowerCase();
+                if (btnText.includes(correctAnswer)) {
+                    btn.classList.add('correct');
+                }
+                if (btn.classList.contains('selected') && userAnswer !== correctAnswer) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            // Mostrar feedback
+            if (userAnswer === correctAnswer) {
+                score++;
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = '✅ ¡Excelente! Has identificado correctamente la emoción.';
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.innerHTML = '❌ No es correcto. La emoción correcta es: ' + correctAnswer.charAt(0).toUpperCase() + correctAnswer.slice(1) + '. Observa la situación nuevamente e intenta comprender por qué esa sería la emoción apropiada.';
+            }
+            
+            // Mostrar botón siguiente
+            nextBtn.classList.add('show');
+            
+            // Actualizar progreso
+            const progressPercent = 20 + (questionNum * 16);
+            updateProgress(progressPercent);
+        }
+
+        function showQuestion(questionNum) {
+            const currentQ = document.getElementById('q' + (questionNum - 1));
+            const nextQ = document.getElementById('q' + questionNum);
+            
+            currentQ.style.display = 'none';
+            nextQ.style.display = 'block';
+            
+            // Scroll suave al inicio de la nueva pregunta
+            nextQ.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function finishQuiz() {
+            document.getElementById('section2').style.display = 'none';
+            document.getElementById('scoreSection').classList.add('show');
+            
+            const finalScore = document.getElementById('finalScore');
+            const scoreMessage = document.getElementById('scoreMessage');
+            
+            finalScore.textContent = score + '/' + totalQuestions;
+            
+            let message = '';
+            if (score === totalQuestions) {
+                message = '¡Perfecto! Tienes una excelente comprensión de las emociones. 🌟';
+            } else if (score >= 4) {
+                message = '¡Muy bien! Reconoces las emociones correctamente. Sigue practicando. 👏';
+            } else if (score >= 3) {
+                message = '¡Buen trabajo! Estás aprendiendo a identificar emociones. Continúa mejorando. 💪';
+            } else {
+                message = 'Sigue practicando. Con el tiempo te será más fácil reconocer las emociones. 🌱';
+            }
+            
+            scoreMessage.textContent = message;
+            updateProgress(100);
+            
+            // Scroll al resultado
+            document.getElementById('scoreSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateProgress(percent) {
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = Math.round(percent) + '%';
+        }
+    </script>
+</body>
+</html>
