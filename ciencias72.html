@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistemas del Cuerpo - Grado Séptimo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #E15034;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #889F92;
+            font-weight: 500;
+        }
+
+        .progress-track {
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E15034, #E77B66);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .lesson-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .lesson-section h2 {
+            color: #E15034;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 5px solid #E15034;
+        }
+
+        .concept-box h3 {
+            color: #E15034;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .concept-box p {
+            color: #333;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .systems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .system-card {
+            background: linear-gradient(135deg, #FEF0F0, white);
+            padding: 25px;
+            border-radius: 20px;
+            border: 3px solid #EDA2A1;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .system-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-color: #E15034;
+        }
+
+        .system-card.active {
+            border-color: #E15034;
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+        }
+
+        .system-card.active h3,
+        .system-card.active p {
+            color: white;
+        }
+
+        .system-icon {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .system-card h3 {
+            color: #E15034;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .system-card p {
+            color: #666;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .system-details {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 2px solid #EDA2A1;
+        }
+
+        .detail-section {
+            margin-bottom: 25px;
+        }
+
+        .detail-section h4 {
+            color: #E15034;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-list {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: start;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #FEF0F0;
+            border-radius: 8px;
+            border-left: 4px solid #E77B66;
+        }
+
+        .detail-item .emoji {
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+
+        .detail-item .text {
+            flex: 1;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .body-diagram {
+            position: relative;
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .body-outline {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(180deg, #FEF0F0 0%, #EDA2A1 100%);
+            border-radius: 100px 100px 50px 50px;
+            position: relative;
+            border: 3px solid #E15034;
+        }
+
+        .organ-marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #E15034;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .organ-marker:hover {
+            transform: scale(1.3);
+            z-index: 10;
+        }
+
+        .organ-marker.heart { top: 25%; left: 50%; transform: translate(-50%, -50%); }
+        .organ-marker.lungs { top: 22%; left: 30%; }
+        .organ-marker.stomach { top: 45%; left: 50%; transform: translate(-50%, -50%); }
+        .organ-marker.brain { top: 8%; left: 50%; transform: translate(-50%, -50%); }
+
+        .exercise-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #EDA2A1;
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .exercise-number {
+            background: #E15034;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .difficulty {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .difficulty.easy {
+            background: rgba(231, 123, 102, 0.2);
+            color: #E77B66;
+        }
+
+        .difficulty.medium {
+            background: rgba(238, 154, 91, 0.2);
+            color: #EE9A5B;
+        }
+
+        .question {
+            font-size: 1.15rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #EDA2A1;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            transform: scale(1.05);
+            border-color: #E15034;
+            background: #FEF0F0;
+        }
+
+        .option-btn.selected {
+            background: #E15034;
+            color: white;
+            border-color: #E15034;
+        }
+
+        .option-btn.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .option-btn.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+        }
+
+        .matching-column h4 {
+            color: #E15034;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .match-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #EDA2A1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .match-item:hover {
+            border-color: #E15034;
+            transform: translateX(5px);
+        }
+
+        .match-item.selected {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            border-color: #E15034;
+        }
+
+        .match-item.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .match-item.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .sequence-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .sequence-item {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: 3px solid transparent;
+        }
+
+        .sequence-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .sequence-item.selected {
+            border-color: #E15034;
+            box-shadow: 0 0 20px rgba(225, 80, 52, 0.5);
+        }
+
+        .sequence-result {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            min-height: 80px;
+            border: 2px dashed #EDA2A1;
+        }
+
+        .sequence-result .step-box {
+            display: inline-block;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 5px;
+            border: 2px solid #E77B66;
+        }
+
+        .feedback {
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #4CAF50;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f44336;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .check-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(225, 80, 52, 0.3);
+        }
+
+        .check-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #889F92, #6b8475);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            display: none;
+        }
+
+        .next-btn.show {
+            display: inline-block;
+        }
+
+        .next-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(136, 159, 146, 0.3);
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .completion-card {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .completion-card.show {
+            display: block;
+        }
+
+        .completion-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .completion-card .score {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .systems-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .matching-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 Sistemas del Cuerpo Humano</h1>
+            <p>Explora cómo funcionan los sistemas circulatorio, respiratorio y digestivo</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-label">
+                <span>Tu progreso</span>
+                <span id="progress-text">0/6 ejercicios</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Lección 1: Introducción -->
+        <div class="lesson-section" id="lesson-1">
+            <h2>📚 Los Sistemas del Cuerpo</h2>
+            
+            <div class="concept-box">
+                <h3>¿Qué son los sistemas del cuerpo?</h3>
+                <p>Un <strong>sistema</strong> es un conjunto de órganos que trabajan juntos para realizar una función específica en el cuerpo.</p>
+                <p style="margin-top: 10px;">🏭 Es como un equipo de trabajo: cada miembro tiene su tarea, pero todos colaboran para lograr un objetivo común.</p>
+            </div>
+
+            <div class="systems-grid">
+                <div class="system-card" onclick="highlightSystem(this, 'circulatorio')">
+                    <div class="system-icon">❤️</div>
+                    <h3>Sistema Circulatorio</h3>
+                    <p>Transporta sangre, oxígeno y nutrientes por todo el cuerpo</p>
+                </div>
+                <div class="system-card" onclick="highlightSystem(this, 'respiratorio')">
+                    <div class="system-icon">🫁</div>
+                    <h3>Sistema Respiratorio</h3>
+                    <p>Permite la entrada de oxígeno y la salida de dióxido de carbono</p>
+                </div>
+                <div class="system-card" onclick="highlightSystem(this, 'digestivo')">
+                    <div class="system-icon">🍽️</div>
+                    <h3>Sistema Digestivo</h3>
+                    <p>Procesa los alimentos para obtener energía y nutrientes</p>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="next-btn show" onclick="showSection(2)">Continuar →</button>
+            </div>
+        </div>
+
+        <!-- Lección 2: Sistema Circulatorio -->
+        <div class="lesson-section" id="lesson-2" style="display:none;">
+            <h2>❤️ Sistema Circulatorio</h2>
+            
+            <div class="concept-box">
+                <h3>¿Cómo funciona?</h3>
+                <p>El sistema circulatorio es como un <strong>sistema de carreteras</strong> que lleva sangre a todas las partes del cuerpo.</p>
+                <p style="margin-top: 10px;">💓 El corazón bombea la sangre, las arterias la llevan y las venas la traen de vuelta.</p>
+            </div>
+
+            <div class="system-details">
+                <div class="detail-section">
+                    <h4>🔍 Órganos Principales</h4>
+                    <div class="detail-list">
+                        <div class="detail-item">
+                            <span class="emoji">💓</span>
+                            <span class="text"><strong>Corazón:</strong> Músculo que bombea sangre constantemente (late unas 100,000 veces al día)</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🔴</span>
+                            <span class="text"><strong>Arterias:</strong> Tubos que llevan sangre rica en oxígeno desde el corazón</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🔵</span>
+                            <span class="text"><strong>Venas:</strong> Tubos que traen sangre con menos oxígeno de vuelta al corazón</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">💉</span>
+                            <span class="text"><strong>Sangre:</strong> Líquido que transporta oxígeno, nutrientes y desechos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h4>⚡ Funciones Principales</h4>
+                    <div class="detail-list">
+                        <div class="detail-item">
+                            <span class="emoji">🌬️</span>
+                            <span class="text">Transportar oxígeno a todas las células del cuerpo</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🍎</span>
+                            <span class="text">Llevar nutrientes desde el sistema digestivo</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🗑️</span>
+                            <span class="text">Recoger desechos para eliminarlos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="next-btn show" onclick="showSection(3)">Continuar →</button>
+            </div>
+        </div>
+
+        <!-- Ejercicio 1 -->
+        <div class="lesson-section" id="lesson-3" style="display:none;">
+            <h2>✏️ Ejercicio 1: Sistema Circulatorio</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-number">1</div>
+                    <div class="difficulty easy">Fácil</div>
+                </div>
+                
+                <div class="question">¿Cuál es la función principal del corazón?</div>
+                
+                <div class="options-grid">
+                    <button class="option-btn" onclick="selectOption(1, 1, this)">Bombear sangre por todo el cuerpo</button>
+                    <button class="option-btn" onclick="selectOption(1, 2, this)">Respirar oxígeno</button>
+                    <button class="option-btn" onclick="selectOption(1, 3, this)">Digerir alimentos</button>
+                    <button class="option-btn" onclick="selectOption(1, 4, this)">Producir sangre nueva</button>
+                </div>
+                
+                <div class="btn-container">
+                    <button class="check-btn" id="check-1" onclick="checkAnswer(1, 1)">Verificar Respuesta</button>
+                    <button class="next-btn" id="next-1" onclick="showSection(4)">Siguiente →</button>
+                </div>
+                
+                <div class="feedback" id="feedback-1"></div>
+            </div>
+        </div>
+
+        <!-- Lección 3: Sistema Respiratorio -->
+        <div class="lesson-section" id="lesson-4" style="display:none;">
+            <h2>🫁 Sistema Respiratorio</h2>
+            
+            <div class="concept-box">
+                <h3>¿Cómo funciona?</h3>
+                <p>El sistema respiratorio es como un <strong>sistema de ventilación</strong> que permite intercambiar gases con el ambiente.</p>
+                <p style="margin-top: 10px;">💨 Respiramos unas 20,000 veces al día sin pensarlo.</p>
+            </div>
+
+            <div class="system-details">
+                <div class="detail-section">
+                    <h4>🔍 Órganos Principales</h4>
+                    <div class="detail-list">
+                        <div class="detail-item">
+                            <span class="emoji">👃</span>
+                            <span class="text"><strong>Nariz:</strong> Entrada del aire, lo filtra y calienta</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🎤</span>
+                            <span class="text"><strong>Tráquea:</strong> Tubo que conduce el aire hacia los pulmones</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🌳</span>
+                            <span class="text"><strong>Bronquios:</strong> Ramificaciones que llevan aire dentro de los pulmones</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🫁</span>
+                            <span class="text"><strong>Pulmones:</strong> Órganos esponjosos donde ocurre el intercambio de gases</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h4>⚡ El Proceso de Respiración</h4>
+                    <div class="detail-list">
+                        <div class="detail-item">
+                            <span class="emoji">⬇️</span>
+                            <span class="text"><strong>Inhalación:</strong> El aire entra por la nariz, pasa por la tráquea y llega a los pulmones</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🔄</span>
+                            <span class="text"><strong>Intercambio:</strong> En los pulmones, el oxígeno pasa a la sangre y el CO₂ sale</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">⬆️</span>
+                            <span class="text"><strong>Exhalación:</strong> El dióxido de carbono sale del cuerpo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="next-btn show" onclick="showSection(5)">Continuar →</button>
+            </div>
+        </div>
+
+        <!-- Ejercicio 2 -->
+        <div class="lesson-section" id="lesson-5" style="display:none;">
+            <h2>✏️ Ejercicio 2: Ordena el Proceso de Respiración</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-number">2</div>
+                    <div class="difficulty medium">Medio</div>
+                </div>
+                
+                <div class="question">Ordena correctamente los pasos de la respiración (haz clic en el orden correcto):</div>
+                
+                <div class="sequence-container" id="sequence-items">
+                    <div class="sequence-item" onclick="selectSequence(this, 'nariz')">👃 El aire entra por la nariz</div>
+                    <div class="sequence-item" onclick="selectSequence(this, 'traquea')">🎤 Pasa por la tráquea</div>
+                    <div class="sequence-item" onclick="selectSequence(this, 'pulmones')">🫁 Llega a los pulmones</div>
+                    <div class="sequence-item" onclick="selectSequence(this, 'intercambio')">🔄 Se intercambian gases</div>
+                </div>
+
+                <div class="sequence-result" id="sequence-result">
+                    <p style="text-align: center; color: #889F92;">Haz clic en los pasos en el orden correcto</p>
+                </div>
+                
+                <div class="btn-container">
+                    <button class="check-btn" onclick="resetSequence()">Reiniciar</button>
+                    <button class="check-btn" id="check-2" onclick="checkSequence()">Verificar Orden</button>
+                    <button class="next-btn" id="next-2" onclick="showSection(6)">Siguiente →</button>
+                </div>
+                
+                <div class="feedback" id="feedback-2"></div>
+            </div>
+        </div>
+
+        <!-- Lección 4: Sistema Digestivo -->
+        <div class="lesson-section" id="lesson-6" style="display:none;">
+            <h2>🍽️ Sistema Digestivo</h2>
+            
+            <div class="concept-box">
+                <h3>¿Cómo funciona?</h3>
+                <p>El sistema digestivo es como una <strong>fábrica procesadora</strong> que convierte los alimentos en energía y nutrientes.</p>
+                <p style="margin-top: 10px;">⏱️ El proceso completo puede durar entre 24 y 72 horas.</p>
+            </div>
+
+            <div class="system-details">
+                <div class="detail-section">
+                    <h4>🔍 Órganos Principales</h4>
+                    <div class="detail-list">
+                        <div class="detail-item">
+                            <span class="emoji">👄</span>
+                            <span class="text"><strong>Boca:</strong> Mastica y mezcla los alimentos con saliva</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🌊</span>
+                            <span class="text"><strong>Esófago:</strong> Tubo muscular que lleva alimento al estómago</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🥤</span>
+                            <span class="text"><strong>Estómago:</strong> Descompone los alimentos con ácidos y enzimas</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">🌀</span>
+                            <span class="text"><strong>Intestino Delgado:</strong> Absorbe los nutrientes hacia la sangre</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">📦</span>
+                            <span class="text"><strong>Intestino Grueso:</strong> Absorbe agua y forma desechos sólidos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h4>⚡ El Viaje de los Alimentos</h4>
+                    <div class="detail-list">
+                        <div class="detail-item">
+                            <span class="emoji">1️⃣</span>
+                            <span class="text">Los alimentos se mastican y mezclan con saliva</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">2️⃣</span>
+                            <span class="text">Bajan por el esófago hasta el estómago</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">3️⃣</span>
+                            <span class="text">Se descomponen en el estómago durante horas</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">4️⃣</span>
+                            <span class="text">Los nutrientes se absorben en el intestino delgado</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="emoji">5️⃣</span>
+                            <span class="text">Los desechos se eliminan por el intestino grueso</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="next-btn show" onclick="showSection(7)">Continuar →</button>
+            </div>
+        </div>
+
+        <!-- Ejercicio 3 -->
+        <div class="lesson-section" id="lesson-7" style="display:none;">
+            <h2>✏️ Ejercicio 3: Sistema Digestivo</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-number">3</div>
+                    <div class="difficulty easy">Fácil</div>
+                </div>
+                
+                <div class="question">¿Dónde comienza el proceso de digestión?</div>
+                
+                <div class="options-grid">
+                    <button class="option-btn" onclick="selectOption(3, 1, this)">👄 En la boca</button>
+                    <button class="option-btn" onclick="selectOption(3, 2, this)">🥤 En el estómago</button>
+                    <button class="option-btn" onclick="selectOption(3, 3, this)">🌀 En el intestino</button>
+                    <button class="option-btn" onclick="selectOption(3, 4, this)">🌊 En el esófago</button>
+                </div>
+                
+                <div class="btn-container">
+                    <button class="check-btn" id="check-3" onclick="checkAnswer(3, 1)">Verificar Respuesta</button>
+                    <button class="next-btn" id="next-3" onclick="showSection(8)">Siguiente →</button>
+                </div>
+                
+                <div class="feedback" id="feedback-3"></div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 4: Relacionar -->
+        <div class="lesson-section" id="lesson-8" style="display:none;">
+            <h2>✏️ Ejercicio 4: Relaciona Sistemas y Funciones</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-number">4</div>
+                    <div class="difficulty medium">Medio</div>
+                </div>
+                
+                <div class="question">Selecciona un sistema de la izquierda y luego su función correspondiente de la derecha:</div>
+                
+                <div class="matching-container">
+                    <div class="matching-column">
+                        <h4>Sistemas</h4>
+                        <div class="match-item" onclick="selectMatch('left', this, 'circulatorio')">❤️ Sistema Circulatorio</div>
+                        <div class="match-item" onclick="selectMatch('left', this, 'respiratorio')">🫁 Sistema Respiratorio</div>
+                        <div class="match-item" onclick="selectMatch('left', this, 'digestivo')">🍽️ Sistema Digestivo</div>
+                    </div>
+                    <div class="matching-column">
+                        <h4>Funciones</h4>
+                        <div class="match-item" onclick="selectMatch('right', this, 'transporta')">Transporta sangre y nutrientes</div>
+                        <div class="match-item" onclick="selectMatch('right', this, 'oxigeno')">Intercambia oxígeno y CO₂</div>
+                        <div class="match-item" onclick="selectMatch('right', this, 'procesa')">Procesa alimentos</div>
+                    </div>
+                </div>
+                
+                <div class="btn-container">
+                    <button class="check-btn" id="check-4" onclick="checkMatching()">Verificar Respuestas</button>
+                    <button class="next-btn" id="next-4" onclick="showSection(9)">Siguiente →</button>
+                </div>
+                
+                <div class="feedback" id="feedback-4"></div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 5 -->
+        <div class="lesson-section" id="lesson-9" style="display:none;">
+            <h2>✏️ Ejercicio 5: ¿Cuánto Aprendiste?</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-number">5</div>
+                    <div class="difficulty medium">Medio</div>
+                </div>
+                
+                <div class="question">¿Qué órgano absorbe los nutrientes de los alimentos hacia la sangre?</div>
+                
+                <div class="options-grid">
+                    <button class="option-btn" onclick="selectOption(5, 1, this)">🥤 Estómago</button>
+                    <button class="option-btn" onclick="selectOption(5, 2, this)">🌀 Intestino Delgado</button>
+                    <button class="option-btn" onclick="selectOption(5, 3, this)">👄 Boca</button>
+                    <button class="option-btn" onclick="selectOption(5, 4, this)">📦 Intestino Grueso</button>
+                </div>
+                
+                <div class="btn-container">
+                    <button class="check-btn" id="check-5" onclick="checkAnswer(5, 2)">Verificar Respuesta</button>
+                    <button class="next-btn" id="next-5" onclick="showSection(10)">Siguiente →</button>
+                </div>
+                
+                <div class="feedback" id="feedback-5"></div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 6 -->
+        <div class="lesson-section" id="lesson-10" style="display:none;">
+            <h2>✏️ Ejercicio 6: Integración de Sistemas</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-number">6</div>
+                    <div class="difficulty medium">Medio</div>
+                </div>
+                
+                <div class="question">¿Qué sistema trabaja directamente con el sistema circulatorio para oxigenar la sangre?</div>
+                
+                <div class="concept-box" style="margin: 20px 0;">
+                    <p>💡 Pista: Piensa en qué sistema introduce el oxígeno al cuerpo.</p>
+                </div>
+                
+                <div class="options-grid">
+                    <button class="option-btn" onclick="selectOption(6, 1, this)">🫁 Sistema Respiratorio</button>
+                    <button class="option-btn" onclick="selectOption(6, 2, this)">🍽️ Sistema Digestivo</button>
+                    <button class="option-btn" onclick="selectOption(6, 3, this)">🧠 Sistema Nervioso</button>
+                    <button class="option-btn" onclick="selectOption(6, 4, this)">💪 Sistema Muscular</button>
+                </div>
+                
+                <div class="btn-container">
+                    <button class="check-btn" id="check-6" onclick="checkAnswer(6, 1)">Verificar Respuesta</button>
+                    <button class="next-btn" id="next-6" onclick="showSection(11)">Ver Resultados →</button>
+                </div>
+                
+                <div class="feedback" id="feedback-6"></div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Finalización -->
+        <div class="lesson-section completion-card" id="lesson-11">
+            <h2>🎉 ¡Excelente Trabajo!</h2>
+            <div style="font-size: 5rem;">🏆</div>
+            <div class="score" id="final-score">0/6</div>
+            <p style="font-size: 1.3rem; margin-bottom: 20px;" id="final-message">Has completado el estudio de los Sistemas del Cuerpo</p>
+            <div style="margin-top: 30px;">
+                <button class="check-btn" onclick="window.location.href='actividadesgrados.html'" style="margin-right: 10px;">Volver a Actividades</button>
+                <button class="next-btn show" onclick="resetActivity()">Estudiar de Nuevo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedAnswers = {};
+        let correctAnswers = 0;
+        let totalExercises = 6;
+        let sequenceOrder = [];
+        let matchingPairs = { left: null, right: null };
+        let matches = [];
+
+        function showSection(sectionNum) {
+            for (let i = 1; i <= 11; i++) {
+                const section = document.getElementById('lesson-' + i);
+                if (section) section.style.display = 'none';
+            }
+            
+            const targetSection = document.getElementById('lesson-' + sectionNum);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function highlightSystem(card, system) {
+            const allCards = document.querySelectorAll('.system-card');
+            allCards.forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+        }
+
+        function selectOption(exerciseNum, optionNum, button) {
+            const allButtons = button.parentElement.querySelectorAll('.option-btn');
+            allButtons.forEach(btn => btn.classList.remove('selected'));
+            
+            button.classList.add('selected');
+            selectedAnswers[exerciseNum] = optionNum;
+            
+            const checkBtn = document.getElementById('check-' + exerciseNum);
+            if (checkBtn) checkBtn.disabled = false;
+        }
+
+        function checkAnswer(exerciseNum, correctOption) {
+            const selected = selectedAnswers[exerciseNum];
+            const feedback = document.getElementById('feedback-' + exerciseNum);
+            const checkBtn = document.getElementById('check-' + exerciseNum);
+            const nextBtn = document.getElementById('next-' + exerciseNum);
+            
+            let sectionId = 3; // lesson-3 para ejercicio 1
+            if (exerciseNum === 3) sectionId = 7;
+            if (exerciseNum === 5) sectionId = 9;
+            if (exerciseNum === 6) sectionId = 10;
+            
+            const allButtons = document.querySelectorAll('#lesson-' + sectionId + ' .option-btn');
+            
+            if (!selected) {
+                alert('Por favor, selecciona una respuesta primero.');
+                return;
+            }
+            
+            allButtons.forEach(btn => btn.disabled = true);
+            checkBtn.style.display = 'none';
+            
+            allButtons.forEach((btn, index) => {
+                if (index + 1 === correctOption) {
+                    btn.classList.add('correct');
+                } else if (index + 1 === selected && selected !== correctOption) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            if (selected === correctOption) {
+                correctAnswers++;
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = getFeedbackMessage(exerciseNum, true);
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.innerHTML = getFeedbackMessage(exerciseNum, false);
+            }
+            
+            updateProgress();
+            nextBtn.classList.add('show');
+        }
+
+        function getFeedbackMessage(exerciseNum, isCorrect) {
+            const messages = {
+                1: {
+                    correct: '¡Correcto! 🎉 El corazón es un músculo que bombea sangre constantemente, latiendo unas 100,000 veces al día.',
+                    incorrect: '❌ El corazón es una bomba muscular que impulsa la sangre por todo el sistema circulatorio.'
+                },
+                3: {
+                    correct: '¡Excelente! 🎉 La digestión comienza en la boca con la masticación y la saliva, que contiene enzimas digestivas.',
+                    incorrect: '❌ La digestión inicia en la boca, donde los dientes trituran los alimentos y la saliva comienza a descomponerlos.'
+                },
+                5: {
+                    correct: '¡Perfecto! 🎉 El intestino delgado tiene millones de vellosidades que absorben nutrientes hacia el torrente sanguíneo.',
+                    incorrect: '❌ El intestino delgado es el órgano encargado de absorber los nutrientes. Mide aproximadamente 6 metros de largo.'
+                },
+                6: {
+                    correct: '¡Increíble! 🎉 El sistema respiratorio provee oxígeno que el sistema circulatorio transporta por la sangre a todo el cuerpo.',
+                    incorrect: '❌ El sistema respiratorio introduce oxígeno que luego es transportado por la sangre del sistema circulatorio.'
+                }
+            };
+            
+            return messages[exerciseNum][isCorrect ? 'correct' : 'incorrect'];
+        }
+
+        function selectSequence(element, step) {
+            if (element.classList.contains('selected')) {
+                return;
+            }
+            
+            element.classList.add('selected');
+            sequenceOrder.push(step);
+            
+            const resultDiv = document.getElementById('sequence-result');
+            const stepBox = document.createElement('div');
+            stepBox.className = 'step-box';
+            stepBox.textContent = element.textContent;
+            resultDiv.appendChild(stepBox);
+            
+            if (sequenceOrder.length === 4) {
+                document.getElementById('check-2').disabled = false;
+            }
+        }
+
+        function resetSequence() {
+            sequenceOrder = [];
+            const items = document.querySelectorAll('.sequence-item');
+            items.forEach(item => item.classList.remove('selected'));
+            
+            const resultDiv = document.getElementById('sequence-result');
+            resultDiv.innerHTML = '<p style="text-align: center; color: #889F92;">Haz clic en los pasos en el orden correcto</p>';
+            
+            document.getElementById('check-2').disabled = true;
+        }
+
+        function checkSequence() {
+            const correctOrder = ['nariz', 'traquea', 'pulmones', 'intercambio'];
+            const isCorrect = JSON.stringify(sequenceOrder) === JSON.stringify(correctOrder);
+            
+            const feedback = document.getElementById('feedback-2');
+            const checkBtn = document.getElementById('check-2');
+            const nextBtn = document.getElementById('next-2');
+            
+            checkBtn.style.display = 'none';
+            
+            if (isCorrect) {
+                correctAnswers++;
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = '¡Perfecto! 🎉 Has ordenado correctamente el proceso de respiración.';
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.innerHTML = '❌ El orden correcto es: Nariz → Tráquea → Pulmones → Intercambio de gases. Puedes intentar de nuevo después.';
+            }
+            
+            updateProgress();
+            nextBtn.classList.add('show');
+        }
+
+        function selectMatch(side, element, value) {
+            const column = element.parentElement;
+            const items = column.querySelectorAll('.match-item');
+            items.forEach(item => item.classList.remove('selected'));
+            
+            element.classList.add('selected');
+            matchingPairs[side] = value;
+            
+            if (matchingPairs.left && matchingPairs.right) {
+                matches.push({ left: matchingPairs.left, right: matchingPairs.right });
+                matchingPairs = { left: null, right: null };
+                
+                const allItems = document.querySelectorAll('.match-item');
+                allItems.forEach(item => item.classList.remove('selected'));
+                
+                if (matches.length === 3) {
+                    document.getElementById('check-4').disabled = false;
+                }
+            }
+        }
+
+        function checkMatching() {
+            const correctMatches = [
+                { left: 'circulatorio', right: 'transporta' },
+                { left: 'respiratorio', right: 'oxigeno' },
+                { left: 'digestivo', right: 'procesa' }
+            ];
+            
+            let allCorrect = true;
+            
+            matches.forEach(match => {
+                const isCorrect = correctMatches.some(cm => 
+                    cm.left === match.left && cm.right === match.right
+                );
+                
+                if (!isCorrect) allCorrect = false;
+            });
+            
+            const feedback = document.getElementById('feedback-4');
+            const checkBtn = document.getElementById('check-4');
+            const nextBtn = document.getElementById('next-4');
+            
+            checkBtn.style.display = 'none';
+            
+            if (allCorrect && matches.length === 3) {
+                correctAnswers++;
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = '¡Excelente! 🎉 Has relacionado correctamente todos los sistemas con sus funciones.';
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.innerHTML = '❌ Algunas relaciones no son correctas. Recuerda: Circulatorio transporta, Respiratorio oxigena, Digestivo procesa.';
+            }
+            
+            updateProgress();
+            nextBtn.classList.add('show');
+        }
+
+        function updateProgress() {
+            const progress = (correctAnswers / totalExercises) * 100;
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            
+            progressFill.style.width = progress + '%';
+            progressText.textContent = correctAnswers + '/' + totalExercises + ' ejercicios';
+            
+            if (correctAnswers === totalExercises) {
+                setTimeout(() => {
+                    showFinalResults();
+                }, 500);
+            }
+        }
+
+        function showFinalResults() {
+            showSection(11);
+            const finalScore = document.getElementById('final-score');
+            const finalMessage = document.getElementById('final-message');
+            finalScore.textContent = correctAnswers + '/' + totalExercises;
+            
+            const percentage = (correctAnswers / totalExercises) * 100;
+            let message = '';
+            
+            if (percentage === 100) {
+                message = '¡Perfecto! Dominas completamente los sistemas del cuerpo 🌟';
+            } else if (percentage >= 80) {
+                message = '¡Muy bien! Tienes un excelente conocimiento de anatomía 👏';
+            } else if (percentage >= 60) {
+                message = '¡Buen trabajo! Sigue estudiando para mejorar 💪';
+            } else {
+                message = 'Sigue practicando. ¡Cada intento te hace mejorar! 📚';
+            }
+            
+            finalMessage.textContent = message;
+        }
+
+        function resetActivity() {
+            selectedAnswers = {};
+            correctAnswers = 0;
+            sequenceOrder = [];
+            matches = [];
+            matchingPairs = { left: null, right: null };
+            
+            document.getElementById('progress-fill').style.width = '0%';
+            document.getElementById('progress-text').textContent = '0/' + totalExercises + ' ejercicios';
+            
+            // Resetear todos los ejercicios
+            for (let i = 1; i <= totalExercises; i++) {
+                const feedback = document.getElementById('feedback-' + i);
+                if (feedback) {
+                    feedback.className = 'feedback';
+                    feedback.innerHTML = '';
+                }
+                
+                const checkBtn = document.getElementById('check-' + i);
+                if (checkBtn) {
+                    checkBtn.style.display = 'inline-block';
+                    checkBtn.disabled = true;
+                }
+                
+                const nextBtn = document.getElementById('next-' + i);
+                if (nextBtn) nextBtn.classList.remove('show');
+            }
+            
+            // Resetear botones de opción
+            const allOptionButtons = document.querySelectorAll('.option-btn');
+            allOptionButtons.forEach(btn => {
+                btn.classList.remove('selected', 'correct', 'incorrect');
+                btn.disabled = false;
+            });
+            
+            // Resetear secuencia
+            resetSequence();
+            
+            // Resetear matching
+            const allMatchItems = document.querySelectorAll('.match-item');
+            allMatchItems.forEach(item => {
+                item.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            showSection(1);
+        }
+
+        window.onload = function() {
+            for (let i = 1; i <= totalExercises; i++) {
+                const checkBtn = document.getElementById('check-' + i);
+                if (checkBtn) checkBtn.disabled = true;
+            }
+        };
+    </script>
+</body>
+</html>
