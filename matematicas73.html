@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroKids - Actividades Grado Séptimo</title>
+    <title>NeuroKids - Actividades</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -98,27 +98,6 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 40px 30px;
-        }
-
-        .grade-header {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .grade-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #E15034;
-            margin-bottom: 10px;
-        }
-
-        .grade-subtitle {
-            font-size: 1.1rem;
-            color: #889F92;
-            font-weight: 400;
         }
 
         .stats-grid {
@@ -332,6 +311,29 @@
             justify-content: space-between;
         }
 
+        .progress-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #889F92;
+        }
+
+        .progress-bar {
+            width: 60px;
+            height: 6px;
+            background: #FEF0F0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
         .start-button {
             background: linear-gradient(135deg, var(--accent-color), rgba(255, 255, 255, 0.2));
             border: none;
@@ -396,111 +398,109 @@
     </nav>
 
     <div class="container">
-        <div class="grade-header">
-            <h1 class="grade-title">🎓 Grado Séptimo</h1>
-            <p class="grade-subtitle">Actividades adaptadas para estudiantes con autismo</p>
-        </div>
-
         <div class="stats-grid">
             <div class="stat-card">
-                <span class="stat-number">32</span>
+                <span class="stat-number">47</span>
                 <span class="stat-label">Actividades Completadas</span>
             </div>
             <div class="stat-card">
-                <span class="stat-number">248</span>
+                <span class="stat-number">156</span>
                 <span class="stat-label">Puntos Ganados</span>
             </div>
             <div class="stat-card">
-                <span class="stat-number">18</span>
+                <span class="stat-number">23</span>
                 <span class="stat-label">Días Activo</span>
             </div>
             <div class="stat-card">
-                <span class="stat-number">9</span>
+                <span class="stat-number">12</span>
                 <span class="stat-label">Logros Desbloqueados</span>
             </div>
         </div>
 
         <div class="section-header">
-            <h2 class="section-title">🔢 Matemáticas - Álgebra y Geometría</h2>
+            <h2 class="section-title">🔢 Matemáticas y Lógica</h2>
         </div>
 
         <div class="puzzle-grid">
-            <div class="puzzle-card level-basic">
+            <div class="puzzle-card level-basic" data-activity="matematicas1">
                 <div class="card-header">
                     <div class="card-info">
-                        <div class="card-icon">📐</div>
+                        <div class="card-icon">🧮</div>
                         <div class="card-meta">
-                            <div class="card-title">Expresiones Algebraicas</div>
-                            <div class="card-category">Álgebra Visual</div>
+                            <div class="card-title">Álgebra Visual</div>
+                            <div class="card-category">Ecuaciones Básicas</div>
                         </div>
                     </div>
                     <div class="difficulty-badge difficulty-basic">Básico</div>
                 </div>
                 <div class="card-description">
-                    Aprende a simplificar y resolver expresiones algebraicas usando representaciones visuales paso a paso con patrones claros.
+                    Aprende álgebra utilizando representaciones visuales y manipulables. Ideal para comprender
+                    conceptos abstractos de forma concreta.
                 </div>
                 <div class="preview-grid">
-                    <div class="preview-item" style="background: #E77B66;">2x</div>
+                    <div class="preview-item" style="background: #E77B66;">x</div>
                     <div class="preview-item" style="background: #EE9A5B;">+</div>
-                    <div class="preview-item" style="background: #EDA2A1;">5</div>
+                    <div class="preview-item" style="background: #EDA2A1;">3</div>
                     <div class="preview-item" style="background: #889F92;">=</div>
                 </div>
                 <div class="card-footer">
-                    <a href="septimo-mat1.html" style="text-decoration: none; margin-left: auto;">
+                    <a href="matematicas1.html" style="text-decoration: none; margin-left: auto;">
                         <button class="start-button">Empezar</button>
                     </a>
                 </div>
             </div>
 
-            <div class="puzzle-card level-intermediate">
-                <div class="card-header">
-                    <div class="card-info">
-                        <div class="card-icon">📏</div>
-                        <div class="card-meta">
-                            <div class="card-title">Perímetros y Áreas</div>
-                            <div class="card-category">Geometría Aplicada</div>
-                        </div>
-                    </div>
-                    <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
-                </div>
-                <div class="card-description">
-                    Calcula perímetros y áreas de figuras geométricas con ejemplos visuales estructurados y ejercicios paso a paso.
-                </div>
-                <div class="preview-grid">
-                    <div class="preview-item" style="background: #EE9A5B;">▢</div>
-                    <div class="preview-item" style="background: #E77B66;">△</div>
-                    <div class="preview-item" style="background: #889F92;">○</div>
-                    <div class="preview-item" style="background: #EDA2A1;">⬡</div>
-                </div>
-                <div class="card-footer">
-                    <a href="septimo-mat2.html" style="text-decoration: none; margin-left: auto;">
-                        <button class="start-button">Empezar</button>
-                    </a>
-                </div>
-            </div>
-
-            <div class="puzzle-card level-advanced">
+            <div class="puzzle-card level-intermediate" data-activity="matematicas2">
                 <div class="card-header">
                     <div class="card-info">
                         <div class="card-icon">📊</div>
                         <div class="card-meta">
-                            <div class="card-title">Proporciones y Razones</div>
-                            <div class="card-category">Pensamiento Proporcional</div>
+                            <div class="card-title">Estadística Interactiva</div>
+                            <div class="card-category">Análisis de Datos</div>
+                        </div>
+                    </div>
+                    <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
+                </div>
+                <div class="card-description">
+                    Explora el mundo de la estadística con gráficos interactivos y ejercicios prácticos basados en
+                    situaciones reales.
+                </div>
+                <div class="preview-grid">
+                    <div class="preview-item" style="background: #EE9A5B;">📈</div>
+                    <div class="preview-item" style="background: #E77B66;">📉</div>
+                    <div class="preview-item" style="background: #889F92;">📊</div>
+                    <div class="preview-item" style="background: #EDA2A1;">🎯</div>
+                </div>
+                <div class="card-footer">
+                    <a href="matematicas2.html" style="text-decoration: none; margin-left: auto;">
+                        <button class="start-button">Empezar</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="puzzle-card level-advanced" data-activity="matematicas3">
+                <div class="card-header">
+                    <div class="card-info">
+                        <div class="card-icon">🔺</div>
+                        <div class="card-meta">
+                            <div class="card-title">Geometría Espacial</div>
+                            <div class="card-category">Formas 3D</div>
                         </div>
                     </div>
                     <div class="difficulty-badge difficulty-advanced">Avanzado</div>
                 </div>
                 <div class="card-description">
-                    Resuelve problemas de proporciones directas e inversas usando diagramas visuales y situaciones cotidianas estructuradas.
+                    Desarrolla tu visión espacial con modelos 3D interactivos. Calcula volúmenes, áreas y comprende
+                    las propiedades geométricas.
                 </div>
                 <div class="preview-grid">
-                    <div class="preview-item" style="background: #E15034;">3:4</div>
-                    <div class="preview-item" style="background: #E77B66;">%</div>
-                    <div class="preview-item" style="background: #EE9A5B;">⚖️</div>
-                    <div class="preview-item" style="background: #889F92;">∝</div>
+                    <div class="preview-item" style="background: #E15034;">🔺</div>
+                    <div class="preview-item" style="background: #E77B66;">⬜</div>
+                    <div class="preview-item" style="background: #EE9A5B;">🔵</div>
+                    <div class="preview-item" style="background: #889F92;">⬟</div>
                 </div>
                 <div class="card-footer">
-                    <a href="septimo-mat3.html" style="text-decoration: none; margin-left: auto;">
+                    <a href="matematicas3.html" style="text-decoration: none; margin-left: auto;">
                         <button class="start-button">Empezar</button>
                     </a>
                 </div>
@@ -508,32 +508,32 @@
         </div>
 
         <div class="section-header">
-            <h2 class="section-title">🔬 Ciencias Naturales - Biología y Física</h2>
+            <h2 class="section-title">🧠 Ciencias Cognitivas</h2>
         </div>
 
         <div class="puzzle-grid">
             <div class="puzzle-card level-basic">
                 <div class="card-header">
                     <div class="card-info">
-                        <div class="card-icon">🧬</div>
+                        <div class="card-icon">🎯</div>
                         <div class="card-meta">
-                            <div class="card-title">La Célula Viva</div>
-                            <div class="card-category">Biología Celular</div>
+                            <div class="card-title">Atención Selectiva</div>
+                            <div class="card-category">Concentración</div>
                         </div>
                     </div>
                     <div class="difficulty-badge difficulty-basic">Básico</div>
                 </div>
                 <div class="card-description">
-                    Explora las partes de la célula con imágenes claras y organizadas. Aprende funciones celulares mediante actividades interactivas paso a paso.
+                    Mejora tu capacidad de concentración con juegos interactivos que entrenan tu foco mental.
                 </div>
                 <div class="preview-grid">
-                    <div class="preview-item" style="background: #E77B66;">🧬</div>
-                    <div class="preview-item" style="background: #EE9A5B;">🔬</div>
-                    <div class="preview-item" style="background: #889F92;">🦠</div>
-                    <div class="preview-item" style="background: #EDA2A1;">⚛️</div>
+                    <div class="preview-item" style="background: #E77B66;">👁️</div>
+                    <div class="preview-item" style="background: #EE9A5B;">🎯</div>
+                    <div class="preview-item" style="background: #889F92;">⚡</div>
+                    <div class="preview-item" style="background: #EDA2A1;">✨</div>
                 </div>
-                <div class="card-footer">
-                    <a href="septimo-bio1.html" style="text-decoration: none; margin-left: auto;">
+          <div class="card-footer">
+                    <a href="cognitiva1.html" style="text-decoration: none; margin-left: auto;">
                         <button class="start-button">Empezar</button>
                     </a>
                 </div>
@@ -542,25 +542,26 @@
             <div class="puzzle-card level-intermediate">
                 <div class="card-header">
                     <div class="card-info">
-                        <div class="card-icon">🌿</div>
+                        <div class="card-icon">🧠</div>
                         <div class="card-meta">
-                            <div class="card-title">Sistemas del Cuerpo</div>
-                            <div class="card-category">Anatomía Humana</div>
+                            <div class="card-title">Memoria de Trabajo</div>
+                            <div class="card-category">Entrenamiento Cognitivo</div>
                         </div>
                     </div>
                     <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
                 </div>
                 <div class="card-description">
-                    Conoce los sistemas circulatorio, respiratorio y digestivo con diagramas estructurados y explicaciones visuales claras.
+                    Fortalece tu memoria de trabajo con ejercicios adaptativos diseñados para mejorar tu capacidad
+                    de retención.
                 </div>
                 <div class="preview-grid">
-                    <div class="preview-item" style="background: #EE9A5B;">❤️</div>
-                    <div class="preview-item" style="background: #E77B66;">🫁</div>
-                    <div class="preview-item" style="background: #889F92;">🧠</div>
-                    <div class="preview-item" style="background: #EDA2A1;">💪</div>
+                    <div class="preview-item" style="background: #EE9A5B;">🔤</div>
+                    <div class="preview-item" style="background: #E77B66;">🔢</div>
+                    <div class="preview-item" style="background: #889F92;">🎵</div>
+                    <div class="preview-item" style="background: #EDA2A1;">🎨</div>
                 </div>
                 <div class="card-footer">
-                    <a href="septimo-bio2.html" style="text-decoration: none; margin-left: auto;">
+                    <a href="cognitiva2.html" style="text-decoration: none; margin-left: auto;">
                         <button class="start-button">Empezar</button>
                     </a>
                 </div>
@@ -569,25 +570,25 @@
             <div class="puzzle-card level-advanced">
                 <div class="card-header">
                     <div class="card-info">
-                        <div class="card-icon">⚡</div>
+                        <div class="card-icon">🎨</div>
                         <div class="card-meta">
-                            <div class="card-title">Energía y Movimiento</div>
-                            <div class="card-category">Física Básica</div>
+                            <div class="card-title">Procesamiento Visual</div>
+                            <div class="card-category">Percepción</div>
                         </div>
                     </div>
                     <div class="difficulty-badge difficulty-advanced">Avanzado</div>
                 </div>
                 <div class="card-description">
-                    Comprende conceptos de energía, fuerza y movimiento con experimentos virtuales y demostraciones visuales organizadas.
+                    Entrena tu capacidad de procesar información visual compleja y reconocer patrones.
                 </div>
                 <div class="preview-grid">
-                    <div class="preview-item" style="background: #E15034;">⚡</div>
-                    <div class="preview-item" style="background: #E77B66;">🎯</div>
-                    <div class="preview-item" style="background: #EE9A5B;">🔋</div>
-                    <div class="preview-item" style="background: #889F92;">⚙️</div>
+                    <div class="preview-item" style="background: #E15034;">🔍</div>
+                    <div class="preview-item" style="background: #E77B66;">🎨</div>
+                    <div class="preview-item" style="background: #EE9A5B;">🌈</div>
+                    <div class="preview-item" style="background: #889F92;">👀</div>
                 </div>
                 <div class="card-footer">
-                    <a href="septimo-fis1.html" style="text-decoration: none; margin-left: auto;">
+                    <a href="cognitiva3.html" style="text-decoration: none; margin-left: auto;">
                         <button class="start-button">Empezar</button>
                     </a>
                 </div>
@@ -595,7 +596,94 @@
         </div>
 
         <div class="section-header">
-            <h2 class="section-title">📚 Lengua Castellana y Comprensión</h2>
+            <h2 class="section-title">🔬 Ciencias Naturales</h2>
+        </div>
+
+        <div class="puzzle-grid">
+            <div class="puzzle-card level-basic">
+                <div class="card-header">
+                    <div class="card-info">
+                        <div class="card-icon">🌱</div>
+                        <div class="card-meta">
+                            <div class="card-title">Laboratorio Virtual</div>
+                            <div class="card-category">Biología</div>
+                        </div>
+                    </div>
+                    <div class="difficulty-badge difficulty-basic">Básico</div>
+                </div>
+                <div class="card-description">
+                    Explora el mundo de las células y organismos vivos con experimentos interactivos seguros y educativos.
+                </div>
+                <div class="preview-grid">
+                    <div class="preview-item" style="background: #E77B66;">🔬</div>
+                    <div class="preview-item" style="background: #EE9A5B;">🧪</div>
+                    <div class="preview-item" style="background: #889F92;">🌱</div>
+                    <div class="preview-item" style="background: #EDA2A1;">🦠</div>
+                </div>
+                <div class="card-footer">
+                    <a href="ciencias1.html" style="text-decoration: none; margin-left: auto;">
+                        <button class="start-button">Empezar</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="puzzle-card level-intermediate">
+                <div class="card-header">
+                    <div class="card-info">
+                        <div class="card-icon">🌍</div>
+                        <div class="card-meta">
+                            <div class="card-title">Ecosistemas Dinámicos</div>
+                            <div class="card-category">Ecología</div>
+                        </div>
+                    </div>
+                    <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
+                </div>
+                <div class="card-description">
+                    Crea y mantén ecosistemas equilibrados aprendiendo sobre cadenas alimenticias y conservación ambiental.
+                </div>
+                <div class="preview-grid">
+                    <div class="preview-item" style="background: #EE9A5B;">🌳</div>
+                    <div class="preview-item" style="background: #E77B66;">🦋</div>
+                    <div class="preview-item" style="background: #889F92;">🐸</div>
+                    <div class="preview-item" style="background: #EDA2A1;">☀️</div>
+                </div>
+                <div class="card-footer">
+                    <a href="ciencias2.html" style="text-decoration: none; margin-left: auto;">
+                        <button class="start-button">Empezar</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="puzzle-card level-advanced">
+                <div class="card-header">
+                    <div class="card-info">
+                        <div class="card-icon">⚗️</div>
+                        <div class="card-meta">
+                            <div class="card-title">Química Molecular</div>
+                            <div class="card-category">Química</div>
+                        </div>
+                    </div>
+                    <div class="difficulty-badge difficulty-advanced">Avanzado</div>
+                </div>
+                <div class="card-description">
+                    Construye moléculas en 3D y comprende las reacciones químicas mediante simulaciones visuales interactivas.
+                </div>
+                <div class="preview-grid">
+                    <div class="preview-item" style="background: #E15034;">⚛️</div>
+                    <div class="preview-item" style="background: #E77B66;">🧬</div>
+                    <div class="preview-item" style="background: #EE9A5B;">💧</div>
+                    <div class="preview-item" style="background: #889F92;">🔥</div>
+                </div>
+                <div class="card-footer">
+                    <a href="ciencias3.html" style="text-decoration: none; margin-left: auto;">
+                        <button class="start-button">Empezar</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2 class="section-title">📚 Lengua y Literatura (Español)</h2>
         </div>
 
         <div class="puzzle-grid">
@@ -604,23 +692,23 @@
                     <div class="card-info">
                         <div class="card-icon">✍️</div>
                         <div class="card-meta">
-                            <div class="card-title">Gramática Estructurada</div>
-                            <div class="card-category">Sintaxis y Ortografía</div>
+                            <div class="card-title">Ortografía Divertida</div>
+                            <div class="card-category">Gramática y Ortografía</div>
                         </div>
                     </div>
                     <div class="difficulty-badge difficulty-basic">Básico</div>
                 </div>
                 <div class="card-description">
-                    Practica reglas gramaticales con ejercicios visuales organizados. Incluye ejemplos claros y retroalimentación inmediata.
+                    Mejora tu ortografía con juegos interactivos de acentuación, puntuación y uso correcto de letras.
                 </div>
                 <div class="preview-grid">
-                    <div class="preview-item" style="background: #E77B66;">S</div>
-                    <div class="preview-item" style="background: #EE9A5B;">V</div>
-                    <div class="preview-item" style="background: #889F92;">P</div>
+                    <div class="preview-item" style="background: #E77B66;">á</div>
+                    <div class="preview-item" style="background: #EE9A5B;">¿?</div>
+                    <div class="preview-item" style="background: #889F92;">¡!</div>
                     <div class="preview-item" style="background: #EDA2A1;">.</div>
                 </div>
                 <div class="card-footer">
-                    <a href="septimo-len1.html" style="text-decoration: none; margin-left: auto;">
+                    <a href="español1.html" style="text-decoration: none; margin-left: auto;">
                         <button class="start-button">Empezar</button>
                     </a>
                 </div>
@@ -631,23 +719,23 @@
                     <div class="card-info">
                         <div class="card-icon">📖</div>
                         <div class="card-meta">
-                            <div class="card-title">Lectura con Apoyo Visual</div>
-                            <div class="card-category">Comprensión Lectora</div>
+                            <div class="card-title">Comprensión Lectora</div>
+                            <div class="card-category">Lectura Crítica</div>
                         </div>
                     </div>
                     <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
                 </div>
                 <div class="card-description">
-                    Lee textos adaptados con organizadores gráficos y preguntas estructuradas que facilitan la comprensión profunda.
+                    Lee textos adaptados y responde preguntas que desarrollan tu pensamiento crítico y comprensión profunda.
                 </div>
                 <div class="preview-grid">
-                    <div class="preview-item" style="background: #EE9A5B;">📄</div>
+                    <div class="preview-item" style="background: #EE9A5B;">📚</div>
                     <div class="preview-item" style="background: #E77B66;">🔍</div>
-                    <div class="preview-item" style="background: #889F92;">💭</div>
+                    <div class="preview-item" style="background: #889F92;">💡</div>
                     <div class="preview-item" style="background: #EDA2A1;">✓</div>
                 </div>
                 <div class="card-footer">
-                    <a href="septimo-len2.html" style="text-decoration: none; margin-left: auto;">
+                    <a href="español2.html" style="text-decoration: none; margin-left: auto;">
                         <button class="start-button">Empezar</button>
                     </a>
                 </div>
@@ -656,205 +744,30 @@
             <div class="puzzle-card level-advanced">
                 <div class="card-header">
                     <div class="card-info">
-                        <div class="card-icon">✏️</div>
+                        <div class="card-icon">🎭</div>
                         <div class="card-meta">
-                            <div class="card-title">Escritura Guiada</div>
-                            <div class="card-category">Producción Textual</div>
+                            <div class="card-title">Taller de Escritura</div>
+                            <div class="card-category">Redacción Creativa</div>
                         </div>
                     </div>
                     <div class="difficulty-badge difficulty-advanced">Avanzado</div>
                 </div>
                 <div class="card-description">
-                    Escribe textos descriptivos y narrativos con plantillas estructuradas y guías paso a paso que facilitan la organización de ideas.
+                    Desarrolla tu creatividad escribiendo cuentos, poemas y textos descriptivos con retroalimentación personalizada.
                 </div>
                 <div class="preview-grid">
                     <div class="preview-item" style="background: #E15034;">📝</div>
-                    <div class="preview-item" style="background: #E77B66;">📋</div>
-                    <div class="preview-item" style="background: #EE9A5B;">🎨</div>
-                    <div class="preview-item" style="background: #889F92;">✨</div>
+                    <div class="preview-item" style="background: #E77B66;">🎨</div>
+                    <div class="preview-item" style="background: #EE9A5B;">✨</div>
+                    <div class="preview-item" style="background: #889F92;">🌟</div>
                 </div>
                 <div class="card-footer">
-                    <a href="septimo-len3.html" style="text-decoration: none; margin-left: auto;">
+                    <a href="español3.html" style="text-decoration: none; margin-left: auto;">
                         <button class="start-button">Empezar</button>
                     </a>
                 </div>
             </div>
         </div>
-
-        <div class="section-header">
-            <h2 class="section-title">🌍 Ciencias Sociales - Historia y Geografía</h2>
-        </div>
-
-        <div class="puzzle-grid">
-            <div class="puzzle-card level-basic">
-                <div class="card-header">
-                    <div class="card-info">
-                        <div class="card-icon">🗺️</div>
-                        <div class="card-meta">
-                            <div class="card-title">Geografía de Colombia</div>
-                            <div class="card-category">Regiones y Relieve</div>
-                        </div>
-                    </div>
-                    <div class="difficulty-badge difficulty-basic">Básico</div>
-                </div>
-                <div class="card-description">
-                    Explora las regiones naturales de Colombia con mapas interactivos y organizadores visuales claros que facilitan el aprendizaje.
-                </div>
-                <div class="preview-grid">
-                    <div class="preview-item" style="background: #E77B66;">🏔️</div>
-                    <div class="preview-item" style="background: #EE9A5B;">🌊</div>
-                    <div class="preview-item" style="background: #889F92;">🌴</div>
-                    <div class="preview-item" style="background: #EDA2A1;">🗺️</div>
-                </div>
-                <div class="card-footer">
-                    <a href="septimo-soc1.html" style="text-decoration: none; margin-left: auto;">
-                        <button class="start-button">Empezar</button>
-                    </a>
-                </div>
-            </div>
-
-            <div class="puzzle-card level-intermediate">
-                <div class="card-header">
-                    <div class="card-info">
-                        <div class="card-icon">📜</div>
-                        <div class="card-meta">
-                            <div class="card-title">Historia Medieval</div>
-                            <div class="card-category">Edad Media</div>
-                        </div>
-                    </div>
-                    <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
-                </div>
-                <div class="card-description">
-                    Conoce eventos importantes de la Edad Media con líneas de tiempo visuales y contenido organizado cronológicamente.
-                </div>
-                <div class="preview-grid">
-                    <div class="preview-item" style="background: #EE9A5B;">🏰</div>
-                    <div class="preview-item" style="background: #E77B66;">⚔️</div>
-                    <div class="preview-item" style="background: #889F92;">👑</div>
-                    <div class="preview-item" style="background: #EDA2A1;">📖</div>
-                </div>
-                <div class="card-footer">
-                    <a href="septimo-soc2.html" style="text-decoration: none; margin-left: auto;">
-                        <button class="start-button">Empezar</button>
-                    </a>
-                </div>
-            </div>
-
-            <div class="puzzle-card level-advanced">
-                <div class="card-header">
-                    <div class="card-info">
-                        <div class="card-icon">🏛️</div>
-                        <div class="card-meta">
-                            <div class="card-title">Culturas Precolombinas</div>
-                            <div class="card-category">Historia Americana</div>
-                        </div>
-                    </div>
-                    <div class="difficulty-badge difficulty-advanced">Avanzado</div>
-                </div>
-                <div class="card-description">
-                    Descubre las civilizaciones precolombinas con recursos visuales organizados: mapas, imágenes y datos estructurados.
-                </div>
-                <div class="preview-grid">
-                    <div class="preview-item" style="background: #E15034;">🏺</div>
-                    <div class="preview-item" style="background: #E77B66;">🗿</div>
-                    <div class="preview-item" style="background: #EE9A5B;">🌽</div>
-                    <div class="preview-item" style="background: #889F92;">🔺</div>
-                </div>
-                <div class="card-footer">
-                    <a href="septimo-soc3.html" style="text-decoration: none; margin-left: auto;">
-                        <button class="start-button">Empezar</button>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="section-header">
-            <h2 class="section-title">🎯 Habilidades Socioemocionales</h2>
-        </div>
-
-        <div class="puzzle-grid">
-            <div class="puzzle-card level-basic">
-                <div class="card-header">
-                    <div class="card-info">
-                        <div class="card-icon">😊</div>
-                        <div class="card-meta">
-                            <div class="card-title">Reconocimiento de Emociones</div>
-                            <div class="card-category">Inteligencia Emocional</div>
-                        </div>
-                    </div>
-                    <div class="difficulty-badge difficulty-basic">Básico</div>
-                </div>
-                <div class="card-description">
-                    Identifica y comprende diferentes emociones con imágenes claras, situaciones estructuradas y ejercicios visuales de apoyo.
-                </div>
-                <div class="preview-grid">
-                    <div class="preview-item" style="background: #E77B66;">😊</div>
-                    <div class="preview-item" style="background: #EE9A5B;">😢</div>
-                    <div class="preview-item" style="background: #889F92;">😠</div>
-                    <div class="preview-item" style="background: #EDA2A1;">😰</div>
-                </div>
-                <div class="card-footer">
-                    <a href="septimo-emo1.html" style="text-decoration: none; margin-left: auto;">
-                        <button class="start-button">Empezar</button>
-                    </a>
-                </div>
-            </div>
-
-            <div class="puzzle-card level-intermediate">
-                <div class="card-header">
-                    <div class="card-info">
-                        <div class="card-icon">🤝</div>
-                        <div class="card-meta">
-                            <div class="card-title">Habilidades Sociales</div>
-                            <div class="card-category">Comunicación Efectiva</div>
-                        </div>
-                    </div>
-                    <div class="difficulty-badge difficulty-intermediate">Intermedio</div>
-                </div>
-                <div class="card-description">
-                    Practica conversaciones y situaciones sociales con guiones estructurados, ejemplos visuales y retroalimentación clara.
-                </div>
-                <div class="preview-grid">
-                    <div class="preview-item" style="background: #EE9A5B;">👋</div>
-                    <div class="preview-item" style="background: #E77B66;">💬</div>
-                    <div class="preview-item" style="background: #889F92;">🤝</div>
-                    <div class="preview-item" style="background: #EDA2A1;">👂</div>
-                </div>
-                <div class="card-footer">
-                    <a href="septimo-emo2.html" style="text-decoration: none; margin-left: auto;">
-                        <button class="start-button">Empezar</button>
-                    </a>
-                </div>
-            </div>
-
-            <div class="puzzle-card level-advanced">
-                <div class="card-header">
-                    <div class="card-info">
-                        <div class="card-icon">🧘</div>
-                        <div class="card-meta">
-                            <div class="card-title">Autorregulación</div>
-                            <div class="card-category">Control Emocional</div>
-                        </div>
-                    </div>
-                    <div class="difficulty-badge difficulty-advanced">Avanzado</div>
-                </div>
-                <div class="card-description">
-                    Aprende técnicas de autorregulación emocional con pasos visuales claros, ejercicios de respiración y estrategias prácticas.
-                </div>
-                <div class="preview-grid">
-                    <div class="preview-item" style="background: #E15034;">🧘</div>
-                    <div class="preview-item" style="background: #E77B66;">💆</div>
-                    <div class="preview-item" style="background: #EE9A5B;">🌬️</div>
-                    <div class="preview-item" style="background: #889F92;">✨</div>
-                </div>
-                <div class="card-footer">
-                    <a href="septimo-emo3.html" style="text-decoration: none; margin-left: auto;">
-                        <button class="start-button">Empezar</button>
-                    </a>
-                </div>
-            </div>
-        </div>
-
     </div>
 
 </body>

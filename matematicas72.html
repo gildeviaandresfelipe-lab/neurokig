@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perímetros y Áreas - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(225, 80, 52, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-button {
+            color: #E15034;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: rgba(225, 80, 52, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .title-section {
+            text-align: center;
+        }
+
+        .activity-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+
+        .instruction-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #EE9A5B;
+        }
+
+        .instruction-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instruction-text {
+            color: #889F92;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .concept-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .concept-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            border-top: 5px solid #EE9A5B;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .concept-definition {
+            color: #889F92;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .shape-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            min-height: 200px;
+        }
+
+        .shape-container {
+            position: relative;
+        }
+
+        .square {
+            width: 150px;
+            height: 150px;
+            background: #E77B66;
+            border: 4px solid #E15034;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .rectangle {
+            width: 200px;
+            height: 120px;
+            background: #EE9A5B;
+            border: 4px solid #E15034;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 160px solid #889F92;
+            position: relative;
+        }
+
+        .circle {
+            width: 150px;
+            height: 150px;
+            background: #EDA2A1;
+            border: 4px solid #E15034;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .dimension-label {
+            position: absolute;
+            background: white;
+            color: #E15034;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .formula-box {
+            background: #FEF0F0;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .formula {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #E15034;
+            margin: 5px 0;
+        }
+
+        .formula-label {
+            font-size: 0.9rem;
+            color: #889F92;
+            font-weight: 500;
+        }
+
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .progress-label {
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #FEF0F0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #EE9A5B, #E77B66);
+            border-radius: 15px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .practice-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .practice-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .exercise {
+            background: #FEF0F0;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        .exercise-question {
+            font-size: 1.2rem;
+            color: #E15034;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .exercise-shape {
+            display: flex;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .answer-input-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .answer-input {
+            width: 150px;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border: 3px solid #EE9A5B;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(238, 154, 91, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            font-size: 1.1rem;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        .feedback.incorrect {
+            background: #FFCDD2;
+            color: #C62828;
+        }
+
+        .completion-message {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .completion-message.show {
+            display: block;
+        }
+
+        .completion-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #E15034;
+            margin-bottom: 15px;
+        }
+
+        .completion-text {
+            font-size: 1.2rem;
+            color: #889F92;
+            margin-bottom: 30px;
+        }
+
+        .continue-btn {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .continue-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(225, 80, 52, 0.3);
+        }
+
+        .hint-box {
+            background: #FFF9C4;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #FBC02D;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #F57F17;
+        }
+
+        @media (max-width: 768px) {
+            .concept-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="actividadesgrados.html" class="back-button">
+                ← Volver
+            </a>
+            <div class="title-section">
+                <div class="activity-title">📏 Perímetros y Áreas</div>
+            </div>
+            <div style="width: 80px;"></div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="progress-bar-container">
+            <div class="progress-label">Progreso de la actividad</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar">0%</div>
+            </div>
+        </div>
+
+        <div class="instruction-box">
+            <h2 class="instruction-title">📋 ¿Qué vamos a aprender?</h2>
+            <p class="instruction-text">
+                En esta actividad aprenderás sobre <strong>perímetros y áreas</strong>.<br>
+                • <strong>Perímetro:</strong> Es la medida del contorno de una figura (la suma de todos sus lados).<br>
+                • <strong>Área:</strong> Es la medida de la superficie interior de una figura (el espacio que ocupa).
+            </p>
+        </div>
+
+        <div class="concept-cards">
+            <div class="concept-card">
+                <h3 class="concept-title">▢ Cuadrado</h3>
+                <p class="concept-definition">Todos los lados son iguales</p>
+                <div class="shape-visual">
+                    <div class="shape-container">
+                        <div class="square">
+                            <div class="dimension-label" style="top: -35px; left: 50%; transform: translateX(-50%);">
+                                lado
+                            </div>
+                            <div class="dimension-label" style="left: -50px; top: 50%; transform: translateY(-50%);">
+                                lado
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <div class="formula-label">Perímetro:</div>
+                    <div class="formula">P = lado × 4</div>
+                    <div class="formula-label" style="margin-top: 10px;">Área:</div>
+                    <div class="formula">A = lado × lado</div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3 class="concept-title">▭ Rectángulo</h3>
+                <p class="concept-definition">Tiene largo y ancho diferentes</p>
+                <div class="shape-visual">
+                    <div class="shape-container">
+                        <div class="rectangle">
+                            <div class="dimension-label" style="top: -35px; left: 50%; transform: translateX(-50%);">
+                                largo
+                            </div>
+                            <div class="dimension-label" style="left: -55px; top: 50%; transform: translateY(-50%);">
+                                ancho
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <div class="formula-label">Perímetro:</div>
+                    <div class="formula">P = 2(largo + ancho)</div>
+                    <div class="formula-label" style="margin-top: 10px;">Área:</div>
+                    <div class="formula">A = largo × ancho</div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3 class="concept-title">△ Triángulo</h3>
+                <p class="concept-definition">Tiene tres lados y una base</p>
+                <div class="shape-visual">
+                    <div class="shape-container">
+                        <div class="triangle">
+                            <div class="dimension-label" style="bottom: -35px; left: 50%; transform: translateX(-50%);">
+                                base
+                            </div>
+                            <div class="dimension-label" style="left: 50%; top: 50%; transform: translate(-50%, -50%);">
+                                altura
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <div class="formula-label">Perímetro:</div>
+                    <div class="formula">P = lado1 + lado2 + lado3</div>
+                    <div class="formula-label" style="margin-top: 10px;">Área:</div>
+                    <div class="formula">A = (base × altura) ÷ 2</div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3 class="concept-title">○ Círculo</h3>
+                <p class="concept-definition">Figura redonda con un radio</p>
+                <div class="shape-visual">
+                    <div class="shape-container">
+                        <div class="circle">
+                            <div class="dimension-label" style="left: 50%; top: 50%; transform: translate(-50%, -50%);">
+                                radio
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <div class="formula-label">Perímetro (Circunferencia):</div>
+                    <div class="formula">P = 2 × π × radio</div>
+                    <div class="formula-label" style="margin-top: 10px;">Área:</div>
+                    <div class="formula">A = π × radio²</div>
+                    <div style="font-size: 0.85rem; color: #889F92; margin-top: 5px;">
+                        (π ≈ 3.14)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h3 class="practice-title">💪 ¡Ahora practica tú!</h3>
+
+            <div class="exercise" id="exercise1">
+                <p class="exercise-question">
+                    Ejercicio 1: Calcula el perímetro de un cuadrado con lado = 5 cm
+                </p>
+                <div class="exercise-shape">
+                    <div class="square" style="width: 120px; height: 120px;">
+                        <div class="dimension-label" style="top: -35px; left: 50%; transform: translateX(-50%);">
+                            5 cm
+                        </div>
+                    </div>
+                </div>
+                <div class="hint-box">
+                    💡 Recuerda: Perímetro del cuadrado = lado × 4
+                </div>
+                <div class="answer-input-section">
+                    <div class="input-group">
+                        <label style="font-weight: 600; color: #E15034;">Perímetro =</label>
+                        <input type="number" class="answer-input" id="answer1" placeholder="?">
+                        <span style="font-weight: 600; color: #E15034;">cm</span>
+                    </div>
+                    <button class="submit-btn" onclick="checkAnswer(1, 20)">Verificar Respuesta</button>
+                </div>
+                <div class="feedback" id="feedback1"></div>
+            </div>
+
+            <div class="exercise" id="exercise2">
+                <p class="exercise-question">
+                    Ejercicio 2: Calcula el área de un rectángulo con largo = 8 cm y ancho = 3 cm
+                </p>
+                <div class="exercise-shape">
+                    <div class="rectangle" style="width: 160px; height: 90px;">
+                        <div class="dimension-label" style="top: -35px; left: 50%; transform: translateX(-50%);">
+                            8 cm
+                        </div>
+                        <div class="dimension-label" style="left: -55px; top: 50%; transform: translateY(-50%);">
+                            3 cm
+                        </div>
+                    </div>
+                </div>
+                <div class="hint-box">
+                    💡 Recuerda: Área del rectángulo = largo × ancho
+                </div>
+                <div class="answer-input-section">
+                    <div class="input-group">
+                        <label style="font-weight: 600; color: #E15034;">Área =</label>
+                        <input type="number" class="answer-input" id="answer2" placeholder="?">
+                        <span style="font-weight: 600; color: #E15034;">cm²</span>
+                    </div>
+                    <button class="submit-btn" onclick="checkAnswer(2, 24)">Verificar Respuesta</button>
+                </div>
+                <div class="feedback" id="feedback2"></div>
+            </div>
+
+            <div class="exercise" id="exercise3">
+                <p class="exercise-question">
+                    Ejercicio 3: Calcula el área de un cuadrado con lado = 6 cm
+                </p>
+                <div class="exercise-shape">
+                    <div class="square" style="width: 130px; height: 130px;">
+                        <div class="dimension-label" style="top: -35px; left: 50%; transform: translateX(-50%);">
+                            6 cm
+                        </div>
+                    </div>
+                </div>
+                <div class="hint-box">
+                    💡 Recuerda: Área del cuadrado = lado × lado
+                </div>
+                <div class="answer-input-section">
+                    <div class="input-group">
+                        <label style="font-weight: 600; color: #E15034;">Área =</label>
+                        <input type="number" class="answer-input" id="answer3" placeholder="?">
+                        <span style="font-weight: 600; color: #E15034;">cm²</span>
+                    </div>
+                    <button class="submit-btn" onclick="checkAnswer(3, 36)">Verificar Respuesta</button>
+                </div>
+                <div class="feedback" id="feedback3"></div>
+            </div>
+
+            <div class="exercise" id="exercise4">
+                <p class="exercise-question">
+                    Ejercicio 4: Calcula el perímetro de un rectángulo con largo = 10 cm y ancho = 4 cm
+                </p>
+                <div class="exercise-shape">
+                    <div class="rectangle" style="width: 180px; height: 100px;">
+                        <div class="dimension-label" style="top: -35px; left: 50%; transform: translateX(-50%);">
+                            10 cm
+                        </div>
+                        <div class="dimension-label" style="left: -55px; top: 50%; transform: translateY(-50%);">
+                            4 cm
+                        </div>
+                    </div>
+                </div>
+                <div class="hint-box">
+                    💡 Recuerda: Perímetro del rectángulo = 2(largo + ancho)
+                </div>
+                <div class="answer-input-section">
+                    <div class="input-group">
+                        <label style="font-weight: 600; color: #E15034;">Perímetro =</label>
+                        <input type="number" class="answer-input" id="answer4" placeholder="?">
+                        <span style="font-weight: 600; color: #E15034;">cm</span>
+                    </div>
+                    <button class="submit-btn" onclick="checkAnswer(4, 28)">Verificar Respuesta</button>
+                </div>
+                <div class="feedback" id="feedback4"></div>
+            </div>
+        </div>
+
+        <div class="completion-message" id="completionMessage">
+            <div class="completion-title">🎉 ¡Excelente trabajo!</div>
+            <div class="completion-text">Has completado la actividad de Perímetros y Áreas</div>
+            <button class="continue-btn" onclick="window.location.href='actividadesgrados.html'">
+                Volver a Actividades
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let correctAnswers = 0;
+        let totalExercises = 4;
+        let completedExercises = 0;
+
+        function checkAnswer(exerciseNum, correctValue) {
+            const input = document.getElementById('answer' + exerciseNum);
+            const feedback = document.getElementById('feedback' + exerciseNum);
+            const submitBtn = event.target;
+            const userAnswer = parseFloat(input.value);
+
+            if (!input.value) {
+                alert('Por favor, escribe tu respuesta antes de verificar.');
+                return;
+            }
+
+            // Deshabilitar input y botón
+            input.disabled = true;
+            submitBtn.disabled = true;
+
+            // Mostrar feedback
+            feedback.classList.add('show');
+            if (userAnswer === correctValue) {
+                feedback.classList.add('correct');
+                feedback.textContent = '✓ ¡Correcto! Muy bien calculado.';
+                correctAnswers++;
+            } else {
+                feedback.classList.add('incorrect');
+                feedback.textContent = `✗ No es correcto. La respuesta correcta es ${correctValue}. Revisa la fórmula y vuelve a intentarlo en el próximo ejercicio.`;
+            }
+
+            completedExercises++;
+            updateProgress();
+
+            if (completedExercises === totalExercises) {
+                setTimeout(() => {
+                    document.getElementById('completionMessage').classList.add('show');
+                }, 1500);
+            }
+        }
+
+        function updateProgress() {
+            const percentage = (completedExercises / totalExercises) * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = Math.round(percentage) + '%';
+        }
+    </script>
+</body>
+
+</html>
