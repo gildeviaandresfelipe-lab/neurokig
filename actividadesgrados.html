@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroKids - Seleccionar Grado</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(225, 80, 52, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #E15034;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(225, 80, 52, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .puzzle-logo {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #E15034;
+            line-height: 1;
+        }
+
+        .brand-slogan {
+            font-size: 0.85rem;
+            color: #889F92;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 100px);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #E15034;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #889F92;
+            font-weight: 400;
+        }
+
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .grade-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+        }
+
+        .grade-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .grade-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .grade-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .grade-card.quinto {
+            --accent-color: #E77B66;
+        }
+
+        .grade-card.septimo {
+            --accent-color: #EE9A5B;
+        }
+
+        .grade-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--accent-color), rgba(255, 255, 255, 0.3));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .grade-card:hover .grade-icon {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .grade-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .grade-description {
+            color: #889F92;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .grade-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            padding: 20px 0;
+            border-top: 2px solid #FEF0F0;
+            border-bottom: 2px solid #FEF0F0;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #889F92;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .select-button {
+            background: linear-gradient(135deg, var(--accent-color), rgba(255, 255, 255, 0.2));
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .select-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .grades-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .grade-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo-section">
+                <div class="puzzle-logo">
+                    <img src="IMG/logo.PNG" alt="NeuroKids Logo" style="width:70px;height:70px;">
+                </div>
+                <div class="brand-text">
+                    <div class="brand-name">NeuroKids</div>
+                    <div class="brand-slogan">No son etiquetas, son mentes diferentes.</div>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a class="nav-link" href="index.html">Inicio</a>
+                <a class="nav-link active" href="actividadesgrados.html">Actividades</a>
+                <a class="nav-link" href="registro.html">Registro</a>
+                <a class="nav-link" href="observaciones.html">Observaciones</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+        <div class="header">
+            <h1 class="title">Selecciona tu Grado</h1>
+            <p class="subtitle">Elige el nivel educativo para acceder a las actividades correspondientes</p>
+        </div>
+
+        <div class="grades-grid">
+            <div class="grade-card quinto" onclick="selectGrade('quinto')">
+                <div class="grade-icon">📚</div>
+                <h2 class="grade-title">Grado Quinto</h2>
+                <p class="grade-description">
+                    Actividades diseñadas para estudiantes de 5° grado. Desarrolla habilidades fundamentales en matemáticas, ciencias y lenguaje.
+                </p>
+                <div class="grade-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">24</span>
+                        <span class="stat-label">Actividades</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">8</span>
+                        <span class="stat-label">Temas</span>
+                    </div>
+                </div>
+                <button class="select-button">Seleccionar Grado 5°</button>
+            </div>
+
+            <div class="grade-card septimo" onclick="selectGrade('septimo')">
+                <div class="grade-icon">🎓</div>
+                <h2 class="grade-title">Grado Séptimo</h2>
+                <p class="grade-description">
+                    Actividades avanzadas para estudiantes de 7° grado. Profundiza en conceptos complejos y desarrolla pensamiento crítico.
+                </p>
+                <div class="grade-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">32</span>
+                        <span class="stat-label">Actividades</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">10</span>
+                        <span class="stat-label">Temas</span>
+                    </div>
+                </div>
+                <button class="select-button">Seleccionar Grado 7°</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function selectGrade(grade) {
+            if (grade === 'quinto') {
+                window.location.href = 'actividades.html';
+            } else if (grade === 'septimo') {
+                window.location.href = 'actividades2.html';
+            }
+        }
+    </script>
+</body>
+</html>

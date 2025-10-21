@@ -831,4 +831,15 @@
 
         function updateStats() {
             document.getElementById('molecules').textContent = stats.molecules;
-            document.getElementById('bonds').textContent = stats.
+            document.getElementById('bonds').textContent = stats.bonds;
+            document.getElementById('reactions').textContent = stats.reactions;
+            document.getElementById('score').textContent = stats.score;
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStats();
+        });
+    </script>
+</body>
+</html>

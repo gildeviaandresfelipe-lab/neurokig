@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprensión Lectora - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #E15034;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .stats-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #EE9A5B;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #889F92;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .reading-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .reading-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .reading-panel::-webkit-scrollbar-track {
+            background: rgba(225, 80, 52, 0.1);
+            border-radius: 10px;
+        }
+
+        .reading-panel::-webkit-scrollbar-thumb {
+            background: #EE9A5B;
+            border-radius: 10px;
+        }
+
+        .text-title {
+            color: #E15034;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .text-author {
+            color: #889F92;
+            text-align: center;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .text-content {
+            color: #333;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            text-align: justify;
+        }
+
+        .text-content p {
+            margin-bottom: 20px;
+        }
+
+        .questions-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-text {
+            color: #889F92;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(238, 154, 91, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #EE9A5B, #E77B66);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .question-card {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #EE9A5B;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            color: #E15034;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .answer-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #EE9A5B;
+            padding: 18px 20px;
+            border-radius: 12px;
+            font-size: 1rem;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+
+        .answer-btn:hover {
+            transform: translateX(5px);
+            background: #EE9A5B;
+            color: white;
+            box-shadow: 0 5px 20px rgba(238, 154, 91, 0.3);
+        }
+
+        .answer-btn.selected {
+            background: #EE9A5B;
+            color: white;
+            border-color: #EE9A5B;
+        }
+
+        .answer-btn.correct {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+            animation: pulse 0.5s ease;
+        }
+
+        .answer-btn.incorrect {
+            background: #f44336;
+            border-color: #f44336;
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .feedback-box {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .feedback-box.show {
+            display: block;
+        }
+
+        .feedback-box.error {
+            background: linear-gradient(135deg, #f44336, #da190b);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .feedback-text {
+            line-height: 1.5;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #889F92, #6b8578);
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(136, 159, 146, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .nav-btn.submit {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+        }
+
+        .completion-screen {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none;
+        }
+
+        .completion-screen.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .trophy {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .completion-title {
+            color: #E15034;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #EE9A5B;
+            margin-bottom: 20px;
+        }
+
+        .performance-message {
+            color: #889F92;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #889F92, #6b8578);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(136, 159, 146, 0.4);
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .reading-panel {
+                max-height: 500px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span>📖</span> Comprensión Lectora <span>📖</span></h1>
+            <p>Lee con atención y responde las preguntas</p>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value" id="score">0</div>
+                <div class="stat-label">Puntos</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="answered">0</div>
+                <div class="stat-label">Respondidas</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="correct">0</div>
+                <div class="stat-label">Correctas</div>
+            </div>
+        </div>
+
+        <div id="mainContent" class="main-content">
+            <div class="reading-panel">
+                <h2 class="text-title" id="textTitle"></h2>
+                <p class="text-author" id="textAuthor"></p>
+                <div class="text-content" id="textContent"></div>
+            </div>
+
+            <div class="questions-panel">
+                <div class="progress-info">
+                    <p class="progress-text">Pregunta <span id="currentQ">1</span> de <span id="totalQ">5</span></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress"></div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="questionCard">
+                    <div class="question-number" id="questionNumber"></div>
+                    <div class="question-text" id="questionText"></div>
+                    <div class="answer-options" id="answerOptions"></div>
+                    <div class="feedback-box" id="feedback">
+                        <div class="feedback-title" id="feedbackTitle"></div>
+                        <div class="feedback-text" id="feedbackText"></div>
+                    </div>
+                </div>
+
+                <div class="navigation-buttons">
+                    <button class="nav-btn" id="prevBtn" onclick="previousQuestion()" disabled>← Anterior</button>
+                    <button class="nav-btn submit" id="submitBtn" onclick="submitAnswer()" disabled>Confirmar</button>
+                    <button class="nav-btn" id="nextBtn" onclick="nextQuestion()" disabled>Siguiente →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="completion-screen" id="completionScreen">
+            <div class="trophy">🏆</div>
+            <h2 class="completion-title">¡Lectura Completada!</h2>
+            <div class="final-score" id="finalScore"></div>
+            <p class="performance-message" id="performanceMessage"></p>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="restartActivity()">🔄 Otra lectura</button>
+                <a href="actividades.html" class="action-btn">📚 Más actividades</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const readings = [
+            {
+                title: "El Viaje de las Mariposas Monarca",
+                author: "Adaptado de National Geographic",
+                content: `
+                    <p>Cada año, millones de mariposas monarca emprenden uno de los viajes más asombrosos del reino animal. Estas delicadas criaturas, que pesan menos de un gramo, viajan desde Canadá y Estados Unidos hasta los bosques de México, recorriendo más de 4,000 kilómetros.</p>
+                    
+                    <p>Lo más sorprendente es que las mariposas que hacen este viaje nunca han estado antes en México. Son la cuarta o quinta generación desde la última migración, pero de alguna manera saben exactamente a dónde ir. Los científicos creen que las mariposas utilizan el Sol como brújula y pueden detectar el campo magnético de la Tierra.</p>
+                    
+                    <p>El viaje no es fácil. Las mariposas deben enfrentar tormentas, depredadores y la falta de alimento. Algunas no sobreviven, pero las que llegan a México se congregan en los bosques de oyamel, donde hibernan durante el invierno. Los árboles se cubren completamente de mariposas naranjas y negras, creando un espectáculo natural impresionante.</p>
+                    
+                    <p>En primavera, las mariposas comienzan su viaje de regreso hacia el norte. Sin embargo, ninguna mariposa completa el viaje de ida y vuelta. Las que regresan son descendientes de las que llegaron a México. A pesar de esto, cada generación conoce la ruta, un misterio que los científicos aún están tratando de comprender completamente.</p>
+                `,
+                questions: [
+                    {
+                        question: "¿Cuál es la idea principal del texto?",
+                        options: [
+                            "Las mariposas monarca son de color naranja y negro",
+                            "La migración de las mariposas monarca es un fenómeno extraordinario de la naturaleza",
+                            "México tiene muchos bosques de oyamel",
+                            "Las mariposas pesan menos de un gramo"
+                        ],
+                        correct: 1,
+                        explanation: "El texto se centra en describir el asombroso viaje migratorio de las mariposas monarca, destacando la distancia, los desafíos y el misterio de cómo encuentran su camino."
+                    },
+                    {
+                        question: "Según el texto, ¿qué utilizan las mariposas para orientarse?",
+                        options: [
+                            "Mapas y brújulas tradicionales",
+                            "El Sol y el campo magnético de la Tierra",
+                            "Las estrellas durante la noche",
+                            "Siguen a otras mariposas que conocen el camino"
+                        ],
+                        correct: 1,
+                        explanation: "El texto menciona explícitamente que 'los científicos creen que las mariposas utilizan el Sol como brújula y pueden detectar el campo magnético de la Tierra'."
+                    },
+                    {
+                        question: "¿Por qué es sorprendente que las mariposas encuentren el camino a México?",
+                        options: [
+                            "Porque viajan de noche",
+                            "Porque nunca han estado allí antes",
+                            "Porque México está muy cerca",
+                            "Porque no tienen alas fuertes"
+                        ],
+                        correct: 1,
+                        explanation: "El texto indica que las mariposas que migran 'nunca han estado antes en México' y son la cuarta o quinta generación desde la última migración."
+                    },
+                    {
+                        question: "¿Qué se puede inferir sobre la migración de las mariposas?",
+                        options: [
+                            "Es un proceso peligroso donde no todas sobreviven",
+                            "Todas las mariposas llegan sin problemas",
+                            "El viaje es fácil y rápido",
+                            "Solo viajan en verano"
+                        ],
+                        correct: 0,
+                        explanation: "El texto menciona que 'las mariposas deben enfrentar tormentas, depredadores y la falta de alimento. Algunas no sobreviven', lo que indica que es un viaje peligroso."
+                    },
+                    {
+                        question: "¿Cuál es el propósito del autor al escribir este texto?",
+                        options: [
+                            "Convencer al lector de proteger las mariposas",
+                            "Informar sobre un fenómeno natural extraordinario",
+                            "Entretener con una historia ficticia",
+                            "Enseñar cómo criar mariposas"
+                        ],
+                        correct: 1,
+                        explanation: "El texto tiene un propósito informativo, presentando datos y hechos sobre la migración de las mariposas monarca de manera objetiva y educativa."
+                    }
+                ]
+            },
+            {
+                title: "La Invención del Braille",
+                author: "Historia de un Alfabeto Revolucionario",
+                content: `
+                    <p>Louis Braille nació en Francia en 1809 y perdió la vista a los tres años debido a un accidente en el taller de su padre. A pesar de su ceguera, Louis era un estudiante brillante y determinado. A los diez años, ganó una beca para estudiar en el Instituto Real para Jóvenes Ciegos en París, una de las primeras escuelas para personas ciegas en el mundo.</p>
+                    
+                    <p>En aquella época, las personas ciegas tenían muy pocas opciones para leer. Existía un sistema de letras elevadas en el papel, pero era difícil de usar porque las letras eran grandes y complicadas de distinguir con los dedos. Louis sabía que tenía que haber una mejor manera.</p>
+                    
+                    <p>La inspiración llegó cuando Louis tenía quince años. Un capitán del ejército francés visitó la escuela para mostrar un sistema de puntos elevados que los soldados usaban para leer mensajes en la oscuridad sin luz. Aunque el sistema militar era demasiado complejo, Louis vio su potencial. Durante tres años, trabajó incansablemente para simplificarlo y adaptarlo.</p>
+                    
+                    <p>Finalmente, a los dieciséis años, Louis Braille había creado un alfabeto completo basado en combinaciones de seis puntos. Cada letra, número y signo de puntuación tenía su propio patrón. El sistema era tan eficiente que las personas ciegas podían leer con la misma velocidad que las personas videntes. Hoy, más de 200 años después, el braille sigue siendo el sistema de lectura y escritura más importante para personas ciegas en todo el mundo.</p>
+                `,
+                questions: [
+                    {
+                        question: "¿Cuál fue el problema principal que Louis Braille quería resolver?",
+                        options: [
+                            "Que no había escuelas para ciegos",
+                            "Que el sistema de lectura para ciegos era inadecuado",
+                            "Que perdió la vista muy joven",
+                            "Que Francia necesitaba más inventores"
+                        ],
+                        correct: 1,
+                        explanation: "El texto menciona que el sistema de letras elevadas existente 'era difícil de usar' y que Louis sabía que 'tenía que haber una mejor manera'."
+                    },
+                    {
+                        question: "¿Qué inspiró a Louis Braille a crear su sistema?",
+                        options: [
+                            "Un libro que leyó en la escuela",
+                            "Un sistema militar de puntos elevados",
+                            "La música que tocaba",
+                            "Sus profesores en París"
+                        ],
+                        correct: 1,
+                        explanation: "El texto indica claramente que 'un capitán del ejército francés visitó la escuela para mostrar un sistema de puntos elevados' que los soldados usaban."
+                    },
+                    {
+                        question: "¿Qué característica del braille lo hace especialmente útil?",
+                        options: [
+                            "Es muy colorido",
+                            "Permite leer a la misma velocidad que las personas videntes",
+                            "Solo usa tres puntos",
+                            "Es más fácil de escribir que de leer"
+                        ],
+                        correct: 1,
+                        explanation: "El texto menciona que 'el sistema era tan eficiente que las personas ciegas podían leer con la misma velocidad que las personas videntes'."
+                    },
+                    {
+                        question: "Basándote en el texto, ¿qué palabra describe mejor a Louis Braille?",
+                        options: [
+                            "Afortunado",
+                            "Perseverante",
+                            "Tímido",
+                            "Impaciente"
+                        ],
+                        correct: 1,
+                        explanation: "El texto muestra que Louis 'trabajó incansablemente durante tres años' y era 'determinado', lo que demuestra perseverancia."
+                    },
+                    {
+                        question: "¿Cuál es el legado más importante de Louis Braille?",
+                        options: [
+                            "Fundó una escuela para ciegos",
+                            "Escribió muchos libros",
+                            "Creó un sistema de lectura que sigue usándose hoy",
+                            "Fue el primer estudiante ciego"
+                        ],
+                        correct: 2,
+                        explanation: "El texto concluye diciendo que 'más de 200 años después, el braille sigue siendo el sistema de lectura y escritura más importante para personas ciegas'."
+                    }
+                ]
+            }
+        ];
+
+        let currentReading = 0;
+        let currentQuestion = 0;
+        let score = 0;
+        let correctCount = 0;
+        let answeredCount = 0;
+        let userAnswers = [];
+        let selectedAnswer = null;
+
+        function loadReading() {
+            const reading = readings[currentReading];
+            document.getElementById('textTitle').textContent = reading.title;
+            document.getElementById('textAuthor').textContent = reading.author;
+            document.getElementById('textContent').innerHTML = reading.content;
+            
+            document.getElementById('totalQ').textContent = reading.questions.length;
+            userAnswers = new Array(reading.questions.length).fill(null);
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const reading = readings[currentReading];
+            const question = reading.questions[currentQuestion];
+            
+            document.getElementById('currentQ').textContent = currentQuestion + 1;
+            document.getElementById('questionNumber').textContent = `Pregunta ${currentQuestion + 1}`;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('answerOptions');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.textContent = option;
+                btn.onclick = () => selectAnswer(index, btn);
+                
+                if (userAnswers[currentQuestion] !== null) {
+                    btn.disabled = true;
+                    if (index === userAnswers[currentQuestion]) {
+                        btn.classList.add(index === question.correct ? 'correct' : 'incorrect');
+                    }
+                    if (index === question.correct) {
+                        btn.classList.add('correct');
+                    }
+                }
+                
+                optionsContainer.appendChild(btn);
+            });
+            
+            updateProgress();
+            updateButtons();
+            
+            const feedback = document.getElementById('feedback');
+            if (userAnswers[currentQuestion] !== null) {
+                showFeedback(userAnswers[currentQuestion] === question.correct, question.explanation);
+            } else {
+                feedback.classList.remove('show');
+            }
+        }
+
+        function selectAnswer(index, btn) {
+            if (userAnswers[currentQuestion] !== null) return;
+            
+            document.querySelectorAll('.answer-btn').forEach(b => {
+                b.classList.remove('selected');
+            });
+            
+            btn.classList.add('selected');
+            selectedAnswer = index;
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            if (selectedAnswer === null || userAnswers[currentQuestion] !== null) return;
+            
+            const reading = readings[currentReading];
+            const question = reading.questions[currentQuestion];
+            const isCorrect = selectedAnswer === question.correct;
+            
+            userAnswers[currentQuestion] = selectedAnswer;
+            answeredCount++;
+            
+            if (isCorrect) {
+                score += 20;
+                correctCount++;
+            }
+            
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === selectedAnswer) {
+                    btn.classList.remove('selected');
+                    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                if (index === question.correct && !isCorrect) {
+                    btn.classList.add('correct');
+                }
+            });
+            
+            showFeedback(isCorrect, question.explanation);
+            updateStats();
+            updateButtons();
+        }
+
+        function showFeedback(isCorrect, explanation) {
+            const feedback = document.getElementById('feedback');
+            const title = document.getElementById('feedbackTitle');
+            const text = document.getElementById('feedbackText');
+            
+            if (isCorrect) {
+                feedback.classList.remove('error');
+                title.textContent = '¡Excelente! ✓';
+            } else {
+                feedback.classList.add('error');
+                title.textContent = 'Incorrecto ✗';
+            }
+            
+            text.textContent = explanation;
+            feedback.classList.add('show');
+        }
+
+        function updateButtons() {
+            const reading = readings[currentReading];
+            
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('submitBtn').disabled = selectedAnswer === null || userAnswers[currentQuestion] !== null;
+            
+            if (currentQuestion === reading.questions.length - 1) {
+                if (answeredCount === reading.questions.length) {
+                    document.getElementById('nextBtn').textContent = 'Ver Resultados 🏆';
+                    document.getElementById('nextBtn').disabled = false;
+                } else {
+                    document.getElementById('nextBtn').disabled = true;
+                }
+            } else {
+                document.getElementById('nextBtn').textContent = 'Siguiente →';
+                document.getElementById('nextBtn').disabled = userAnswers[currentQuestion] === null;
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                selectedAnswer = null;
+                loadQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            const reading = readings[currentReading];
+            
+            if (currentQuestion < reading.questions.length - 1) {
+                currentQuestion++;
+                selectedAnswer = null;
+                loadQuestion();
+            } else if (answeredCount === reading.questions.length) {
+                showCompletion();
+            }
+        }
+
+        function updateProgress() {
+            const reading = readings[currentReading];
+            const progress = ((currentQuestion + 1) / reading.questions.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function updateStats() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('answered').textContent = answeredCount;
+            document.getElementById('correct').textContent = correctCount;
+        }
+
+        function showCompletion() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('completionScreen').classList.add('show');
+            
+            const reading = readings[currentReading];
+            const percentage = Math.round((correctCount / reading.questions.length) * 100);
+            
+            document.getElementById('finalScore').textContent = `${score} puntos`;
+            
+            let message = '';
+            if (percentage === 100) {
+                message = '¡Perfecto! Has demostrado una comprensión excepcional del texto. 🌟';
+            } else if (percentage >= 80) {
+                message = '¡Muy bien! Tienes una excelente comprensión lectora. 👏';
+            } else if (percentage >= 60) {
+                message = '¡Buen trabajo! Sigue practicando para mejorar aún más. 📚';
+            } else {
+                message = 'Sigue practicando. La comprensión lectora mejora con el tiempo. 💪';
+            }
+            
+            document.getElementById('performanceMessage').textContent = message;
+        }
+
+        function restartActivity() {
+            currentReading = (currentReading + 1) % readings.length;
+            currentQuestion = 0;
+            score = 0;
+            correctCount = 0;
+            answeredCount = 0;
+            selectedAnswer = null;
+            
+            document.getElementById('mainContent').style.display = 'grid';
+            document.getElementById('completionScreen').classList.remove('show');
+            
+            updateStats();
+            loadReading();
+        }
+
+        loadReading();
+        updateStats();
