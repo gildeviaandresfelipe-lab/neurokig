@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Builder - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #E15034;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: linear-gradient(135deg, #E77B66, rgba(255, 255, 255, 0.3));
+            padding: 15px 30px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            background: rgba(136, 159, 146, 0.2);
+            color: #889F92;
+            border: 2px solid #889F92;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .back-btn:hover {
+            background: #889F92;
+            color: white;
+        }
+
+        .category-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            padding: 25px;
+            border-radius: 18px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: center;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+        }
+
+        .category-card.active {
+            border-color: white;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-icon {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .category-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-count {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .word-card {
+            background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
+            border-radius: 25px;
+            padding: 45px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .word-icon {
+            font-size: 8rem;
+            margin-bottom: 25px;
+            animation: float 3s ease-in-out infinite;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
+        }
+
+        .word-english {
+            font-size: 3.5rem;
+            color: #E15034;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .word-pronunciation {
+            font-size: 1.5rem;
+            color: #EE9A5B;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .word-spanish {
+            font-size: 2rem;
+            color: #889F92;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+
+        .sound-btn {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            border: none;
+            color: white;
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 15px;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.3);
+        }
+
+        .sound-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(225, 80, 52, 0.4);
+        }
+
+        .sound-btn:active {
+            transform: scale(0.95);
+        }
+
+        .game-mode-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .game-mode-btn {
+            background: white;
+            border: 3px solid #E77B66;
+            padding: 25px;
+            border-radius: 18px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #E15034;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+
+        .game-mode-btn:hover {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-mode-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .question-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            border: 3px solid #EDA2A1;
+        }
+
+        .question-text {
+            font-size: 1.8rem;
+            color: #E15034;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .question-icon {
+            font-size: 6rem;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #E77B66;
+            padding: 30px 20px;
+            border-radius: 18px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .option-btn.correct {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-color: #4CAF50;
+            color: white;
+            animation: correctPulse 0.6s ease;
+        }
+
+        .option-btn.incorrect {
+            background: linear-gradient(135deg, #f44336, #ef5350);
+            border-color: #f44336;
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-12px); }
+            75% { transform: translateX(12px); }
+        }
+
+        .feedback {
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 18px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+        }
+
+        .feedback.correct {
+            background: rgba(76, 175, 80, 0.15);
+            color: #2e7d32;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .feedback.incorrect {
+            background: rgba(244, 67, 54, 0.15);
+            color: #c62828;
+            border-left: 5px solid #f44336;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .example-sentence {
+            background: rgba(136, 159, 146, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-style: italic;
+            color: #889F92;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #FEF0F0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E77B66, #EE9A5B);
+            transition: width 0.5s ease;
+            box-shadow: 0 2px 8px rgba(231, 123, 102, 0.3);
+        }
+
+        .completion-screen {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .trophy {
+            font-size: 7rem;
+            margin-bottom: 25px;
+            animation: trophyBounce 2s ease infinite;
+        }
+
+        @keyframes trophyBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-25px) rotate(-8deg); }
+            75% { transform: translateY(-25px) rotate(8deg); }
+        }
+
+        .score-display {
+            font-size: 3.5rem;
+            color: #E15034;
+            font-weight: 700;
+            margin: 25px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .vocabulary-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            padding: 18px 35px;
+            border-radius: 30px;
+            font-weight: 700;
+            margin: 15px 10px;
+            font-size: 1.15rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .words-learned {
+            background: rgba(231, 123, 102, 0.1);
+            padding: 25px;
+            border-radius: 18px;
+            margin: 30px auto;
+            max-width: 700px;
+        }
+
+        .words-title {
+            font-size: 1.4rem;
+            color: #E15034;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .words-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .word-chip {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            color: #E15034;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #889F92, #E77B66);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .input-container {
+            margin: 25px 0;
+        }
+
+        .text-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            font-size: 1.5rem;
+            border: 3px solid #E77B66;
+            border-radius: 15px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #E15034;
+            box-shadow: 0 0 20px rgba(225, 80, 52, 0.3);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            border: none;
+            color: white;
+            padding: 18px 50px;
+            border-radius: 30px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(225, 80, 52, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.8rem;
+            }
+
+            .game-container {
+                padding: 25px;
+            }
+
+            .word-english {
+                font-size: 2.5rem;
+            }
+
+            .word-icon {
+                font-size: 5rem;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="actividadesgrados.html" class="back-btn">← Volver a Actividades</a>
+        
+        <div class="header">
+            <h1 class="title">🔤 Vocabulary Builder</h1>
+            <p class="subtitle">Learn new English words with images, sounds, and interactive games</p>
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="stat-value" id="currentScore">0</span>
+                    <span class="stat-label">Points</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="wordsLearned">0</span>
+                    <span class="stat-label">Words Learned</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="questionNum">0/10</span>
+                    <span class="stat-label">Progress</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-container" id="gameContainer">
+            <div id="categorySelector">
+                <h2 style="color: #E15034; margin-bottom: 25px; text-align: center; font-size: 2rem;">
+                    📚 Choose a Category
+                </h2>
+                <div class="category-selector">
+                    <div class="category-card" onclick="startLearning('animals')">
+                        <div class="category-icon">🐾</div>
+                        <div class="category-title">Animals</div>
+                        <div class="category-count">10 palabras</div>
+                    </div>
+                    <div class="category-card" onclick="startLearning('food')">
+                        <div class="category-icon">🍎</div>
+                        <div class="category-title">Food & Drinks</div>
+                        <div class="category-count">10 palabras</div>
+                    </div>
+                    <div class="category-card" onclick="startLearning('home')">
+                        <div class="category-icon">🏠</div>
+                        <div class="category-title">Home & Family</div>
+                        <div class="category-count">10 palabras</div>
+                    </div>
+                    <div class="category-card" onclick="startLearning('school')">
+                        <div class="category-icon">📚</div>
+                        <div class="category-title">School & Learning</div>
+                        <div class="category-count">10 palabras</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="learningArea" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <div id="contentArea"></div>
+            </div>
+
+            <div id="completionScreen" style="display: none;" class="completion-screen">
+                <div class="trophy">🏆</div>
+                <h2 style="color: #E15034; font-size: 2.8rem; margin-bottom: 20px;">Excellent Work!</h2>
+                <div class="score-display" id="finalScore">0/10</div>
+                <div id="vocabularyBadges"></div>
+                <div class="words-learned">
+                    <div class="words-title">📖 New Vocabulary Learned</div>
+                    <div class="words-grid" id="wordsGrid"></div>
+                </div>
+                <p style="font-size: 1.2rem; color: #889F92; margin: 25px 0;">
+                    You've successfully expanded your English vocabulary!
+                </p>
+                <div id="performanceMessage" style="font-size: 1.2rem; color: #E15034; margin-bottom: 30px; font-weight: 600;"></div>
+                <button class="restart-btn" onclick="location.reload()">🔄 Learn More Words</button>
+                <a href="actividadesgrados.html" class="restart-btn" style="text-decoration: none; display: inline-block;">🏠 Back to Menu</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const vocabulary = {
+            animals: [
+                { english: "Dog", spanish: "Perro", icon: "🐕", pronunciation: "/dɔɡ/", example: "The dog is playing in the park." },
+                { english: "Cat", spanish: "Gato", icon: "🐈", pronunciation: "/kæt/", example: "My cat likes to sleep on the sofa." },
+                { english: "Bird", spanish: "Pájaro", icon: "🐦", pronunciation: "/bɜːrd/", example: "The bird is singing in the tree." },
+                { english: "Fish", spanish: "Pez", icon: "🐟", pronunciation: "/fɪʃ/", example: "The fish swims in the water." },
+                { english: "Rabbit", spanish: "Conejo", icon: "🐰", pronunciation: "/ˈræb.ɪt/", example: "The rabbit eats carrots." },
+                { english: "Horse", spanish: "Caballo", icon: "🐴", pronunciation: "/hɔːrs/", example: "The horse runs very fast." },
+                { english: "Elephant", spanish: "Elefante", icon: "🐘", pronunciation: "/ˈel.ɪ.fənt/", example: "The elephant has a long trunk." },
+                { english: "Lion", spanish: "León", icon: "🦁", pronunciation: "/ˈlaɪ.ən/", example: "The lion is the king of the jungle." },
+                { english: "Butterfly", spanish: "Mariposa", icon: "🦋", pronunciation: "/ˈbʌt.ɚ.flaɪ/", example: "The butterfly has colorful wings." },
+                { english: "Turtle", spanish: "Tortuga", icon: "🐢", pronunciation: "/ˈtɝː.t̬əl/", example: "The turtle moves slowly." }
+            ],
+            food: [
+                { english: "Apple", spanish: "Manzana", icon: "🍎", pronunciation: "/ˈæp.əl/", example: "I eat an apple every day." },
+                { english: "Banana", spanish: "Plátano", icon: "🍌", pronunciation: "/bəˈnæn.ə/", example: "The banana is yellow and sweet." },
+                { english: "Bread", spanish: "Pan", icon: "🍞", pronunciation: "/bred/", example: "I have bread for breakfast." },
+                { english: "Milk", spanish: "Leche", icon: "🥛", pronunciation: "/mɪlk/", example: "Children need to drink milk." },
+                { english: "Water", spanish: "Agua", icon: "💧", pronunciation: "/ˈwɔː.t̬ɚ/", example: "Water is important for our health." },
+                { english: "Pizza", spanish: "Pizza", icon: "🍕", pronunciation: "/ˈpiːt.sə/", example: "We eat pizza on Fridays." },
+                { english: "Egg", spanish: "Huevo", icon: "🥚", pronunciation: "/eɡ/", example: "I cook eggs for breakfast." },
+                { english: "Cheese", spanish: "Queso", icon: "🧀", pronunciation: "/tʃiːz/", example: "I like cheese on my sandwich." },
+                { english: "Carrot", spanish: "Zanahoria", icon: "🥕", pronunciation: "/ˈker.ət/", example: "Carrots are orange and healthy." },
+                { english: "Cookie", spanish: "Galleta", icon: "🍪", pronunciation: "/ˈkʊk.i/", example: "The cookie is very delicious." }
+            ],
+            home: [
+                { english: "House", spanish: "Casa", icon: "🏠", pronunciation: "/haʊs/", example: "My house is big and comfortable." },
+                { english: "Bed", spanish: "Cama", icon: "🛏️", pronunciation: "/bed/", example: "I sleep in my bed at night." },
+                { english: "Table", spanish: "Mesa", icon: "🪑", pronunciation: "/ˈteɪ.bəl/", example: "We eat dinner at the table." },
+                { english: "Door", spanish: "Puerta", icon: "🚪", pronunciation: "/dɔːr/", example: "Please close the door." },
+                { english: "Window", spanish: "Ventana", icon: "🪟", pronunciation: "/ˈwɪn.doʊ/", example: "The window lets light into the room." },
+                { english: "Mother", spanish: "Madre", icon: "👩", pronunciation: "/ˈmʌð.ɚ/", example: "My mother cooks delicious food." },
+                { english: "Father", spanish: "Padre", icon: "👨", pronunciation: "/ˈfɑː.ðɚ/", example: "My father works hard every day." },
+                { english: "Brother", spanish: "Hermano", icon: "👦", pronunciation: "/ˈbrʌð.ɚ/", example: "My brother plays soccer with me." },
+                { english: "Sister", spanish: "Hermana", icon: "👧", pronunciation: "/ˈsɪs.tɚ/", example: "My sister loves to read books." },
+                { english: "Garden", spanish: "Jardín", icon: "🌻", pronunciation: "/ˈɡɑːr.dən/", example: "We have flowers in our garden." }
+            ],
+            school: [
+                { english: "Book", spanish: "Libro", icon: "📚", pronunciation: "/bʊk/", example: "I read a book every night." },
+                { english: "Pencil", spanish: "Lápiz", icon: "✏️", pronunciation: "/ˈpen.səl/", example: "I write with a pencil." },
+                { english: "Teacher", spanish: "Profesor/a", icon: "👨‍🏫", pronunciation: "/ˈtiː.tʃɚ/", example: "My teacher is very kind." },
+                { english: "Student", spanish: "Estudiante", icon: "🧑‍🎓", pronunciation: "/ˈstuː.dənt/", example: "Every student must study." },
+                { english: "Classroom", spanish: "Aula", icon: "🏫", pronunciation: "/ˈklæs.ruːm/", example: "The classroom is clean and bright." },
+                { english: "Computer", spanish: "Computadora", icon: "💻", pronunciation: "/kəmˈpjuː.t̬ɚ/", example: "We use computers to learn." },
+                { english: "Homework", spanish: "Tarea", icon: "📝", pronunciation: "/ˈhoʊmˌwɝːk/", example: "I do my homework every day." },
+                { english: "Backpack", spanish: "Mochila", icon: "🎒", pronunciation: "/ˈbæk.pæk/", example: "My backpack is heavy today." },
+                { english: "Friend", spanish: "Amigo/a", icon: "👫", pronunciation: "/frend/", example: "My friend helps me study." },
+                { english: "Playground", spanish: "Patio de juegos", icon: "🎮", pronunciation: "/ˈpleɪ.ɡraʊnd/", example: "We play in the playground during recess." }
+            ]
+        };
+
+        let currentCategory = '';
+        let currentWordIndex = 0;
+        let gameMode = '';
+        let score = 0;
+        let wordsLearnedCount = 0;
+        let words = [];
+        let learnedWords = [];
+
+        function startLearning(category) {
+            currentCategory = category;
+            words = [...vocabulary[category]];
+            currentWordIndex = 0;
+            score = 0;
+            wordsLearnedCount = 0;
+            learnedWords = [];
+
+            document.getElementById('categorySelector').style.display = 'none';
+            document.getElementById('learningArea').style.display = 'block';
+            
+            showGameModeSelector();
+        }
+
+        function showGameModeSelector() {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = `
+                <h2 style="color: #E15034; margin-bottom: 25px; text-align: center; font-size: 2rem;">
+                    🎮 Choose a Game Mode
+                </h2>
+                <div class="game-mode-selector">
+                    <button class="game-mode-btn" onclick="startGameMode('learn')">
+                        <span class="game-mode-icon">📖</span>
+                        Learn Words<br>
+                        <small style="font-size: 0.85rem; opacity: 0.8;">Study vocabulary with images and sounds</small>
+                    </button>
+                    <button class="game-mode-btn" onclick="startGameMode('match')">
+                        <span class="game-mode-icon">🎯</span>
+                        Match Game<br>
+                        <small style="font-size: 0.85rem; opacity: 0.8;">Match English words with Spanish</small>
+                    </button>
+                    <button class="game-mode-btn" onclick="startGameMode('quiz')">
+                        <span class="game-mode-icon">❓</span>
+                        Quiz Mode<br>
+                        <small style="font-size: 0.85rem; opacity: 0.8;">Test your knowledge</small>
+                    </button>
+                    <button class="game-mode-btn" onclick="startGameMode('spell')">
+                        <span class="game-mode-icon">✍️</span>
+                        Spelling<br>
+                        <small style="font-size: 0.85rem; opacity: 0.8;">Practice spelling words</small>
+                    </button>
+                </div>
+            `;
+        }
+
+        function startGameMode(mode) {
+            gameMode = mode;
+            currentWordIndex = 0;
+            updateStats();
+            
+            if (mode === 'learn') {
+                showLearningCard();
+            } else if (mode === 'match') {
+                showMatchGame();
+            } else if (mode === 'quiz') {
+                showQuiz();
+            } else if (mode === 'spell') {
+                showSpellingGame();
+            }
+        }
+
+        function showLearningCard() {
+            if (currentWordIndex >= words.length) {
+                showCompletion();
+                return;
+            }
+
+            const word = words[currentWordIndex];
+            const contentArea = document.getElementById('contentArea');
+            
+            contentArea.innerHTML = `
+                <div class="word-card">
+                    <div class="word-icon">${word.icon}</div>
+                    <div class="word-english">${word.english}</div>
+                    <div class="word-pronunciation">${word.pronunciation}</div>
+                    <div class="word-spanish">${word.spanish}</div>
+                    <button class="sound-btn" onclick="speakWord('${word.english}')">
+                        🔊 Listen
+                    </button>
+                    <div class="example-sentence">
+                        💬 "${word.example}"
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="submit-btn" onclick="nextWord()">
+                        Next Word →
+                    </button>
+                </div>
+            `;
+            
+            updateProgress();
+            learnedWords.push(word.english);
+            wordsLearnedCount++;
+            score += 10;
+            updateStats();
+        }
+
+        function showMatchGame() {
+            if (currentWordIndex >= words.length) {
+                showCompletion();
+                return;
+            }
+
+            const word = words[currentWordIndex];
+            const otherWords = words.filter((w, i) => i !== currentWordIndex);
+            const randomWords = otherWords.sort(() => Math.random() - 0.5).slice(0, 3);
+            const options = [...randomWords, word].sort(() => Math.random() - 0.5);
+            
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = `
+                <div class="question-container">
+                    <div class="question-text">Match the word with its Spanish meaning</div>
+                    <div class="question-icon">${word.icon}</div>
+                    <div class="word-english" style="font-size: 2.5rem; margin: 20px 0;">${word.english}</div>
+                    <div class="options-grid">
+                        ${options.map((opt, index) => `
+                            <button class="option-btn" onclick="checkMatch(${index}, '${opt.spanish}', '${word.spanish}')">
+                                ${opt.spanish}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="feedback"></div>
+                </div>
+            `;
+            
+            updateProgress();
+        }
+
+        function checkMatch(selected, answer, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('feedback');
+            
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (answer === correct) {
+                buttons[selected].classList.add('correct');
+                score += 15;
+                wordsLearnedCount++;
+                learnedWords.push(words[currentWordIndex].english);
+                feedback.innerHTML = '<div class="feedback correct">✓ Correct! Great job! 🎉</div>';
+                speakWord(words[currentWordIndex].english);
+            } else {
+                buttons[selected].classList.add('incorrect');
+                buttons.forEach((btn, i) => {
+                    if (btn.textContent.trim() === correct) {
+                        btn.classList.add('correct');
+                    }
+                });
+                feedback.innerHTML = `<div class="feedback incorrect">✗ The correct answer is: ${correct}</div>`;
+            }
+            
+            updateStats();
+            
+            setTimeout(() => {
+                currentWordIndex++;
+                if (gameMode === 'match') {
+                    showMatchGame();
+                }
+            }, 2500);
+        }
+
+        function showQuiz() {
+            if (currentWordIndex >= words.length) {
+                showCompletion();
+                return;
+            }
+
+            const word = words[currentWordIndex];
+            const otherWords = words.filter((w, i) => i !== currentWordIndex);
+            const randomWords = otherWords.sort(() => Math.random() - 0.5).slice(0, 3);
+            const options = [...randomWords, word].sort(() => Math.random() - 0.5);
+            
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = `
+                <div class="question-container">
+                    <div class="question-text">What does this mean in English?</div>
+                    <div class="question-icon">${word.icon}</div>
+                    <div class="word-spanish" style="font-size: 2.2rem; margin: 20px 0;">${word.spanish}</div>
+                    <div class="options-grid">
+                        ${options.map((opt, index) => `
+                            <button class="option-btn" onclick="checkQuiz(${index}, '${opt.english}', '${word.english}')">
+                                ${opt.english}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="feedback"></div>
+                </div>
+            `;
+            
+            updateProgress();
+        }
+
+        function checkQuiz(selected, answer, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('feedback');
+            
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (answer === correct) {
+                buttons[selected].classList.add('correct');
+                score += 15;
+                wordsLearnedCount++;
+                learnedWords.push(correct);
+                feedback.innerHTML = `<div class="feedback correct">✓ Excellent! "${correct}" is correct! 🎉</div>`;
+                speakWord(correct);
+            } else {
+                buttons[selected].classList.add('incorrect');
+                buttons.forEach((btn, i) => {
+                    if (btn.textContent.trim() === correct) {
+                        btn.classList.add('correct');
+                    }
+                });
+                feedback.innerHTML = `<div class="feedback incorrect">✗ The correct answer is: ${correct}</div>`;
+                speakWord(correct);
+            }
+            
+            updateStats();
+            
+            setTimeout(() => {
+                currentWordIndex++;
+                if (gameMode === 'quiz') {
+                    showQuiz();
+                }
+            }, 2500);
+        }
+
+        function showSpellingGame() {
+            if (currentWordIndex >= words.length) {
+                showCompletion();
+                return;
+            }
+
+            const word = words[currentWordIndex];
+            const contentArea = document.getElementById('contentArea');
+            
+            contentArea.innerHTML = `
+                <div class="question-container">
+                    <div class="question-text">How do you spell this word?</div>
+                    <div class="question-icon">${word.icon}</div>
+                    <div class="word-spanish" style="font-size: 2rem; margin: 20px 0;">${word.spanish}</div>
+                    <button class="sound-btn" onclick="speakWord('${word.english}')" style="margin: 20px 0;">
+                        🔊 Listen to the word
+                    </button>
+                    <div class="input-container">
+                        <input type="text" class="text-input" id="spellingInput" placeholder="Type the word here..." autocomplete="off">
+                    </div>
+                    <button class="submit-btn" onclick="checkSpelling('${word.english}')">
+                        Check Spelling ✓
+                    </button>
+                    <div id="feedback"></div>
+                </div>
+            `;
+            
+            updateProgress();
+            
+            // Focus on input and allow Enter key
+            setTimeout(() => {
+                const input = document.getElementById('spellingInput');
+                input.focus();
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        checkSpelling(word.english);
+                    }
+                });
+            }, 100);
+        }
+
+        function checkSpelling(correct) {
+            const input = document.getElementById('spellingInput');
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = correct.toLowerCase();
+            const feedback = document.getElementById('feedback');
+            
+            input.disabled = true;
+            document.querySelector('.submit-btn').disabled = true;
+            
+            if (userAnswer === correctAnswer) {
+                score += 20;
+                wordsLearnedCount++;
+                learnedWords.push(correct);
+                feedback.innerHTML = `<div class="feedback correct">✓ Perfect spelling! "${correct}" is correct! 🎉</div>`;
+                speakWord(correct);
+            } else {
+                feedback.innerHTML = `<div class="feedback incorrect">✗ Not quite. The correct spelling is: "${correct}"</div>`;
+                speakWord(correct);
+            }
+            
+            updateStats();
+            
+            setTimeout(() => {
+                currentWordIndex++;
+                if (gameMode === 'spell') {
+                    showSpellingGame();
+                }
+            }, 3000);
+        }
+
+        function speakWord(word) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.8;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function nextWord() {
+            currentWordIndex++;
+            if (currentWordIndex < words.length) {
+                showLearningCard();
+            } else {
+                showCompletion();
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('currentScore').textContent = score;
+            document.getElementById('wordsLearned').textContent = wordsLearnedCount;
+            document.getElementById('questionNum').textContent = `${currentWordIndex + 1}/10`;
+        }
+
+        function updateProgress() {
+            const progress = ((currentWordIndex + 1) / words.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showCompletion() {
+            document.getElementById('learningArea').style.display = 'none';
+            document.getElementById('completionScreen').style.display = 'block';
+            
+            const finalScore = document.getElementById('finalScore');
+            const performanceMessage = document.getElementById('performanceMessage');
+            const vocabularyBadges = document.getElementById('vocabularyBadges');
+            const wordsGrid = document.getElementById('wordsGrid');
+            
+            finalScore.textContent = `${wordsLearnedCount}/10 words learned`;
+            
+            let badges = '';
+            let message = '';
+            
+            if (wordsLearnedCount === 10) {
+                message = 'Perfect! You are a vocabulary master! 🌟';
+                badges = '<div class="vocabulary-badge">🏆 Vocabulary Master</div>';
+            } else if (wordsLearnedCount >= 7) {
+                message = 'Excellent work! You are learning very well! 📚';
+                badges = '<div class="vocabulary-badge">⭐ Great Learner</div>';
+            } else if (wordsLearnedCount >= 5) {
+                message = 'Good job! Keep practicing! 💪';
+                badges = '<div class="vocabulary-badge">🎯 Good Progress</div>';
+            } else {
+                message = 'Keep learning! Practice makes perfect! 🚀';
+                badges = '<div class="vocabulary-badge">🌱 Keep Going</div>';
+            }
+            
+            performanceMessage.textContent = message;
+            vocabularyBadges.innerHTML = badges;
+            
+            // Show learned words
+            const uniqueWords = [...new Set(learnedWords)];
+            wordsGrid.innerHTML = '';
+            uniqueWords.forEach(word => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.textContent = word;
+                chip.onclick = () => speakWord(word);
+                chip.style.cursor = 'pointer';
+                chip.title = 'Click to hear pronunciation';
+                wordsGrid.appendChild(chip);
+            });
+        }
+    </script>
+</body>
+</html>

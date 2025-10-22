@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation Practice - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #EE9A5B, rgba(255, 255, 255, 0.3));
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(238, 154, 91, 0.3);
+        }
+
+        .score-display {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(238, 154, 91, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #EE9A5B;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #EE9A5B;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .game-area {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .scenario-card {
+            background: linear-gradient(135deg, #EE9A5B 0%, rgba(255, 255, 255, 0.2) 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .scenario-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .scenario-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .scenario-description {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .conversation-box {
+            background: #FEF0F0;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            min-height: 200px;
+        }
+
+        .dialogue-line {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .character {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .character-icon {
+            font-size: 1.5rem;
+        }
+
+        .dialogue-text {
+            padding-left: 40px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .english-text {
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 5px;
+        }
+
+        .spanish-text {
+            font-size: 0.9rem;
+            color: #889F92;
+            font-style: italic;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #EE9A5B;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(238, 154, 91, 0.2);
+            background: rgba(238, 154, 91, 0.05);
+        }
+
+        .option-btn.correct {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+            animation: correctPulse 0.5s ease;
+        }
+
+        .option-btn.incorrect {
+            background: #f44336;
+            border-color: #f44336;
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .option-english {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #E15034;
+        }
+
+        .option-spanish {
+            font-size: 0.9rem;
+            color: #889F92;
+        }
+
+        .audio-btn {
+            background: linear-gradient(135deg, #889F92, rgba(255, 255, 255, 0.3));
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .audio-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(136, 159, 146, 0.3);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #EE9A5B, rgba(255, 255, 255, 0.3));
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .next-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(238, 154, 91, 0.3);
+        }
+
+        .next-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback-message {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-left: 5px solid #EE9A5B;
+            display: none;
+        }
+
+        .feedback-message.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .progress-bar {
+            background: rgba(238, 154, 91, 0.2);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #EE9A5B, #E77B66);
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .completion-screen {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .completion-screen.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .trophy {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .final-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #EE9A5B;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .score-display {
+                width: 100%;
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .game-area {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <a href="actividadesgrados.html" class="back-btn">← Volver</a>
+                <div class="score-display">
+                    <div class="score-item">
+                        <span>⭐</span>
+                        <span id="score">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span>🎯</span>
+                        <span id="progress">0/10</span>
+                    </div>
+                </div>
+            </div>
+            <h1>💬 Conversation Practice</h1>
+            <p class="subtitle">Practica diálogos en situaciones de la vida real</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="game-area" id="gameArea">
+            <div class="scenario-card" id="scenarioCard">
+                <div class="scenario-icon" id="scenarioIcon">🏪</div>
+                <div class="scenario-title" id="scenarioTitle">At the Store</div>
+                <div class="scenario-description" id="scenarioDescription">
+                    Estás en una tienda y necesitas comprar algunos artículos. Practica cómo pedir ayuda y hacer preguntas.
+                </div>
+            </div>
+
+            <div class="conversation-box" id="conversationBox"></div>
+
+            <div class="options-container" id="optionsContainer"></div>
+
+            <div class="feedback-message" id="feedbackMessage"></div>
+
+            <button class="next-btn" id="nextBtn" disabled>Siguiente →</button>
+        </div>
+
+        <div class="completion-screen" id="completionScreen">
+            <div class="trophy">🏆</div>
+            <h2 style="color: #EE9A5B; font-size: 2.5rem; margin-bottom: 15px;">¡Excelente Trabajo!</h2>
+            <div class="final-score" id="finalScore">0/10</div>
+            <p style="color: #889F92; font-size: 1.2rem; margin-bottom: 30px;">
+                Has completado todas las conversaciones
+            </p>
+            <a href="actividadesgrados.html" class="back-btn" style="font-size: 1.1rem; padding: 15px 40px;">
+                Volver a Actividades
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const scenarios = [
+            {
+                icon: "🏪",
+                title: "At the Store",
+                description: "Estás en una tienda y necesitas comprar algunos artículos.",
+                dialogue: [
+                    { character: "Clerk", icon: "👨‍💼", english: "Good morning! How can I help you today?", spanish: "¡Buenos días! ¿Cómo puedo ayudarte hoy?" }
+                ],
+                question: "¿Cómo responderías?",
+                options: [
+                    { english: "I'm looking for a blue shirt.", spanish: "Estoy buscando una camisa azul.", correct: true },
+                    { english: "What time is it?", spanish: "¿Qué hora es?", correct: false },
+                    { english: "I don't like pizza.", spanish: "No me gusta la pizza.", correct: false }
+                ],
+                feedback: "¡Correcto! 'I'm looking for...' es la forma correcta de decir lo que estás buscando."
+            },
+            {
+                icon: "🍽️",
+                title: "At the Restaurant",
+                description: "Estás en un restaurante y quieres ordenar comida.",
+                dialogue: [
+                    { character: "Waiter", icon: "👨‍🍳", english: "Are you ready to order?", spanish: "¿Están listos para ordenar?" }
+                ],
+                question: "¿Qué dirías?",
+                options: [
+                    { english: "Yes, I'd like a hamburger, please.", spanish: "Sí, me gustaría una hamburguesa, por favor.", correct: true },
+                    { english: "The weather is nice today.", spanish: "El clima está lindo hoy.", correct: false },
+                    { english: "I have a dog.", spanish: "Tengo un perro.", correct: false }
+                ],
+                feedback: "¡Muy bien! 'I'd like...' es una forma educada de pedir algo en un restaurante."
+            },
+            {
+                icon: "🏫",
+                title: "At School",
+                description: "Necesitas preguntarle algo a tu profesor.",
+                dialogue: [
+                    { character: "Teacher", icon: "👩‍🏫", english: "Do you have any questions about the homework?", spanish: "¿Tienen preguntas sobre la tarea?" }
+                ],
+                question: "¿Cómo preguntarías?",
+                options: [
+                    { english: "I like ice cream.", spanish: "Me gusta el helado.", correct: false },
+                    { english: "Could you explain problem number 5, please?", spanish: "¿Podría explicar el problema número 5, por favor?", correct: true },
+                    { english: "My favorite color is green.", spanish: "Mi color favorito es verde.", correct: false }
+                ],
+                feedback: "¡Excelente! 'Could you explain...' es una forma educada de pedir ayuda."
+            },
+            {
+                icon: "🚌",
+                title: "On the Bus",
+                description: "Necesitas información sobre las paradas del bus.",
+                dialogue: [
+                    { character: "Driver", icon: "👨‍✈️", english: "Where are you going?", spanish: "¿A dónde vas?" }
+                ],
+                question: "¿Qué responderías?",
+                options: [
+                    { english: "I'm going to the library.", spanish: "Voy a la biblioteca.", correct: true },
+                    { english: "I'm twelve years old.", spanish: "Tengo doce años.", correct: false },
+                    { english: "I have two cats.", spanish: "Tengo dos gatos.", correct: false }
+                ],
+                feedback: "¡Perfecto! 'I'm going to...' expresa tu destino correctamente."
+            },
+            {
+                icon: "🏥",
+                title: "At the Doctor's Office",
+                description: "Necesitas describir cómo te sientes al doctor.",
+                dialogue: [
+                    { character: "Doctor", icon: "👨‍⚕️", english: "How are you feeling today?", spanish: "¿Cómo te sientes hoy?" }
+                ],
+                question: "¿Cómo responderías?",
+                options: [
+                    { english: "I play soccer every day.", spanish: "Juego fútbol todos los días.", correct: false },
+                    { english: "I have a headache and a fever.", spanish: "Tengo dolor de cabeza y fiebre.", correct: true },
+                    { english: "I love reading books.", spanish: "Me encanta leer libros.", correct: false }
+                ],
+                feedback: "¡Bien hecho! Describiste tus síntomas claramente usando 'I have...'"
+            },
+            {
+                icon: "📞",
+                title: "Phone Conversation",
+                description: "Alguien llama y preguntas quién es.",
+                dialogue: [
+                    { character: "Caller", icon: "📱", english: "Hello, is Maria there?", spanish: "Hola, ¿está María?" }
+                ],
+                question: "¿Qué preguntarías?",
+                options: [
+                    { english: "Who's calling, please?", spanish: "¿Quién llama, por favor?", correct: true },
+                    { english: "I like chocolate cake.", spanish: "Me gusta el pastel de chocolate.", correct: false },
+                    { english: "The sky is blue.", spanish: "El cielo es azul.", correct: false }
+                ],
+                feedback: "¡Correcto! 'Who's calling?' es la forma educada de preguntar quién llama."
+            },
+            {
+                icon: "🎂",
+                title: "Birthday Party",
+                description: "Te invitan a una fiesta de cumpleaños.",
+                dialogue: [
+                    { character: "Friend", icon: "👧", english: "Can you come to my birthday party on Saturday?", spanish: "¿Puedes venir a mi fiesta de cumpleaños el sábado?" }
+                ],
+                question: "¿Cómo aceptarías?",
+                options: [
+                    { english: "I don't understand math.", spanish: "No entiendo matemáticas.", correct: false },
+                    { english: "Yes, I'd love to! What time?", spanish: "¡Sí, me encantaría! ¿A qué hora?", correct: true },
+                    { english: "My house is big.", spanish: "Mi casa es grande.", correct: false }
+                ],
+                feedback: "¡Excelente! 'I'd love to!' expresa entusiasmo por la invitación."
+            },
+            {
+                icon: "⚽",
+                title: "Playing Sports",
+                description: "Alguien te invita a jugar un deporte.",
+                dialogue: [
+                    { character: "Friend", icon: "🧑", english: "Do you want to play basketball with us?", spanish: "¿Quieres jugar baloncesto con nosotros?" }
+                ],
+                question: "¿Qué dirías?",
+                options: [
+                    { english: "I have a red bicycle.", spanish: "Tengo una bicicleta roja.", correct: false },
+                    { english: "Sure! I love basketball!", spanish: "¡Claro! ¡Me encanta el baloncesto!", correct: true },
+                    { english: "My favorite subject is science.", spanish: "Mi materia favorita es ciencias.", correct: false }
+                ],
+                feedback: "¡Muy bien! 'Sure!' es una forma casual y amigable de aceptar."
+            },
+            {
+                icon: "🎒",
+                title: "Lost and Found",
+                description: "Perdiste tu mochila y necesitas reportarlo.",
+                dialogue: [
+                    { character: "Staff", icon: "👨‍💼", english: "Can I help you with something?", spanish: "¿Puedo ayudarte con algo?" }
+                ],
+                question: "¿Qué dirías?",
+                options: [
+                    { english: "I lost my backpack. It's blue.", spanish: "Perdí mi mochila. Es azul.", correct: true },
+                    { english: "I like swimming in summer.", spanish: "Me gusta nadar en verano.", correct: false },
+                    { english: "My birthday is in May.", spanish: "Mi cumpleaños es en mayo.", correct: false }
+                ],
+                feedback: "¡Perfecto! Describiste el problema claramente con 'I lost my...'"
+            },
+            {
+                icon: "🎨",
+                title: "Art Class",
+                description: "Tu profesor de arte te pregunta sobre tu proyecto.",
+                dialogue: [
+                    { character: "Teacher", icon: "👨‍🎨", english: "What are you working on today?", spanish: "¿En qué estás trabajando hoy?" }
+                ],
+                question: "¿Cómo responderías?",
+                options: [
+                    { english: "I'm painting a sunset.", spanish: "Estoy pintando un atardecer.", correct: true },
+                    { english: "I wake up at 7 AM.", spanish: "Me despierto a las 7 AM.", correct: false },
+                    { english: "I have three brothers.", spanish: "Tengo tres hermanos.", correct: false }
+                ],
+                feedback: "¡Excelente! Usaste 'I'm painting...' correctamente para describir tu actividad actual."
+            }
+        ];
+
+        let currentScenario = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadScenario() {
+            const scenario = scenarios[currentScenario];
+            answered = false;
+            
+            document.getElementById('scenarioIcon').textContent = scenario.icon;
+            document.getElementById('scenarioTitle').textContent = scenario.title;
+            document.getElementById('scenarioDescription').textContent = scenario.description;
+            
+            const conversationBox = document.getElementById('conversationBox');
+            conversationBox.innerHTML = '';
+            
+            scenario.dialogue.forEach((line, index) => {
+                setTimeout(() => {
+                    const dialogueLine = document.createElement('div');
+                    dialogueLine.className = 'dialogue-line';
+                    dialogueLine.innerHTML = `
+                        <div class="character">
+                            <span class="character-icon">${line.icon}</span>
+                            <span>${line.character}:</span>
+                        </div>
+                        <div class="dialogue-text">
+                            <div class="english-text">${line.english}</div>
+                            <div class="spanish-text">${line.spanish}</div>
+                        </div>
+                    `;
+                    conversationBox.appendChild(dialogueLine);
+                    
+                    if (index === scenario.dialogue.length - 1) {
+                        setTimeout(() => {
+                            const questionDiv = document.createElement('div');
+                            questionDiv.style.marginTop = '20px';
+                            questionDiv.style.fontWeight = '600';
+                            questionDiv.style.color = '#E15034';
+                            questionDiv.style.fontSize = '1.1rem';
+                            questionDiv.textContent = scenario.question;
+                            conversationBox.appendChild(questionDiv);
+                        }, 300);
+                    }
+                }, index * 600);
+            });
+            
+            setTimeout(() => {
+                loadOptions();
+            }, scenario.dialogue.length * 600 + 500);
+            
+            document.getElementById('feedbackMessage').classList.remove('show');
+            document.getElementById('nextBtn').disabled = true;
+            
+            updateProgress();
+        }
+
+        function loadOptions() {
+            const scenario = scenarios[currentScenario];
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            
+            scenario.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `
+                    <div class="option-english">${option.english}</div>
+                    <div class="option-spanish">${option.spanish}</div>
+                `;
+                btn.onclick = () => checkAnswer(index);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            if (answered) return;
+            answered = true;
+            
+            const scenario = scenarios[currentScenario];
+            const options = document.querySelectorAll('.option-btn');
+            const selectedOption = scenario.options[selectedIndex];
+            
+            options.forEach((btn, index) => {
+                btn.style.pointerEvents = 'none';
+                if (index === selectedIndex) {
+                    if (selectedOption.correct) {
+                        btn.classList.add('correct');
+                        score++;
+                        updateScore();
+                        showFeedback(scenario.feedback, true);
+                    } else {
+                        btn.classList.add('incorrect');
+                        showFeedback('Intenta pensar en el contexto de la conversación. ¿Qué respuesta tiene más sentido?', false);
+                    }
+                }
+                if (scenario.options[index].correct && index !== selectedIndex) {
+                    setTimeout(() => {
+                        btn.classList.add('correct');
+                    }, 500);
+                }
+            });
+            
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function showFeedback(message, isCorrect) {
+            const feedback = document.getElementById('feedbackMessage');
+            feedback.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.5rem;">${isCorrect ? '✅' : '💡'}</span>
+                    <div>
+                        <div style="font-weight: 600; color: ${isCorrect ? '#4CAF50' : '#EE9A5B'}; margin-bottom: 5px;">
+                            ${isCorrect ? '¡Correcto!' : '¡Sigue intentando!'}
+                        </div>
+                        <div style="color: #889F92;">${message}</div>
+                    </div>
+                </div>
+            `;
+            feedback.classList.add('show');
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+        }
+
+        function updateProgress() {
+            const progress = currentScenario + 1;
+            document.getElementById('progress').textContent = `${progress}/10`;
+            const percentage = (progress / 10) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentScenario++;
+            if (currentScenario < scenarios.length) {
+                loadScenario();
+            } else {
+                showCompletion();
+            }
+        });
+
+        function showCompletion() {
+            document.getElementById('gameArea').style.display = 'none';
+            document.getElementById('completionScreen').classList.add('show');
+            document.getElementById('finalScore').textContent = `${score}/10`;
+        }
+
+        loadScenario();
+    </script>
+</body>
+</html>

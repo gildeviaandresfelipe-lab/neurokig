@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing Workshop - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #E15034, rgba(255, 255, 255, 0.3));
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.3);
+        }
+
+        .progress-info {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(225, 80, 52, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #E15034;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 25px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .prompt-card {
+            background: linear-gradient(135deg, #E15034 0%, rgba(255, 255, 255, 0.2) 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(225, 80, 52, 0.3);
+        }
+
+        .prompt-card.selected {
+            border-color: #889F92;
+        }
+
+        .prompt-type {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .prompt-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .prompt-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            padding: 10px;
+            background: rgba(225, 80, 52, 0.05);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            color: #889F92;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .tips-list li::before {
+            content: '✨';
+            flex-shrink: 0;
+        }
+
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .word-chip {
+            background: rgba(225, 80, 52, 0.1);
+            color: #E15034;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .word-chip:hover {
+            background: #E15034;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .writing-area {
+            min-height: 600px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-btn {
+            background: white;
+            border: 2px solid #E15034;
+            color: #E15034;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .toolbar-btn:hover {
+            background: #E15034;
+            color: white;
+        }
+
+        .editor {
+            background: white;
+            border: 3px solid #E15034;
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 400px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            outline: none;
+        }
+
+        .editor:focus {
+            box-shadow: 0 0 0 4px rgba(225, 80, 52, 0.1);
+        }
+
+        .word-count {
+            text-align: right;
+            margin-top: 10px;
+            color: #889F92;
+            font-size: 0.9rem;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #889F92, rgba(255, 255, 255, 0.3));
+            color: white;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(136, 159, 146, 0.3);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #E15034, rgba(255, 255, 255, 0.3));
+            color: white;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.3);
+        }
+
+        .feedback-panel {
+            display: none;
+            margin-top: 20px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            border-left: 5px solid #E15034;
+        }
+
+        .feedback-panel.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback-section {
+            margin-bottom: 20px;
+        }
+
+        .feedback-section h3 {
+            color: #E15034;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feedback-item {
+            padding: 12px;
+            background: rgba(225, 80, 52, 0.05);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .score-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+        }
+
+        .modal-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: #E15034;
+            margin-bottom: 15px;
+        }
+
+        .modal-text {
+            color: #889F92;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #E15034, rgba(255, 255, 255, 0.3));
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.3);
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .progress-info {
+                width: 100%;
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <a href="actividadesgrados.html" class="back-btn">← Volver</a>
+                <div class="progress-info">
+                    <div class="progress-item">
+                        <span>✏️</span>
+                        <span id="wordsWritten">0 palabras</span>
+                    </div>
+                    <div class="progress-item">
+                        <span>📝</span>
+                        <span id="textsCompleted">0 textos</span>
+                    </div>
+                </div>
+            </div>
+            <h1>✍️ Writing Workshop</h1>
+            <p class="subtitle">Desarrolla tu creatividad escribiendo en inglés</p>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="card prompt-card" data-type="story">
+                    <div class="prompt-type">📖</div>
+                    <div class="prompt-title">Write a Story</div>
+                    <div class="prompt-description">
+                        Create an imaginative story with characters, setting, and a plot. Let your creativity flow!
+                    </div>
+                </div>
+
+                <div class="card prompt-card" data-type="description">
+                    <div class="prompt-type">🎨</div>
+                    <div class="prompt-title">Descriptive Text</div>
+                    <div class="prompt-description">
+                        Describe a place, person, or object using vivid details and sensory language.
+                    </div>
+                </div>
+
+                <div class="card prompt-card" data-type="poem">
+                    <div class="prompt-type">🌟</div>
+                    <div class="prompt-title">Write a Poem</div>
+                    <div class="prompt-description">
+                        Express your feelings and ideas through poetic language and imagery.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">💡 Writing Tips</div>
+                    <ul class="tips-list" id="tipsList"></ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">📚 Word Bank</div>
+                    <div class="word-bank" id="wordBank"></div>
+                </div>
+            </div>
+
+            <div class="writing-area">
+                <div class="card">
+                    <div class="card-title" id="promptTitle">Select a writing prompt to begin</div>
+                    <div id="promptInstructions" style="color: #889F92; margin-bottom: 20px;"></div>
+                    
+                    <div class="toolbar">
+                        <button class="toolbar-btn" onclick="clearEditor()">
+                            <span>🗑️</span> Clear
+                        </button>
+                        <button class="toolbar-btn" onclick="insertWord('and')">
+                            <span>➕</span> Connectors
+                        </button>
+                        <button class="toolbar-btn" onclick="showExample()">
+                            <span>💡</span> Example
+                        </button>
+                    </div>
+
+                    <div class="editor" id="editor" contenteditable="true" placeholder="Start writing here..."></div>
+                    <div class="word-count" id="wordCount">0 words</div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn check-btn" onclick="checkWriting()">
+                            <span>🔍</span> Check My Writing
+                        </button>
+                        <button class="action-btn submit-btn" onclick="submitWriting()">
+                            <span>✅</span> Submit
+                        </button>
+                    </div>
+
+                    <div class="feedback-panel" id="feedbackPanel"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">🏆</div>
+            <div class="modal-title">Excellent Work!</div>
+            <div class="modal-text">
+                You've completed your writing! Keep practicing to become an even better writer.
+            </div>
+            <button class="modal-btn" onclick="closeModal()">Continue Writing</button>
+        </div>
+    </div>
+
+    <script>
+        const prompts = {
+            story: {
+                title: "📖 Write a Story",
+                instructions: "Write a creative story (100-200 words). Include: characters, a setting, a problem, and a solution.",
+                tips: [
+                    "Start with an interesting opening sentence",
+                    "Use descriptive adjectives and adverbs",
+                    "Show, don't tell - use actions and dialogue",
+                    "Include a clear beginning, middle, and end",
+                    "Use past tense for storytelling"
+                ],
+                words: ["suddenly", "however", "meanwhile", "finally", "because", "although", "therefore", "amazing", "mysterious", "discovered"],
+                example: "Once upon a time, there was a curious cat named Whiskers. One day, Whiskers discovered a mysterious door in the garden. Although she was scared, she pushed it open. Inside, she found a magical world full of talking animals. Finally, Whiskers learned that bravery leads to amazing adventures."
+            },
+            description: {
+                title: "🎨 Descriptive Text",
+                instructions: "Describe something in detail (80-150 words). Use sensory language: sight, sound, smell, touch, and taste.",
+                tips: [
+                    "Use all five senses in your description",
+                    "Choose specific, vivid adjectives",
+                    "Create mental images for your reader",
+                    "Organize from general to specific details",
+                    "Use comparisons and metaphors"
+                ],
+                words: ["beautiful", "enormous", "tiny", "brilliant", "soft", "rough", "delicious", "peaceful", "vibrant", "ancient"],
+                example: "My grandmother's garden is a magical place. The enormous oak tree stands like a gentle giant, its rough bark covered in soft moss. Brilliant red roses bloom beside vibrant purple lavender. The peaceful sound of buzzing bees fills the warm air. The delicious smell of fresh herbs makes my mouth water. This tiny paradise feels ancient and timeless."
+            },
+            poem: {
+                title: "🌟 Write a Poem",
+                instructions: "Write a poem (8-16 lines). You can use rhyme or free verse. Express emotions and use figurative language.",
+                tips: [
+                    "Choose a theme or emotion to explore",
+                    "Use metaphors and similes",
+                    "Consider rhythm and sound",
+                    "Break lines for emphasis",
+                    "Show emotions through imagery"
+                ],
+                words: ["like", "as", "glowing", "dancing", "whispers", "dreams", "shining", "flowing", "endless", "gentle"],
+                example: "The moon glowing like a silver coin,\nDancing across the endless sky,\nWhispers of dreams flowing by,\nGentle as a mother's lullaby.\n\nStars shining bright as diamonds,\nNight as soft as velvet cloth,\nPeaceful moments, quiet thoughts,\nMagic that can't be bought or taught."
+            }
+        };
+
+        let currentPrompt = null;
+        let totalWords = 0;
+        let textsCompleted = 0;
+
+        document.querySelectorAll('.prompt-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.prompt-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                const type = this.getAttribute('data-type');
+                loadPrompt(type);
+            });
+        });
+
+        function loadPrompt(type) {
+            currentPrompt = prompts[type];
+            
+            document.getElementById('promptTitle').textContent = currentPrompt.title;
+            document.getElementById('promptInstructions').textContent = currentPrompt.instructions;
+            
+            const tipsList = document.getElementById('tipsList');
+            tipsList.innerHTML = '';
+            currentPrompt.tips.forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                tipsList.appendChild(li);
+            });
+            
+            const wordBank = document.getElementById('wordBank');
+            wordBank.innerHTML = '';
+            currentPrompt.words.forEach(word => {
+                const chip = document.createElement('span');
+                chip.className = 'word-chip';
+                chip.textContent = word;
+                chip.onclick = () => insertWord(word);
+                wordBank.appendChild(chip);
+            });
+            
+            document.getElementById('feedbackPanel').classList.remove('show');
+        }
+
+        const editor = document.getElementById('editor');
+        
+        editor.addEventListener('input', updateWordCount);
+        editor.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const text = e.clipboardData.getData('text/plain');
+            document.execCommand('insertText', false, text);
+        });
+
+        function updateWordCount() {
+            const text = editor.innerText.trim();
+            const words = text.length > 0 ? text.split(/\s+/).length : 0;
+            document.getElementById('wordCount').textContent = `${words} words`;
+        }
+
+        function insertWord(word) {
+            editor.focus();
+            const selection = window.getSelection();
+            const range = selection.getRangeAt(0);
+            range.deleteContents();
+            const textNode = document.createTextNode(word + ' ');
+            range.insertNode(textNode);
+            range.setStartAfter(textNode);
+            range.setEndAfter(textNode);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            updateWordCount();
+        }
+
+        function clearEditor() {
+            if (confirm('Are you sure you want to clear your writing?')) {
+                editor.innerText = '';
+                updateWordCount();
+                document.getElementById('feedbackPanel').classList.remove('show');
+            }
+        }
+
+        function showExample() {
+            if (!currentPrompt) {
+                alert('Please select a writing prompt first!');
+                return;
+            }
+            alert('Example:\n\n' + currentPrompt.example);
+        }
+
+        function checkWriting() {
+            if (!currentPrompt) {
+                alert('Please select a writing prompt first!');
+                return;
+            }
+
+            const text = editor.innerText.trim();
+            if (text.length < 20) {
+                alert('Please write more before checking!');
+                return;
+            }
+
+            const words = text.split(/\s+/).length;
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            const hasCapital = /^[A-Z]/.test(text);
+            const hasPunctuation = /[.!?]$/.test(text.trim());
+            
+            let feedback = '<div class="feedback-section">';
+            feedback += '<h3>📊 Analysis</h3>';
+            feedback += `<div class="feedback-item">Word count: <strong>${words}</strong></div>`;
+            feedback += `<div class="feedback-item">Sentences: <strong>${sentences}</strong></div>`;
+            feedback += '</div>';
+            
+            feedback += '<div class="feedback-section">';
+            feedback += '<h3>✅ Strengths</h3>';
+            if (hasCapital) feedback += '<div class="feedback-item">✓ Good! You started with a capital letter</div>';
+            if (hasPunctuation) feedback += '<div class="feedback-item">✓ Good! You ended with proper punctuation</div>';
+            if (words >= 50) feedback += '<div class="feedback-item">✓ Great length! You wrote enough words</div>';
+            feedback += '</div>';
+            
+            feedback += '<div class="feedback-section">';
+            feedback += '<h3>💡 Suggestions</h3>';
+            if (!hasCapital) feedback += '<div class="feedback-item">• Remember to start with a capital letter</div>';
+            if (!hasPunctuation) feedback += '<div class="feedback-item">• Add punctuation at the end</div>';
+            if (words < 50) feedback += '<div class="feedback-item">• Try to write a bit more</div>';
+            feedback += '<div class="feedback-item">• Read your work out loud to check for errors</div>';
+            feedback += '<div class="feedback-item">• Make sure each sentence expresses a complete thought</div>';
+            feedback += '</div>';
+            
+            document.getElementById('feedbackPanel').innerHTML = feedback;
+            document.getElementById('feedbackPanel').classList.add('show');
+        }
+
+        function submitWriting() {
+            if (!currentPrompt) {
+                alert('Please select a writing prompt first!');
+                return;
+            }
+
+            const text = editor.innerText.trim();
+            if (text.length < 20) {
+                alert('Please write more before submitting!');
+                return;
+            }
+
+            const words = text.split(/\s+/).length;
+            totalWords += words;
+            textsCompleted++;
+            
+            document.getElementById('wordsWritten').textContent = `${totalWords} palabras`;
+            document.getElementById('textsCompleted').textContent = `${textsCompleted} textos`;
+            
+            document.getElementById('successModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('show');
+            if (confirm('Would you like to start a new writing?')) {
+                editor.innerText = '';
+                updateWordCount();
+                document.getElementById('feedbackPanel').classList.remove('show');
+                document.querySelectorAll('.prompt-card').forEach(c => c.classList.remove('selected'));
+                currentPrompt = null;
+                document.getElementById('promptTitle').textContent = 'Select a writing prompt to begin';
+                document.getElementById('promptInstructions').textContent = '';
+                document.getElementById('tipsList').innerHTML = '';
+                document.getElementById('wordBank').innerHTML = '';
+            }
+        }
+
+        editor.setAttribute('placeholder', 'Start writing here...');
+    </script>
+</body>
+</html>

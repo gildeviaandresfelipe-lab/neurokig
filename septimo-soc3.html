@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viaje a las Culturas Precolombinas</title>
+    <title>Viaje a las Culturas Precolombinas - NeuroKids</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -12,100 +14,130 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #FFE5B4 0%, #D4A574 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
             min-height: 100vh;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .container {
-            max-width: 1000px;
-            width: 100%;
-            background: white;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .header {
-            background: linear-gradient(135deg, #8B4513, #CD853F);
-            padding: 30px;
-            text-align: center;
-            color: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #E15034, rgba(255, 255, 255, 0.3));
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.3);
         }
 
         .score-board {
             display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 15px;
+            gap: 20px;
+            align-items: center;
         }
 
         .score-item {
-            background: rgba(255,255,255,0.3);
-            padding: 10px 20px;
-            border-radius: 15px;
-            font-size: 1.2em;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(225, 80, 52, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #E15034;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #889F92;
+            font-size: 1.1rem;
         }
 
         .game-area {
-            padding: 40px;
-            background: #FFF8DC;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
         .topic-selector {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin-bottom: 30px;
         }
 
         .topic-btn {
-            background: linear-gradient(135deg, #CD853F, #8B4513);
-            color: white;
-            border: none;
-            padding: 20px;
-            border-radius: 20px;
-            font-size: 1em;
+            background: white;
+            color: #E15034;
+            border: 3px solid #EDA2A1;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            font-weight: bold;
+            transition: all 0.3s ease;
+            font-weight: 600;
         }
 
         .topic-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.2);
+            background: rgba(237, 162, 161, 0.1);
         }
 
         .topic-btn.active {
-            background: linear-gradient(135deg, #DAA520, #FFD700);
-            color: #8B4513;
+            background: linear-gradient(135deg, #E15034, rgba(255, 255, 255, 0.3));
+            color: white;
+            border-color: #E15034;
         }
 
         .game-content {
-            background: white;
+            background: #FEF0F0;
             border-radius: 20px;
             padding: 30px;
             min-height: 400px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
         .visual-scene {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #D4A574, #CD853F);
+            background: linear-gradient(135deg, #EDA2A1, #E77B66);
             border-radius: 20px;
             padding: 30px;
             margin: 20px 0;
@@ -126,31 +158,33 @@
         }
 
         .info-box {
-            background: #FFF8DC;
+            background: white;
             padding: 20px;
             border-radius: 15px;
-            border-left: 5px solid #DAA520;
+            border-left: 5px solid #E15034;
             margin: 20px 0;
             line-height: 1.8;
-            font-size: 1.2em;
+            font-size: 1.1em;
+            color: #555;
         }
 
         .info-title {
-            color: #8B4513;
-            font-weight: bold;
+            color: #E15034;
+            font-weight: 700;
             font-size: 1.3em;
             margin-bottom: 10px;
         }
 
         .question-box {
             font-size: 1.4em;
-            color: #8B4513;
+            color: #E15034;
             margin: 25px 0;
-            font-weight: bold;
+            font-weight: 700;
             text-align: center;
             padding: 20px;
-            background: #FFF8DC;
+            background: white;
             border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .options {
@@ -161,16 +195,18 @@
 
         .option-btn {
             background: white;
-            border: 3px solid #D4A574;
+            border: 3px solid #EDA2A1;
             padding: 20px;
             border-radius: 15px;
-            font-size: 1.2em;
+            font-size: 1.1em;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             text-align: left;
             display: flex;
             align-items: center;
             gap: 15px;
+            color: #555;
+            font-weight: 500;
         }
 
         .option-icon {
@@ -180,22 +216,23 @@
         }
 
         .option-btn:hover {
-            background: #D4A574;
+            background: #EDA2A1;
             color: white;
             transform: scale(1.02);
+            border-color: #E77B66;
         }
 
         .option-btn.correct {
-            background: #228B22;
+            background: #4CAF50;
             color: white;
-            border-color: #228B22;
+            border-color: #4CAF50;
             animation: pulse 0.5s;
         }
 
         .option-btn.incorrect {
-            background: #DC143C;
+            background: #f44336;
             color: white;
-            border-color: #DC143C;
+            border-color: #f44336;
             animation: shake 0.5s;
         }
 
@@ -221,50 +258,54 @@
         }
 
         .match-item {
-            background: #FFF8DC;
-            border: 3px solid #D4A574;
+            background: white;
+            border: 3px solid #EDA2A1;
             padding: 15px;
             border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             text-align: center;
             font-size: 1.1em;
+            font-weight: 500;
+            color: #555;
         }
 
         .match-item:hover {
-            background: #CD853F;
+            background: #EDA2A1;
             color: white;
+            border-color: #E77B66;
         }
 
         .match-item.selected {
-            background: #DAA520;
+            background: #E15034;
             color: white;
-            border-color: #DAA520;
+            border-color: #E15034;
+            transform: scale(1.05);
         }
 
         .feedback {
             margin-top: 20px;
             padding: 25px;
             border-radius: 15px;
-            font-size: 1.3em;
+            font-size: 1.2em;
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
+            color: white;
         }
 
         .feedback.success {
-            background: #228B22;
-            color: white;
+            background: linear-gradient(135deg, #4CAF50, #81C784);
         }
 
         .feedback.error {
-            background: #DC143C;
-            color: white;
+            background: linear-gradient(135deg, #f44336, #e57373);
         }
 
         .celebration {
             text-align: center;
             font-size: 3em;
             animation: bounce 1s infinite;
+            margin-bottom: 15px;
         }
 
         @keyframes bounce {
@@ -273,50 +314,94 @@
         }
 
         .next-btn {
-            background: linear-gradient(135deg, #228B22, #32CD32);
+            background: linear-gradient(135deg, #E15034, rgba(255, 255, 255, 0.3));
             color: white;
             border: none;
             padding: 15px 40px;
-            border-radius: 15px;
-            font-size: 1.2em;
+            border-radius: 25px;
+            font-size: 1.1em;
             cursor: pointer;
             margin-top: 20px;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(225, 80, 52, 0.3);
         }
 
         .highlight {
-            background: #DAA520;
+            background: #E15034;
             color: white;
             padding: 3px 8px;
             border-radius: 5px;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .fact-box {
-            background: linear-gradient(135deg, #8B4513, #CD853F);
+            background: linear-gradient(135deg, #889F92, rgba(255, 255, 255, 0.3));
             color: white;
             padding: 20px;
             border-radius: 15px;
             margin: 20px 0;
             font-size: 1.1em;
             line-height: 1.6;
+            font-weight: 500;
         }
 
         .fact-icon {
             font-size: 2em;
             margin-right: 10px;
         }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .score-board {
+                width: 100%;
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .topic-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .match-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .game-area {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏛️ Viaje a las Culturas Precolombinas 🌎</h1>
-            <div class="score-board">
-                <div class="score-item">⭐ Puntos: <span id="score">0</span></div>
-                <div class="score-item">🏆 Nivel: <span id="level">1</span></div>
+            <div class="header-top">
+                <a href="actividadesgrados.html" class="back-btn">← Volver</a>
+                <div class="score-board">
+                    <div class="score-item">
+                        <span>⭐</span>
+                        <span id="score">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span>🏆</span>
+                        <span>Nivel <span id="level">1</span></span>
+                    </div>
+                </div>
             </div>
+            <h1>🏛️ Viaje a las Culturas Precolombinas</h1>
+            <p class="subtitle">Descubre la historia de las grandes civilizaciones de América</p>
         </div>
 
         <div class="game-area">
