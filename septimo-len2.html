@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aventuras de Lectura Visual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .game-area {
+            padding: 40px;
+            background: #FEF0F0;
+        }
+
+        .story-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .story-btn {
+            background: linear-gradient(135deg, #889F92, #7A8F82);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+
+        .story-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .story-btn.active {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+        }
+
+        .game-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 400px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .visual-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #FEF0F0;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            min-height: 200px;
+        }
+
+        .visual-icon {
+            font-size: 8em;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .story-text {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #EE9A5B;
+            margin: 20px 0;
+            line-height: 2;
+            font-size: 1.3em;
+            color: #333;
+        }
+
+        .highlighted-word {
+            background: #EE9A5B;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .question-box {
+            font-size: 1.4em;
+            color: #E15034;
+            margin: 25px 0;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            background: #FEF0F0;
+            border-radius: 15px;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #EDA2A1;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option-icon {
+            font-size: 2em;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            background: #EDA2A1;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .option-btn.correct {
+            background: #889F92;
+            color: white;
+            border-color: #889F92;
+            animation: pulse 0.5s;
+        }
+
+        .option-btn.incorrect {
+            background: #E15034;
+            color: white;
+            border-color: #E15034;
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .feedback.success {
+            background: #889F92;
+            color: white;
+        }
+
+        .feedback.error {
+            background: #E15034;
+            color: white;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #889F92, #7A8F82);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .celebration {
+            text-align: center;
+            font-size: 3em;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .sequence-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .sequence-card {
+            background: #FEF0F0;
+            border: 3px solid #EDA2A1;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .sequence-card:hover {
+            transform: scale(1.05);
+            background: #EDA2A1;
+            color: white;
+        }
+
+        .sequence-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .word-match-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .match-column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .match-item {
+            background: #FEF0F0;
+            border: 3px solid #EDA2A1;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .match-item:hover {
+            background: #EE9A5B;
+            color: white;
+        }
+
+        .match-item.selected {
+            background: #889F92;
+            color: white;
+            border-color: #889F92;
+        }
+
+        .emotion-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .emotion-card {
+            background: white;
+            border: 3px solid #EDA2A1;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 120px;
+        }
+
+        .emotion-card:hover {
+            transform: scale(1.1);
+            background: #EDA2A1;
+            color: white;
+        }
+
+        .emotion-face {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Aventuras de Lectura Visual 🎨</h1>
+            <div class="score-board">
+                <div class="score-item">⭐ Puntos: <span id="score">0</span></div>
+                <div class="score-item">📖 Historia: <span id="level">1</span></div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="story-selector">
+                <button class="story-btn active" onclick="changeStory('parque')">🌳 El Parque</button>
+                <button class="story-btn" onclick="changeStory('playa')">🏖️ La Playa</button>
+                <button class="story-btn" onclick="changeStory('escuela')">🏫 La Escuela</button>
+                <button class="story-btn" onclick="changeStory('granja')">🐄 La Granja</button>
+                <button class="story-btn" onclick="changeStory('cumpleanos')">🎂 Cumpleaños</button>
+            </div>
+
+            <div class="game-content" id="gameContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let level = 1;
+        let currentStory = 'parque';
+        let currentQuestion = 0;
+
+        const stories = {
+            parque: [
+                {
+                    visual: '🌳',
+                    text: 'María fue al <span class="highlighted-word">parque</span> en la mañana. El sol brillaba y los pájaros cantaban. Ella llevaba su <span class="highlighted-word">pelota</span> favorita de color rojo.',
+                    question: '¿Qué llevó María al parque?',
+                    options: [
+                        {icon: '⚽', text: 'Una pelota'},
+                        {icon: '🎒', text: 'Una mochila'},
+                        {icon: '🐕', text: 'Un perro'},
+                        {icon: '🚲', text: 'Una bicicleta'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! María llevó su pelota favorita de color rojo.'
+                },
+                {
+                    visual: '👧🏃',
+                    text: 'En el parque, María corrió por el césped verde. Se divirtió mucho jugando. Después, se sentó en un <span class="highlighted-word">banco</span> para descansar.',
+                    question: '¿Dónde se sentó María para descansar?',
+                    options: [
+                        {icon: '🪑', text: 'En una silla'},
+                        {icon: '🪨', text: 'En una piedra'},
+                        {icon: '🏞️', text: 'En un banco'},
+                        {icon: '🌳', text: 'Bajo un árbol'}
+                    ],
+                    correct: 2,
+                    explanation: '¡Muy bien! María se sentó en un banco para descansar.'
+                },
+                {
+                    type: 'emotion',
+                    visual: '😊',
+                    text: 'María vio a su amigo Juan en el parque. Se pusieron muy contentos de verse. Jugaron juntos hasta que llegó la hora de irse a casa.',
+                    question: '¿Cómo se sintió María al ver a Juan?',
+                    options: [
+                        {icon: '😊', text: 'Contenta'},
+                        {icon: '😢', text: 'Triste'},
+                        {icon: '😠', text: 'Enojada'},
+                        {icon: '😴', text: 'Cansada'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! María se puso contenta al ver a su amigo.'
+                }
+            ],
+            playa: [
+                {
+                    visual: '🏖️',
+                    text: 'La familia llegó a la <span class="highlighted-word">playa</span> temprano. El mar estaba tranquilo y azul. Los niños corrieron hacia la arena dorada con sus cubetas.',
+                    question: '¿De qué color era el mar?',
+                    options: [
+                        {icon: '🔵', text: 'Azul'},
+                        {icon: '🟢', text: 'Verde'},
+                        {icon: '🔴', text: 'Rojo'},
+                        {icon: '⚪', text: 'Blanco'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! El mar estaba tranquilo y azul.'
+                },
+                {
+                    visual: '🏰',
+                    text: 'Pedro construyó un gran <span class="highlighted-word">castillo de arena</span>. Tenía torres altas y un foso alrededor. Decoró el castillo con conchas que encontró.',
+                    question: '¿Qué construyó Pedro?',
+                    options: [
+                        {icon: '🏰', text: 'Un castillo de arena'},
+                        {icon: '⛱️', text: 'Una sombrilla'},
+                        {icon: '🚤', text: 'Un barco'},
+                        {icon: '🐚', text: 'Una colección de conchas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Pedro construyó un castillo de arena con torres.'
+                },
+                {
+                    type: 'sequence',
+                    visual: '🏊',
+                    question: '¿Qué hizo primero Pedro en la playa?',
+                    text: 'Pedro llegó a la playa, se puso bloqueador solar, nadó en el mar, y comió un helado.',
+                    options: [
+                        {icon: '🧴', text: 'Se puso bloqueador'},
+                        {icon: '🏊', text: 'Nadó en el mar'},
+                        {icon: '🍦', text: 'Comió helado'},
+                        {icon: '🏖️', text: 'Llegó a la playa'}
+                    ],
+                    correct: 3,
+                    explanation: '¡Correcto! Lo primero fue llegar a la playa.'
+                }
+            ],
+            escuela: [
+                {
+                    visual: '🏫',
+                    text: 'Ana llegó a la <span class="highlighted-word">escuela</span> muy emocionada. Su salón de clases era grande y luminoso. Había muchos libros en los estantes.',
+                    question: '¿Cómo era el salón de Ana?',
+                    options: [
+                        {icon: '🌞', text: 'Grande y luminoso'},
+                        {icon: '🌙', text: 'Pequeño y oscuro'},
+                        {icon: '🎨', text: 'Lleno de pinturas'},
+                        {icon: '❄️', text: 'Frío y vacío'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! El salón era grande y luminoso.'
+                },
+                {
+                    visual: '👩‍🏫',
+                    text: 'La maestra se llamaba Carmen. Ella era muy amable y paciente. Enseñó a los niños sobre los <span class="highlighted-word">animales</span> del bosque.',
+                    question: '¿Sobre qué enseñó la maestra?',
+                    options: [
+                        {icon: '🌳', text: 'Los animales del bosque'},
+                        {icon: '🌊', text: 'Los peces del mar'},
+                        {icon: '🪐', text: 'Los planetas'},
+                        {icon: '🎨', text: 'Los colores'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! La maestra enseñó sobre los animales del bosque.'
+                },
+                {
+                    type: 'emotion',
+                    visual: '📚',
+                    text: 'Durante el recreo, Ana compartió sus <span class="highlighted-word">galletas</span> con sus amigos. Todos se divirtieron jugando juntos en el patio.',
+                    question: '¿Qué compartió Ana?',
+                    options: [
+                        {icon: '🍪', text: 'Galletas'},
+                        {icon: '🍎', text: 'Manzanas'},
+                        {icon: '🥤', text: 'Jugo'},
+                        {icon: '🍫', text: 'Chocolate'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Ana compartió sus galletas con sus amigos.'
+                }
+            ],
+            granja: [
+                {
+                    visual: '🐄',
+                    text: 'Luis visitó la <span class="highlighted-word">granja</span> de su abuelo. Había muchos animales allí. Las vacas comían pasto verde en el campo.',
+                    question: '¿Qué comían las vacas?',
+                    options: [
+                        {icon: '🌾', text: 'Pasto verde'},
+                        {icon: '🌽', text: 'Maíz'},
+                        {icon: '🥕', text: 'Zanahorias'},
+                        {icon: '🍎', text: 'Manzanas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Las vacas comían pasto verde en el campo.'
+                },
+                {
+                    visual: '🐔',
+                    text: 'Por la mañana, Luis recolectó <span class="highlighted-word">huevos</span> del gallinero. Las gallinas cacareaban felices. Encontró diez huevos frescos.',
+                    question: '¿Cuántos huevos encontró Luis?',
+                    options: [
+                        {icon: '5️⃣', text: 'Cinco'},
+                        {icon: '🔟', text: 'Diez'},
+                        {icon: '1️⃣5️⃣', text: 'Quince'},
+                        {icon: '2️⃣0️⃣', text: 'Veinte'}
+                    ],
+                    correct: 1,
+                    explanation: '¡Muy bien! Luis encontró diez huevos frescos.'
+                },
+                {
+                    visual: '🐴',
+                    text: 'El abuelo le enseñó a Luis a montar el <span class="highlighted-word">caballo</span> café. El caballo se llamaba Trueno. Luis se sintió muy valiente montándolo.',
+                    question: '¿Cómo se llamaba el caballo?',
+                    options: [
+                        {icon: '⚡', text: 'Trueno'},
+                        {icon: '💨', text: 'Viento'},
+                        {icon: '⭐', text: 'Estrella'},
+                        {icon: '🌈', text: 'Arcoíris'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! El caballo se llamaba Trueno.'
+                }
+            ],
+            cumpleanos: [
+                {
+                    visual: '🎂',
+                    text: 'Hoy es el <span class="highlighted-word">cumpleaños</span> de Sofía. Cumple siete años. Su mamá preparó una torta de chocolate con velas.',
+                    question: '¿Cuántos años cumple Sofía?',
+                    options: [
+                        {icon: '6️⃣', text: 'Seis años'},
+                        {icon: '7️⃣', text: 'Siete años'},
+                        {icon: '8️⃣', text: 'Ocho años'},
+                        {icon: '9️⃣', text: 'Nueve años'}
+                    ],
+                    correct: 1,
+                    explanation: '¡Correcto! Sofía cumple siete años.'
+                },
+                {
+                    visual: '🎁',
+                    text: 'Los amigos llegaron con <span class="highlighted-word">regalos</span> envueltos en papel de colores brillantes. Sofía estaba muy emocionada de abrirlos.',
+                    question: '¿Cómo estaba Sofía?',
+                    options: [
+                        {icon: '😊', text: 'Emocionada'},
+                        {icon: '😢', text: 'Triste'},
+                        {icon: '😴', text: 'Cansada'},
+                        {icon: '😠', text: 'Enojada'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Sofía estaba muy emocionada.'
+                },
+                {
+                    visual: '🎈',
+                    text: 'Después de abrir los regalos, jugaron con <span class="highlighted-word">globos</span> de colores. Bailaron y cantaron canciones divertidas. Fue una fiesta maravillosa.',
+                    question: '¿Con qué jugaron después?',
+                    options: [
+                        {icon: '🎈', text: 'Con globos'},
+                        {icon: '🎮', text: 'Con videojuegos'},
+                        {icon: '⚽', text: 'Con pelotas'},
+                        {icon: '🧩', text: 'Con rompecabezas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Jugaron con globos de colores.'
+                }
+            ]
+        };
+
+        function changeStory(story) {
+            currentStory = story;
+            currentQuestion = 0;
+            
+            document.querySelectorAll('.story-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const questions = stories[currentStory];
+            if (currentQuestion >= questions.length) {
+                currentQuestion = 0;
+            }
+            
+            const q = questions[currentQuestion];
+            const content = document.getElementById('gameContent');
+            
+            content.innerHTML = `
+                <div class="visual-area">
+                    <div class="visual-icon">${q.visual}</div>
+                </div>
+                <div class="story-text">${q.text}</div>
+                <div class="question-box">${q.question}</div>
+                <div class="options">
+                    ${q.options.map((opt, i) => 
+                        `<button class="option-btn" onclick="checkAnswer(${i})">
+                            <span class="option-icon">${opt.icon}</span>
+                            <span>${opt.text}</span>
+                        </button>`
+                    ).join('')}
+                </div>
+            `;
+        }
+
+        function checkAnswer(selected) {
+            const q = stories[currentStory][currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === q.correct) {
+                buttons[selected].classList.add('correct');
+                showFeedback(true, q.explanation);
+                updateScore(15);
+            } else {
+                buttons[selected].classList.add('incorrect');
+                buttons[q.correct].classList.add('correct');
+                showFeedback(false, q.explanation);
+            }
+        }
+
+        function showFeedback(isCorrect, message) {
+            const content = document.getElementById('gameContent');
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = `feedback ${isCorrect ? 'success' : 'error'}`;
+            feedbackDiv.innerHTML = `
+                ${isCorrect ? '<div class="celebration">🎉 ✨ 🌟</div>' : ''}
+                <p>${message}</p>
+                <button class="next-btn" onclick="nextQuestion()">Siguiente Historia →</button>
+            `;
+            content.appendChild(feedbackDiv);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById('score').textContent = score;
+            
+            if (score >= level * 45) {
+                level++;
+                document.getElementById('level').textContent = level;
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

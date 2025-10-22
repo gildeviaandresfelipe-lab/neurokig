@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaje en el Tiempo - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #E15034;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: linear-gradient(135deg, #EE9A5B, rgba(255, 255, 255, 0.3));
+            padding: 15px 30px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .back-btn {
+            background: rgba(136, 159, 146, 0.2);
+            color: #889F92;
+            border: 2px solid #889F92;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .back-btn:hover {
+            background: #889F92;
+            color: white;
+        }
+
+        .timeline-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .era-card {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .era-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .era-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .era-card.active {
+            border-color: white;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .era-icon {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .era-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .era-period {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .question-container {
+            background: linear-gradient(135deg, #FEF0F0, #EDA2A1);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .era-badge {
+            display: inline-block;
+            background: rgba(225, 80, 52, 0.15);
+            color: #E15034;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.7rem;
+            color: #E15034;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .historical-context {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #EE9A5B;
+        }
+
+        .context-title {
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .context-text {
+            color: #889F92;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .illustration {
+            text-align: center;
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #EE9A5B;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #E15034;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(238, 154, 91, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .option-btn:hover::before {
+            left: 100%;
+        }
+
+        .option-btn:hover {
+            background: #EE9A5B;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .option-btn.correct {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+            animation: correctPulse 0.6s ease;
+        }
+
+        .option-btn.incorrect {
+            background: #f44336;
+            border-color: #f44336;
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .feedback {
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            animation: slideIn 0.5s ease;
+        }
+
+        .feedback.correct {
+            background: rgba(76, 175, 80, 0.15);
+            color: #2e7d32;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .feedback.incorrect {
+            background: rgba(244, 67, 54, 0.15);
+            color: #c62828;
+            border-left: 5px solid #f44336;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fun-fact {
+            background: linear-gradient(135deg, rgba(238, 154, 91, 0.1), rgba(231, 123, 102, 0.1));
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 2px dashed #EE9A5B;
+        }
+
+        .fun-fact-title {
+            font-weight: 700;
+            color: #E15034;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .fun-fact-text {
+            color: #889F92;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #FEF0F0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E15034, #EE9A5B);
+            transition: width 0.5s ease;
+            box-shadow: 0 2px 8px rgba(225, 80, 52, 0.3);
+        }
+
+        .completion-screen {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .trophy {
+            font-size: 6rem;
+            margin-bottom: 20px;
+            animation: bounce 1.5s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+
+        .score-display {
+            font-size: 3.5rem;
+            color: #E15034;
+            font-weight: 700;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 10px;
+            font-size: 1.1rem;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #889F92, #E77B66);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-visual {
+            position: relative;
+            height: 80px;
+            margin: 30px 0;
+            background: linear-gradient(to right, #E77B66, #EE9A5B, #889F92);
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .timeline-marker {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-marker.active {
+            transform: scale(1.3);
+            box-shadow: 0 6px 25px rgba(225, 80, 52, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.8rem;
+            }
+
+            .game-container {
+                padding: 20px;
+            }
+
+            .question-text {
+                font-size: 1.3rem;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-visual {
+                height: 60px;
+            }
+
+            .timeline-marker {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="actividadesgrados.html" class="back-btn">← Volver a Actividades</a>
+        
+        <div class="header">
+            <h1 class="title">⏳ Viaje en el Tiempo</h1>
+            <p class="subtitle">Explora la historia y aprende sobre civilizaciones y eventos importantes</p>
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="stat-value" id="currentScore">0</span>
+                    <span class="stat-label">Puntos</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="discoveries">0</span>
+                    <span class="stat-label">Descubrimientos</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="questionNum">0/8</span>
+                    <span class="stat-label">Progreso</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-container" id="gameContainer">
+            <div id="eraSelector">
+                <h2 style="color: #E15034; margin-bottom: 25px; text-align: center; font-size: 1.8rem;">
+                    🕰️ Elige una Época Histórica
+                </h2>
+                <div class="timeline-selector">
+                    <div class="era-card" onclick="startGame('antigua')">
+                        <div class="era-icon">🏛️</div>
+                        <div class="era-title">Edad Antigua</div>
+                        <div class="era-period">3000 a.C. - 476 d.C.</div>
+                    </div>
+                    <div class="era-card" onclick="startGame('media')">
+                        <div class="era-icon">🏰</div>
+                        <div class="era-title">Edad Media</div>
+                        <div class="era-period">476 - 1492</div>
+                    </div>
+                    <div class="era-card" onclick="startGame('moderna')">
+                        <div class="era-icon">🌍</div>
+                        <div class="era-title">Edad Moderna</div>
+                        <div class="era-period">1492 - 1789</div>
+                    </div>
+                    <div class="era-card" onclick="startGame('contemporanea')">
+                        <div class="era-icon">🚀</div>
+                        <div class="era-title">Edad Contemporánea</div>
+                        <div class="era-period">1789 - Actualidad</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gameArea" style="display: none;">
+                <div class="timeline-visual" id="timelineVisual"></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <div class="question-container" id="questionContainer"></div>
+            </div>
+
+            <div id="completionScreen" style="display: none;" class="completion-screen">
+                <div class="trophy">🏆</div>
+                <h2 style="color: #E15034; font-size: 2.5rem; margin-bottom: 20px;">¡Viaje Completado!</h2>
+                <div class="score-display" id="finalScore">0/8</div>
+                <div id="achievementBadges"></div>
+                <p style="font-size: 1.2rem; color: #889F92; margin: 20px 0;">Has explorado la historia exitosamente</p>
+                <div id="performanceMessage" style="font-size: 1.15rem; color: #E15034; margin-bottom: 30px;"></div>
+                <button class="restart-btn" onclick="location.reload()">🔄 Viajar de Nuevo</button>
+                <a href="actividadesgrados.html" class="restart-btn" style="text-decoration: none; display: inline-block;">🏠 Volver al Menú</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const historicalData = {
+            antigua: [
+                {
+                    question: "¿Qué civilización construyó las famosas pirámides?",
+                    options: ["Los Romanos", "Los Egipcios", "Los Griegos", "Los Persas"],
+                    correct: 1,
+                    icon: "🔺",
+                    context: "Las pirámides de Egipto fueron construidas hace más de 4,500 años como tumbas para los faraones.",
+                    funFact: "La Gran Pirámide de Giza fue la estructura más alta del mundo durante casi 4,000 años."
+                },
+                {
+                    question: "¿Quién fue el famoso líder militar de Macedonia que conquistó gran parte del mundo conocido?",
+                    options: ["Julio César", "Alejandro Magno", "Napoleón", "Aníbal"],
+                    correct: 1,
+                    icon: "⚔️",
+                    context: "Alejandro Magno creó uno de los imperios más grandes de la historia antigua.",
+                    funFact: "Alejandro nunca perdió una batalla y conquistó territorios desde Grecia hasta India."
+                },
+                {
+                    question: "¿Qué imperio construyó el Coliseo Romano?",
+                    options: ["Imperio Griego", "Imperio Romano", "Imperio Persa", "Imperio Bizantino"],
+                    correct: 1,
+                    icon: "🏟️",
+                    context: "El Coliseo fue el anfiteatro más grande del Imperio Romano, con capacidad para 50,000 espectadores.",
+                    funFact: "El Coliseo podía llenarse de agua para realizar batallas navales simuladas."
+                },
+                {
+                    question: "¿Qué filósofo griego fue maestro de Alejandro Magno?",
+                    options: ["Sócrates", "Platón", "Aristóteles", "Pitágoras"],
+                    correct: 2,
+                    icon: "📚",
+                    context: "Aristóteles fue uno de los filósofos más influyentes de la historia occidental.",
+                    funFact: "Aristóteles escribió sobre prácticamente todos los temas conocidos en su época."
+                },
+                {
+                    question: "¿Qué civilización inventó la escritura cuneiforme?",
+                    options: ["Los Egipcios", "Los Sumerios", "Los Fenicios", "Los Chinos"],
+                    correct: 1,
+                    icon: "📝",
+                    context: "Los sumerios desarrollaron uno de los primeros sistemas de escritura hace más de 5,000 años.",
+                    funFact: "La escritura cuneiforme se hacía con un punzón en tablillas de arcilla."
+                },
+                {
+                    question: "¿Quién fue el primer emperador de Roma?",
+                    options: ["Julio César", "Augusto", "Nerón", "Trajano"],
+                    correct: 1,
+                    icon: "👑",
+                    context: "Augusto transformó Roma de una república a un imperio en el año 27 a.C.",
+                    funFact: "El mes de agosto lleva su nombre en honor a Augusto."
+                },
+                {
+                    question: "¿Qué estructura defensiva construyó China para protegerse de invasiones?",
+                    options: ["La Gran Muralla", "El Coliseo", "Las Pirámides", "El Partenón"],
+                    correct: 0,
+                    icon: "🏯",
+                    context: "La Gran Muralla China es una de las estructuras más impresionantes jamás construidas.",
+                    funFact: "La muralla tiene más de 21,000 kilómetros de longitud total."
+                },
+                {
+                    question: "¿Qué ciudad fue sepultada por la erupción del Vesubio en el año 79 d.C.?",
+                    options: ["Atenas", "Esparta", "Pompeya", "Troya"],
+                    correct: 2,
+                    icon: "🌋",
+                    context: "La erupción del Monte Vesubio preservó Pompeya bajo ceniza volcánica.",
+                    funFact: "La ceniza volcánica conservó la ciudad casi intacta, como una cápsula del tiempo."
+                }
+            ],
+            media: [
+                {
+                    question: "¿Cómo se llamaban los guerreros nórdicos que exploraron Europa?",
+                    options: ["Los Vikingos", "Los Mongoles", "Los Hunos", "Los Celtas"],
+                    correct: 0,
+                    icon: "⚓",
+                    context: "Los vikingos fueron navegantes y guerreros escandinavos que exploraron desde América hasta Asia.",
+                    funFact: "Los vikingos llegaron a América del Norte 500 años antes que Colón."
+                },
+                {
+                    question: "¿Qué enfermedad devastó Europa en el siglo XIV?",
+                    options: ["La Gripe", "La Peste Negra", "El Cólera", "La Viruela"],
+                    correct: 1,
+                    icon: "🦠",
+                    context: "La Peste Negra mató aproximadamente a un tercio de la población europea.",
+                    funFact: "La peste fue transmitida por pulgas que vivían en ratas."
+                },
+                {
+                    question: "¿Qué guerra religiosa tuvo lugar en Tierra Santa durante la Edad Media?",
+                    options: ["Las Guerras Púnicas", "Las Cruzadas", "La Guerra de los Cien Años", "Las Guerras Napoleónicas"],
+                    correct: 1,
+                    icon: "⚔️",
+                    context: "Las Cruzadas fueron expediciones militares cristianas para recuperar Jerusalén.",
+                    funFact: "Hubo ocho cruzadas principales entre los siglos XI y XIII."
+                },
+                {
+                    question: "¿Quién fue la joven francesa que lideró tropas contra Inglaterra?",
+                    options: ["María Antonieta", "Isabel I", "Juana de Arco", "Catalina de Médici"],
+                    correct: 2,
+                    icon: "🛡️",
+                    context: "Juana de Arco fue una heroína francesa que luchó en la Guerra de los Cien Años.",
+                    funFact: "Juana afirmaba que recibía mensajes divinos para salvar Francia."
+                },
+                {
+                    question: "¿Qué imperio musulmán floreció en la península ibérica?",
+                    options: ["El Imperio Otomano", "Al-Ándalus", "El Imperio Safávida", "El Califato Abasí"],
+                    correct: 1,
+                    icon: "🕌",
+                    context: "Al-Ándalus fue un centro de cultura, ciencia y arte durante la Edad Media.",
+                    funFact: "Córdoba fue una de las ciudades más avanzadas y pobladas del mundo medieval."
+                },
+                {
+                    question: "¿Qué sistema económico y social dominó Europa medieval?",
+                    options: ["El Capitalismo", "El Feudalismo", "El Socialismo", "El Mercantilismo"],
+                    correct: 1,
+                    icon: "🏰",
+                    context: "El feudalismo organizaba la sociedad en señores, vasallos y siervos.",
+                    funFact: "Los castillos eran el centro del poder feudal y la protección militar."
+                },
+                {
+                    question: "¿Qué emperador franco fue coronado emperador del Sacro Imperio Romano?",
+                    options: ["Carlomagno", "Luis XIV", "Federico Barbarroja", "Otto I"],
+                    correct: 0,
+                    icon: "👑",
+                    context: "Carlomagno unificó gran parte de Europa occidental en el año 800.",
+                    funFact: "Su imperio se considera el precursor de Francia y Alemania modernas."
+                },
+                {
+                    question: "¿Qué documento limitó el poder del rey en Inglaterra en 1215?",
+                    options: ["La Declaración de Independencia", "La Carta Magna", "El Bill of Rights", "La Constitución"],
+                    correct: 1,
+                    icon: "📜",
+                    context: "La Carta Magna estableció que incluso el rey estaba sujeto a la ley.",
+                    funFact: "Es considerada uno de los documentos legales más importantes de la historia."
+                }
+            ],
+            moderna: [
+                {
+                    question: "¿En qué año Cristóbal Colón llegó a América?",
+                    options: ["1492", "1500", "1485", "1512"],
+                    correct: 0,
+                    icon: "⛵",
+                    context: "El viaje de Colón marcó el inicio del intercambio entre Europa y América.",
+                    funFact: "Colón nunca supo que había llegado a un nuevo continente, creía estar en Asia."
+                },
+                {
+                    question: "¿Qué movimiento religioso inició Martín Lutero en 1517?",
+                    options: ["La Contrarreforma", "El Renacimiento", "La Reforma Protestante", "La Ilustración"],
+                    correct: 2,
+                    icon: "⛪",
+                    context: "Lutero cuestionó las prácticas de la Iglesia Católica, iniciando la Reforma.",
+                    funFact: "Sus 95 tesis fueron clavadas en la puerta de una iglesia en Wittenberg."
+                },
+                {
+                    question: "¿Qué artista pintó La Mona Lisa?",
+                    options: ["Miguel Ángel", "Leonardo da Vinci", "Rafael", "Donatello"],
+                    correct: 1,
+                    icon: "🎨",
+                    context: "Leonardo da Vinci fue uno de los genios del Renacimiento italiano.",
+                    funFact: "La Mona Lisa tardó aproximadamente 4 años en completarse."
+                },
+                {
+                    question: "¿Qué revolución científica propuso que la Tierra giraba alrededor del Sol?",
+                    options: ["Teoría de Newton", "Teoría de Darwin", "Teoría Heliocéntrica", "Teoría de la Relatividad"],
+                    correct: 2,
+                    icon: "🌍",
+                    context: "Copérnico y Galileo desafiaron la idea de que la Tierra era el centro del universo.",
+                    funFact: "Galileo fue juzgado por la Inquisición por apoyar esta teoría."
+                },
+                {
+                    question: "¿Qué monarca francés fue conocido como el 'Rey Sol'?",
+                    options: ["Luis XIII", "Luis XIV", "Luis XV", "Luis XVI"],
+                    correct: 1,
+                    icon: "☀️",
+                    context: "Luis XIV gobernó Francia durante 72 años, el reinado más largo de la historia europea.",
+                    funFact: "Construyó el espectacular Palacio de Versalles como símbolo de su poder absoluto."
+                },
+                {
+                    question: "¿Qué imperio americano fue conquistado por Hernán Cortés?",
+                    options: ["El Imperio Inca", "El Imperio Azteca", "El Imperio Maya", "El Imperio Olmeca"],
+                    correct: 1,
+                    icon: "🗿",
+                    context: "El Imperio Azteca dominaba gran parte de México cuando llegaron los españoles.",
+                    funFact: "Tenochtitlan, la capital azteca, era una de las ciudades más grandes del mundo en ese momento."
+                },
+                {
+                    question: "¿Qué inventor desarrolló la imprenta de tipos móviles en Europa?",
+                    options: ["Johannes Gutenberg", "Benjamin Franklin", "Thomas Edison", "Leonardo da Vinci"],
+                    correct: 0,
+                    icon: "📚",
+                    context: "La imprenta revolucionó la difusión del conocimiento en Europa.",
+                    funFact: "El primer libro impreso fue la Biblia de Gutenberg en 1455."
+                },
+                {
+                    question: "¿Qué conflicto enfrentó a Inglaterra y España en 1588?",
+                    options: ["La Guerra de los Cien Años", "La Armada Invencible", "La Guerra de Sucesión", "Las Guerras Napoleónicas"],
+                    correct: 1,
+                    icon: "🚢",
+                    context: "España intentó invadir Inglaterra con una gran flota naval.",
+                    funFact: "Las tormentas y la táctica naval inglesa destruyeron gran parte de la Armada Española."
+                }
+            ],
+            contemporanea: [
+                {
+                    question: "¿Qué revolución comenzó en Francia en 1789?",
+                    options: ["La Revolución Industrial", "La Revolución Rusa", "La Revolución Francesa", "La Revolución Americana"],
+                    correct: 2,
+                    icon: "🗽",
+                    context: "La Revolución Francesa transformó Francia y tuvo impacto en todo el mundo.",
+                    funFact: "El lema de la revolución era 'Libertad, Igualdad, Fraternidad'."
+                },
+                {
+                    question: "¿Quién fue el líder militar que se convirtió en emperador de Francia?",
+                    options: ["Luis XVI", "Napoleón Bonaparte", "Carlos X", "Robespierre"],
+                    correct: 1,
+                    icon: "⚔️",
+                    context: "Napoleón conquistó gran parte de Europa antes de su derrota final.",
+                    funFact: "El Código Napoleónico influyó en los sistemas legales de muchos países."
+                },
+                {
+                    question: "¿Qué invento de Thomas Edison cambió la forma de iluminar el mundo?",
+                    options: ["El teléfono", "La bombilla eléctrica", "El telégrafo", "La radio"],
+                    correct: 1,
+                    icon: "💡",
+                    context: "Edison perfeccionó la bombilla eléctrica, haciendo la electricidad práctica.",
+                    funFact: "Edison probó más de 3,000 materiales antes de encontrar el filamento ideal."
+                },
+                {
+                    question: "¿Qué conflicto mundial ocurrió entre 1914 y 1918?",
+                    options: ["La Segunda Guerra Mundial", "La Guerra Fría", "La Primera Guerra Mundial", "La Guerra de Vietnam"],
+                    correct: 2,
+                    icon: "🎖️",
+                    context: "La Primera Guerra Mundial involucró a las principales potencias del mundo.",
+                    funFact: "Fue llamada 'la guerra que acabaría con todas las guerras'."
+                },
+                {
+                    question: "¿Quién fue el líder del movimiento de independencia de India?",
+                    options: ["Nelson Mandela", "Martin Luther King", "Mahatma Gandhi", "Dalai Lama"],
+                    correct: 2,
+                    icon: "🕊️",
+                    context: "Gandhi lideró la resistencia pacífica contra el dominio británico.",
+                    funFact: "Su método de protesta no violenta inspiró movimientos en todo el mundo."
+                },
+                {
+                    question: "¿En qué año cayó el Muro de Berlín?",
+                    options: ["1985", "1989", "1991", "1995"],
+                    correct: 1,
+                    icon: "🧱",
+                    context: "La caída del Muro simbolizó el fin de la Guerra Fría.",
+                    funFact: "El muro dividió Berlín durante 28 años, separando familias y amigos."
+                },
+                {
+                    question: "¿Qué evento llevó a Estados Unidos a la Segunda Guerra Mundial?",
+                    options: ["La invasión de Polonia", "El ataque a Pearl Harbor", "La Batalla de Inglaterra", "El Día D"],
+                    correct: 1,
+                    icon: "✈️",
+                    context: "El ataque japonés a Pearl Harbor en 1941 cambió el curso de la guerra.",
+                    funFact: "El ataque ocurrió el 7 de diciembre, 'un día que vivirá en infamia'."
+                },
+                {
+                    question: "¿Quién fue el primer ser humano en viajar al espacio?",
+                    options: ["Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin", "John Glenn"],
+                    correct: 2,
+                    icon: "🚀",
+                    context: "El cosmonauta soviético Yuri Gagarin orbitó la Tierra en 1961.",
+                    funFact: "Su vuelo duró solo 108 minutos pero marcó el inicio de la era espacial."
+                }
+            ]
+        };
+
+        const eraNames = {
+            antigua: "Edad Antigua",
+            media: "Edad Media",
+            moderna: "Edad Moderna",
+            contemporanea: "Edad Contemporánea"
+        };
+
+        const eraIcons = {
+            antigua: "🏛️",
+            media: "🏰",
+            moderna: "🌍",
+            contemporanea: "🚀"
+        };
+
+        let currentEra = '';
+        let currentQuestion = 0;
+        let score = 0;
+        let discoveries = 0;
+        let questions = [];
+
+        function startGame(era) {
+            currentEra = era;
+            questions = historicalData[era];
+            currentQuestion = 0;
+            score = 0;
+            discoveries = 0;
+
+            document.getElementById('eraSelector').style.display = 'none';
+            document.getElementById('gameArea').style.display = 'block';
+            
+            createTimeline();
+            updateStats();
+            showQuestion();
+        }
+
+        function createTimeline() {
+            const timeline = document.getElementById('timelineVisual');
+            timeline.innerHTML = '';
+            
+            for (let i = 0; i < 8; i++) {
+                const marker = document.createElement('div');
+                marker.className = 'timeline-marker';
+                marker.id = `marker-${i}`;
+                marker.innerHTML = i < currentQuestion ? '✓' : (i === currentQuestion ? eraIcons[currentEra] : '○');
+                timeline.appendChild(marker);
+            }
+        }
+
+        function updateTimeline() {
+            for (let i = 0; i < 8; i++) {
+                const marker = document.getElementById(`marker-${i}`);
+                if (i < currentQuestion) {
+                    marker.innerHTML = '✓';
+                    marker.classList.remove('active');
+                } else if (i === currentQuestion) {
+                    marker.innerHTML = eraIcons[currentEra];
+                    marker.classList.add('active');
+                } else {
+                    marker.innerHTML = '○';
+                    marker.classList.remove('active');
+                }
+            }
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let questionHTML = `
+                <div class="era-badge">${eraNames[currentEra]}</div>
+                <div class="illustration">${q.icon}</div>
+                <div class="question-text">${q.question}</div>
+                <div class="historical-context">
+                    <div class="context-title">📖 Contexto Histórico:</div>
+                    <div class="context-text">${q.context}</div>
+                </div>
+                <div class="options-grid">
+            `;
+            
+            q.options.forEach((option, index) => {
+                questionHTML += `<button class="option-btn" onclick="checkAnswer(${index})">${option}</button>`;
+            });
+            
+            questionHTML += '</div><div id="feedback"></div>';
+            
+            container.innerHTML = questionHTML;
+            updateProgress();
+            updateTimeline();
+        }
+
+        function checkAnswer(selected) {
+            const q = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('feedback');
+            
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (selected === q.correct) {
+                buttons[selected].classList.add('correct');
+                score += 15;
+                discoveries++;
+                
+                feedback.innerHTML = `
+                    <div class="feedback correct">
+                        ✓ ¡Correcto! Has descubierto un nuevo conocimiento histórico 🎉
+                        <div class="fun-fact">
+                            <div class="fun-fact-title">💡 Dato Curioso:</div>
+                            <div class="fun-fact-text">${q.funFact}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                buttons[selected].classList.add('incorrect');
+                buttons[q.correct].classList.add('correct');
+                
+                feedback.innerHTML = `
+                    <div class="feedback incorrect">
+                        ✗ La respuesta correcta es: ${q.options[q.correct]}
+                        <div class="fun-fact">
+                            <div class="fun-fact-title">💡 Dato Curioso:</div>
+                            <div class="fun-fact-text">${q.funFact}</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            updateStats();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    showQuestion();
+                } else {
+                    showCompletion();
+                }
+            }, 4000);
+        }
+
+        function updateStats() {
+            document.getElementById('currentScore').textContent = score;
+            document.getElementById('discoveries').textContent = discoveries;
+            document.getElementById('questionNum').textContent = `${currentQuestion + 1}/8`;
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showCompletion() {
+            document.getElementById('gameArea').style.display = 'none';
+            document.getElementById('completionScreen').style.display = 'block';
+            
+            const finalScore = document.getElementById('finalScore');
+            const performanceMessage = document.getElementById('performanceMessage');
+            const achievementBadges = document.getElementById('achievementBadges');
+            
+            finalScore.textContent = `${discoveries}/8 correctas`;
+            
+            let badges = '';
+            let message = '';
+            
+            if (discoveries === 8) {
+                message = '¡Perfecto! Eres un verdadero historiador 🌟';
+                badges = '<div class="achievement-badge">🏆 Maestro del Tiempo</div>';
+            } else if (discoveries >= 6) {
+                message = '¡Excelente! Dominas muy bien la historia 📚';
+                badges = '<div class="achievement-badge">⭐ Explorador Experto</div>';
+            } else if (discoveries >= 4) {
+                message = '¡Buen trabajo! Estás aprendiendo mucho 💪';
+                badges = '<div class="achievement-badge">🎯 Viajero en Progreso</div>';
+            } else {
+                message = 'Sigue explorando, cada viaje te hace más sabio 🚀';
+                badges = '<div class="achievement-badge">🌱 Aprendiz del Tiempo</div>';
+            }
+            
+            performanceMessage.textContent = message;
+            achievementBadges.innerHTML = badges;
+        }
+    </script>
+</body>
+</html>

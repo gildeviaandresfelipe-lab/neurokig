@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaje a la Edad Media</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .game-area {
+            padding: 40px;
+            background: #FEF0F0;
+        }
+
+        .topic-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .topic-btn {
+            background: linear-gradient(135deg, #889F92, #7A8F82);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+
+        .topic-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .topic-btn.active {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+        }
+
+        .game-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 400px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .visual-scene {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #EDA2A1, #EE9A5B);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scene-icon {
+            font-size: 7em;
+            animation: float 3s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .info-box {
+            background: #FEF0F0;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #EE9A5B;
+            margin: 20px 0;
+            line-height: 1.8;
+            font-size: 1.2em;
+        }
+
+        .info-title {
+            color: #E15034;
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .question-box {
+            font-size: 1.4em;
+            color: #E15034;
+            margin: 25px 0;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            background: #FEF0F0;
+            border-radius: 15px;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #EDA2A1;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option-icon {
+            font-size: 2.5em;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            background: #EDA2A1;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .option-btn.correct {
+            background: #889F92;
+            color: white;
+            border-color: #889F92;
+            animation: pulse 0.5s;
+        }
+
+        .option-btn.incorrect {
+            background: #E15034;
+            color: white;
+            border-color: #E15034;
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .timeline {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: #FEF0F0;
+            border-radius: 10px;
+            border-left: 5px solid #889F92;
+        }
+
+        .timeline-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-card {
+            background: #FEF0F0;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .comparison-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .comparison-title {
+            font-weight: bold;
+            color: #E77B66;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .match-activity {
+            margin: 20px 0;
+        }
+
+        .match-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .match-item {
+            background: #FEF0F0;
+            border: 3px solid #EDA2A1;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .match-item:hover {
+            background: #EE9A5B;
+            color: white;
+        }
+
+        .match-item.selected {
+            background: #889F92;
+            color: white;
+            border-color: #889F92;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .feedback.success {
+            background: #889F92;
+            color: white;
+        }
+
+        .feedback.error {
+            background: #E15034;
+            color: white;
+        }
+
+        .celebration {
+            text-align: center;
+            font-size: 3em;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #889F92, #7A8F82);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .highlight {
+            background: #EE9A5B;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .medieval-fact {
+            background: linear-gradient(135deg, #889F92, #7A8F82);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .fact-icon {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .character-card {
+            background: white;
+            border: 3px solid #EDA2A1;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .character-card:hover {
+            transform: scale(1.05);
+            border-color: #E77B66;
+        }
+
+        .character-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏰 Viaje a la Edad Media ⚔️</h1>
+            <div class="score-board">
+                <div class="score-item">⭐ Puntos: <span id="score">0</span></div>
+                <div class="score-item">🏆 Nivel: <span id="level">1</span></div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="topic-selector">
+                <button class="topic-btn active" onclick="changeTopic('castillos')">🏰 Castillos</button>
+                <button class="topic-btn" onclick="changeTopic('caballeros')">⚔️ Caballeros</button>
+                <button class="topic-btn" onclick="changeTopic('feudalismo')">👑 Feudalismo</button>
+                <button class="topic-btn" onclick="changeTopic('vida')">🏘️ Vida Diaria</button>
+                <button class="topic-btn" onclick="changeTopic('religion')">⛪ Religión</button>
+                <button class="topic-btn" onclick="changeTopic('cultura')">📜 Cultura</button>
+            </div>
+
+            <div class="game-content" id="gameContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let level = 1;
+        let currentTopic = 'castillos';
+        let currentQuestion = 0;
+        let selectedMatch = null;
+
+        const topics = {
+            castillos: [
+                {
+                    visual: '🏰',
+                    info: 'Los castillos medievales eran grandes construcciones de piedra. Servían como <span class="highlight">fortalezas</span> para proteger a los señores feudales y sus familias de los enemigos.',
+                    question: '¿Para qué se construían los castillos?',
+                    options: [
+                        {icon: '🛡️', text: 'Para protegerse de enemigos'},
+                        {icon: '🏪', text: 'Para vender productos'},
+                        {icon: '🏫', text: 'Para estudiar matemáticas'},
+                        {icon: '🎪', text: 'Para hacer circos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Los castillos eran fortalezas para protección y defensa.'
+                },
+                {
+                    visual: '🏰',
+                    info: 'Las partes del castillo incluían: las <span class="highlight">murallas</span> altas, las <span class="highlight">torres</span> de vigilancia, el <span class="highlight">foso</span> con agua y el <span class="highlight">puente levadizo</span>.',
+                    question: '¿Qué rodeaba al castillo para protegerlo?',
+                    options: [
+                        {icon: '🌊', text: 'Un foso con agua'},
+                        {icon: '🌳', text: 'Árboles grandes'},
+                        {icon: '🏖️', text: 'Una playa'},
+                        {icon: '🌸', text: 'Jardines de flores'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! El foso con agua dificultaba el acceso de enemigos.'
+                },
+                {
+                    visual: '🗼',
+                    info: 'Las torres del castillo eran muy importantes. Desde allí, los guardias vigilaban y podían ver si se acercaban enemigos desde lejos.',
+                    question: '¿Qué hacían los guardias en las torres?',
+                    options: [
+                        {icon: '👀', text: 'Vigilar y observar'},
+                        {icon: '😴', text: 'Dormir todo el día'},
+                        {icon: '🍽️', text: 'Cocinar comida'},
+                        {icon: '🎨', text: 'Pintar cuadros'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los guardias vigilaban desde las torres para detectar peligros.'
+                },
+                {
+                    type: 'match',
+                    visual: '🏰',
+                    question: 'Une cada parte del castillo con su función:',
+                    pairs: [
+                        {item: '🗼 Torre', match: 'Vigilar'},
+                        {item: '🌊 Foso', match: 'Proteger'},
+                        {item: '🚪 Puente', match: 'Entrar'},
+                        {item: '🧱 Muralla', match: 'Defender'}
+                    ],
+                    explanation: '¡Muy bien! Conoces las partes del castillo.'
+                },
+                {
+                    visual: '🏰',
+                    info: 'Dentro del castillo había muchas habitaciones. El <span class="highlight">salón principal</span> era donde el señor recibía visitas y hacía grandes banquetes.',
+                    question: '¿Qué se hacía en el salón principal?',
+                    options: [
+                        {icon: '🍖', text: 'Banquetes y reuniones'},
+                        {icon: '🛏️', text: 'Dormir toda la noche'},
+                        {icon: '🐴', text: 'Guardar caballos'},
+                        {icon: '💧', text: 'Almacenar agua'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! El salón era para recepciones y grandes comidas.'
+                },
+                {
+                    visual: '🏗️',
+                    info: 'Construir un castillo tomaba muchos años. Cientos de trabajadores usaban piedras pesadas y trabajaban duro cada día.',
+                    question: '¿Cuánto tiempo tomaba construir un castillo?',
+                    options: [
+                        {icon: '📅', text: 'Muchos años'},
+                        {icon: '⏰', text: 'Unas horas'},
+                        {icon: '📆', text: 'Una semana'},
+                        {icon: '🌙', text: 'Una noche'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Los castillos tardaban años en construirse.'
+                }
+            ],
+            caballeros: [
+                {
+                    visual: '⚔️',
+                    info: 'Los caballeros eran guerreros nobles que servían a un señor feudal. Debían ser <span class="highlight">valientes, leales y honorables</span>.',
+                    question: '¿Qué cualidades debía tener un caballero?',
+                    options: [
+                        {icon: '💪', text: 'Valentía y honor'},
+                        {icon: '😴', text: 'Pereza y miedo'},
+                        {icon: '😈', text: 'Maldad y egoísmo'},
+                        {icon: '🤥', text: 'Mentira y traición'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los caballeros seguían un código de honor.'
+                },
+                {
+                    visual: '🛡️',
+                    info: 'La armadura protegía al caballero en batalla. Estaba hecha de metal y pesaba mucho. También usaban un <span class="highlight">casco</span> y un <span class="highlight">escudo</span>.',
+                    question: '¿Para qué usaban armadura los caballeros?',
+                    options: [
+                        {icon: '🛡️', text: 'Para protegerse en batalla'},
+                        {icon: '👔', text: 'Para verse elegantes'},
+                        {icon: '🏃', text: 'Para correr más rápido'},
+                        {icon: '🎭', text: 'Para actuar en teatro'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! La armadura los protegía de las armas enemigas.'
+                },
+                {
+                    visual: '🐴',
+                    info: 'Los caballeros montaban caballos entrenados para la batalla. El caballo era su compañero más importante y lo cuidaban mucho.',
+                    question: '¿Por qué era importante el caballo?',
+                    options: [
+                        {icon: '⚔️', text: 'Para batallar y viajar'},
+                        {icon: '🎠', text: 'Para jugar en carruseles'},
+                        {icon: '🎪', text: 'Para hacer trucos de circo'},
+                        {icon: '🏪', text: 'Para venderlo en el mercado'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! El caballo era esencial para el caballero.'
+                },
+                {
+                    visual: '🎖️',
+                    info: 'Para convertirse en caballero, un joven debía entrenar desde niño. Primero era <span class="highlight">paje</span>, luego <span class="highlight">escudero</span>, y finalmente caballero.',
+                    question: '¿Cómo empezaba el entrenamiento de un caballero?',
+                    options: [
+                        {icon: '👦', text: 'Como paje desde niño'},
+                        {icon: '👴', text: 'Como anciano sabio'},
+                        {icon: '👶', text: 'Como bebé'},
+                        {icon: '🎓', text: 'En la universidad'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Los niños empezaban como pajes muy jóvenes.'
+                },
+                {
+                    visual: '🏆',
+                    info: 'Los torneos eran competencias donde los caballeros mostraban sus habilidades. Luchaban con lanzas mientras montaban caballos.',
+                    question: '¿Qué eran los torneos medievales?',
+                    options: [
+                        {icon: '🎯', text: 'Competencias de caballeros'},
+                        {icon: '🎪', text: 'Espectáculos de payasos'},
+                        {icon: '🏫', text: 'Clases de matemáticas'},
+                        {icon: '🍴', text: 'Concursos de cocina'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los torneos eran competencias de habilidad y valor.'
+                },
+                {
+                    visual: '🗡️',
+                    info: 'Las armas principales del caballero eran la <span class="highlight">espada</span>, la <span class="highlight">lanza</span> y el <span class="highlight">hacha</span>. Debían entrenar mucho para usarlas bien.',
+                    question: '¿Qué arma era símbolo del caballero?',
+                    options: [
+                        {icon: '⚔️', text: 'La espada'},
+                        {icon: '🔫', text: 'La pistola'},
+                        {icon: '🏹', text: 'El arco y flecha'},
+                        {icon: '🔨', text: 'El martillo'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! La espada era el arma noble del caballero.'
+                }
+            ],
+            feudalismo: [
+                {
+                    visual: '👑',
+                    info: 'En el sistema feudal, el <span class="highlight">rey</span> estaba en la cima. Daba tierras a los nobles a cambio de lealtad y servicio militar.',
+                    question: '¿Quién estaba en la cima del sistema feudal?',
+                    options: [
+                        {icon: '👑', text: 'El rey'},
+                        {icon: '👨‍🌾', text: 'El campesino'},
+                        {icon: '🧙', text: 'El mago'},
+                        {icon: '🤡', text: 'El bufón'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! El rey era la máxima autoridad.'
+                },
+                {
+                    visual: '🏛️',
+                    info: 'Los <span class="highlight">señores feudales</span> eran nobles que recibían tierras del rey. A cambio, protegían esas tierras y servían al rey en las guerras.',
+                    question: '¿Qué recibían los señores feudales del rey?',
+                    options: [
+                        {icon: '🗺️', text: 'Tierras para gobernar'},
+                        {icon: '💰', text: 'Solo dinero'},
+                        {icon: '🍖', text: 'Comida gratis'},
+                        {icon: '🎁', text: 'Regalos de cumpleaños'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Recibían tierras llamadas feudos.'
+                },
+                {
+                    visual: '👨‍🌾',
+                    info: 'Los <span class="highlight">siervos</span> trabajaban la tierra del señor. No eran libres y debían entregar parte de su cosecha al señor feudal.',
+                    question: '¿Quiénes trabajaban la tierra?',
+                    options: [
+                        {icon: '👨‍🌾', text: 'Los siervos'},
+                        {icon: '👑', text: 'Los reyes'},
+                        {icon: '⚔️', text: 'Los caballeros'},
+                        {icon: '⛪', text: 'Los sacerdotes'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los siervos cultivaban la tierra.'
+                },
+                {
+                    type: 'hierarchy',
+                    visual: '📊',
+                    question: 'Ordena la sociedad feudal de arriba a abajo:',
+                    info: 'La sociedad medieval estaba organizada en niveles. Cada persona tenía su lugar y deberes específicos.',
+                    items: [
+                        {icon: '👑', text: 'Rey', order: 1},
+                        {icon: '🏛️', text: 'Nobles', order: 2},
+                        {icon: '⚔️', text: 'Caballeros', order: 3},
+                        {icon: '👨‍🌾', text: 'Siervos', order: 4}
+                    ],
+                    explanation: '¡Excelente! Has ordenado correctamente la jerarquía feudal.'
+                },
+                {
+                    visual: '🤝',
+                    info: 'El <span class="highlight">vasallaje</span> era un juramento de lealtad. Un vasallo prometía servir a su señor, y el señor prometía protegerlo.',
+                    question: '¿Qué era el vasallaje?',
+                    options: [
+                        {icon: '🤝', text: 'Un juramento de lealtad'},
+                        {icon: '🎉', text: 'Una fiesta grande'},
+                        {icon: '⚔️', text: 'Una batalla'},
+                        {icon: '📚', text: 'Un libro antiguo'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! El vasallaje era un compromiso de lealtad mutua.'
+                },
+                {
+                    visual: '🌾',
+                    info: 'El <span class="highlight">feudo</span> era la tierra que el señor daba a su vasallo. Incluía campos, bosques, aldeas y todo lo que había allí.',
+                    question: '¿Qué era un feudo?',
+                    options: [
+                        {icon: '🗺️', text: 'Tierra dada por el señor'},
+                        {icon: '💰', text: 'Una bolsa de monedas'},
+                        {icon: '⚔️', text: 'Un tipo de espada'},
+                        {icon: '🎪', text: 'Un circo ambulante'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! El feudo era la base del sistema feudal.'
+                }
+            ],
+            vida: [
+                {
+                    visual: '🏘️',
+                    info: 'La mayoría de la gente vivía en <span class="highlight">aldeas</span> pequeñas. Las casas eran sencillas, hechas de madera y paja.',
+                    question: '¿Dónde vivía la mayoría de la gente?',
+                    options: [
+                        {icon: '🏘️', text: 'En aldeas pequeñas'},
+                        {icon: '🏰', text: 'En castillos grandes'},
+                        {icon: '🏙️', text: 'En ciudades modernas'},
+                        {icon: '🏖️', text: 'En la playa'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! La gente común vivía en aldeas rurales.'
+                },
+                {
+                    visual: '🍞',
+                    info: 'La comida principal era <span class="highlight">pan</span>, vegetales y potaje (sopa espesa). La carne era un lujo que solo los ricos comían frecuentemente.',
+                    question: '¿Cuál era el alimento más común?',
+                    options: [
+                        {icon: '🍞', text: 'El pan'},
+                        {icon: '🍕', text: 'La pizza'},
+                        {icon: '🍔', text: 'Las hamburguesas'},
+                        {icon: '🍰', text: 'Los pasteles'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! El pan era el alimento básico medieval.'
+                },
+                {
+                    visual: '👨‍🌾',
+                    info: 'El trabajo en el campo era muy duro. La gente trabajaba desde el amanecer hasta el anochecer, cultivando y cosechando.',
+                    question: '¿Cómo era el trabajo de los campesinos?',
+                    options: [
+                        {icon: '💪', text: 'Muy duro y largo'},
+                        {icon: '😴', text: 'Fácil y corto'},
+                        {icon: '🎮', text: 'Como jugar videojuegos'},
+                        {icon: '🏖️', text: 'Como unas vacaciones'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Los campesinos trabajaban duramente todo el día.'
+                },
+                {
+                    visual: '🎭',
+                    info: 'Para divertirse, la gente tenía <span class="highlight">ferias</span>, <span class="highlight">festivales</span> y actuaciones de juglares que cantaban y contaban historias.',
+                    question: '¿Cómo se divertía la gente?',
+                    options: [
+                        {icon: '🎪', text: 'Con ferias y festivales'},
+                        {icon: '📱', text: 'Con teléfonos móviles'},
+                        {icon: '📺', text: 'Viendo televisión'},
+                        {icon: '🎮', text: 'Jugando videojuegos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Las ferias eran momentos especiales de diversión.'
+                },
+                {
+                    visual: '👗',
+                    info: 'La ropa dependía de la clase social. Los nobles vestían <span class="highlight">telas finas</span> y colores brillantes. Los campesinos usaban ropa simple de lana.',
+                    question: '¿Qué diferenciaba la ropa de nobles y campesinos?',
+                    options: [
+                        {icon: '👔', text: 'La calidad y los colores'},
+                        {icon: '👕', text: 'Todos vestían igual'},
+                        {icon: '🎽', text: 'Usaban uniformes deportivos'},
+                        {icon: '🦺', text: 'Usaban chalecos modernos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! La ropa mostraba la posición social.'
+                },
+                {
+                    visual: '🕯️',
+                    info: 'No había electricidad. La gente usaba <span class="highlight">velas</span> y <span class="highlight">antorchas</span> para iluminarse de noche. Las casas eran oscuras y frías.',
+                    question: '¿Cómo se iluminaban las casas de noche?',
+                    options: [
+                        {icon: '🕯️', text: 'Con velas y antorchas'},
+                        {icon: '💡', text: 'Con bombillas eléctricas'},
+                        {icon: '🔦', text: 'Con linternas modernas'},
+                        {icon: '📱', text: 'Con celulares'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Las velas eran la única fuente de luz artificial.'
+                }
+            ],
+            religion: [
+                {
+                    visual: '⛪',
+                    info: 'La <span class="highlight">Iglesia Católica</span> era muy poderosa en la Edad Media. Influía en la vida de todas las personas, desde reyes hasta campesinos.',
+                    question: '¿Qué institución era muy poderosa?',
+                    options: [
+                        {icon: '⛪', text: 'La Iglesia Católica'},
+                        {icon: '🏪', text: 'Las tiendas'},
+                        {icon: '🏫', text: 'Las escuelas modernas'},
+                        {icon: '🏦', text: 'Los bancos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! La Iglesia tenía gran poder e influencia.'
+                },
+                {
+                    visual: '🙏',
+                    info: 'La gente iba a <span class="highlight">misa</span> los domingos y en días festivos religiosos. La religión era parte central de la vida diaria.',
+                    question: '¿Cuándo iban las personas a la iglesia?',
+                    options: [
+                        {icon: '📅', text: 'Los domingos y días festivos'},
+                        {icon: '🌙', text: 'Solo de noche'},
+                        {icon: '🎄', text: 'Solo en Navidad'},
+                        {icon: '❌', text: 'Nunca iban'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! La misa dominical era obligatoria.'
+                },
+                {
+                    visual: '👴',
+                    info: 'Los <span class="highlight">monjes</span> vivían en monasterios. Dedicaban su vida a la oración, el estudio y copiar libros a mano.',
+                    question: '¿Qué hacían los monjes?',
+                    options: [
+                        {icon: '📖', text: 'Orar y copiar libros'},
+                        {icon: '⚔️', text: 'Luchar en batallas'},
+                        {icon: '👨‍🌾', text: 'Vender en el mercado'},
+                        {icon: '🎪', text: 'Hacer espectáculos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los monjes preservaban el conocimiento copiando libros.'
+                },
+                {
+                    visual: '⛪',
+                    info: 'Las <span class="highlight">catedrales</span> eran iglesias enormes y hermosas. Tomaban décadas en construirse y tenían vitrales coloridos.',
+                    question: '¿Qué eran las catedrales?',
+                    options: [
+                        {icon: '⛪', text: 'Iglesias grandes y hermosas'},
+                        {icon: '🏰', text: 'Castillos militares'},
+                        {icon: '🏪', text: 'Mercados cubiertos'},
+                        {icon: '🏫', text: 'Escuelas públicas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Las catedrales eran obras arquitectónicas impresionantes.'
+                },
+                {
+                    visual: '✝️',
+                    info: 'Las <span class="highlight">Cruzadas</span> fueron expediciones militares religiosas. Los cristianos europeos intentaban recuperar Tierra Santa.',
+                    question: '¿Qué eran las Cruzadas?',
+                    options: [
+                        {icon: '⚔️', text: 'Expediciones militares religiosas'},
+                        {icon: '🎪', text: 'Festivales musicales'},
+                        {icon: '📚', text: 'Concursos de lectura'},
+                        {icon: '🏃', text: 'Carreras deportivas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Las Cruzadas mezclaban religión y guerra.'
+                },
+                {
+                    visual: '📿',
+                    info: 'Las <span class="highlight">peregrinaciones</span> eran viajes largos a lugares sagrados. La gente caminaba durante semanas para visitar santuarios importantes.',
+                    question: '¿Qué era una peregrinación?',
+                    options: [
+                        {icon: '🚶', text: 'Viaje a un lugar sagrado'},
+                        {icon: '🏖️', text: 'Vacaciones en la playa'},
+                        {icon: '🏪', text: 'Ir de compras'},
+                        {icon: '🎢', text: 'Visitar parques de diversiones'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Las peregrinaciones eran viajes de fe.'
+                }
+            ],
+            cultura: [
+                {
+                    visual: '📜',
+                    info: 'Los libros se copiaban <span class="highlight">a mano</span> porque no existía la imprenta. Un solo libro podía tomar meses en completarse.',
+                    question: '¿Cómo se hacían los libros?',
+                    options: [
+                        {icon: '✍️', text: 'Copiados a mano'},
+                        {icon: '🖨️', text: 'Con impresoras'},
+                        {icon: '💻', text: 'En computadoras'},
+                        {icon: '📱', text: 'En teléfonos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Copiar libros era un trabajo largo y cuidadoso.'
+                },
+                {
+                    visual: '🎭',
+                    info: 'Los <span class="highlight">juglares</span> eran artistas ambulantes. Viajaban de pueblo en pueblo cantando, contando historias y haciendo acrobacias.',
+                    question: '¿Quiénes eran los juglares?',
+                    options: [
+                        {icon: '🎪', text: 'Artistas ambulantes'},
+                        {icon: '⚔️', text: 'Guerreros valientes'},
+                        {icon: '👨‍🌾', text: 'Agricultores'},
+                        {icon: '👑', text: 'Reyes poderosos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Los juglares entretenían a la gente.'
+                },
+                {
+                    visual: '🏛️',
+                    info: 'Las <span class="highlight">universidades</span> comenzaron en la Edad Media. Allí se estudiaba teología, medicina, derecho y filosofía.',
+                    question: '¿Qué eran las universidades medievales?',
+                    options: [
+                        {icon: '📚', text: 'Lugares de estudio superior'},
+                        {icon: '🏪', text: 'Mercados grandes'},
+                        {icon: '🏰', text: 'Castillos fortificados'},
+                        {icon: '⛪', text: 'Iglesias pequeñas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Las primeras universidades nacieron en esta época.'
+                },
+                {
+                    visual: '🎨',
+                    info: 'El <span class="highlight">arte medieval</span> era principalmente religioso. Las pinturas mostraban escenas de la Biblia y santos.',
+                    question: '¿Qué temas tenía el arte medieval?',
+                    options: [
+                        {icon: '✝️', text: 'Temas religiosos'},
+                        {icon: '🚗', text: 'Carros modernos'},
+                        {icon: '🏙️', text: 'Ciudades futuras'},
+                        {icon: '👽', text: 'Extraterrestres'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! La religión inspiraba la mayoría del arte.'
+                },
+                {
+                    visual: '🎵',
+                    info: 'La música medieval incluía <span class="highlight">cantos gregorianos</span> en las iglesias y canciones populares en las aldeas.',
+                    question: '¿Dónde se cantaban los cantos gregorianos?',
+                    options: [
+                        {icon: '⛪', text: 'En las iglesias'},
+                        {icon: '🏰', text: 'En los castillos'},
+                        {icon: '🏖️', text: 'En la playa'},
+                        {icon: '🏪', text: 'En el mercado'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los cantos gregorianos eran música religiosa.'
+                },
+                {
+                    visual: '📖',
+                    info: 'Las <span class="highlight">leyendas</span> del Rey Arturo y los Caballeros de la Mesa Redonda se hicieron famosas en esta época.',
+                    question: '¿Qué historias eran populares?',
+                    options: [
+                        {icon: '⚔️', text: 'Leyendas de caballeros'},
+                        {icon: '🚀', text: 'Viajes espaciales'},
+                        {icon: '🦖', text: 'Dinosaurios'},
+                        {icon: '🤖', text: 'Robots'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Las leyendas de caballería eran muy populares.'
+                }
+            ]
+        };
+
+        function changeTopic(topic) {
+            currentTopic = topic;
+            currentQuestion = 0;
+            
+            document.querySelectorAll('.topic-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const questions = topics[currentTopic];
+            if (currentQuestion >= questions.length) {
+                currentQuestion = 0;
+            }
+            
+            const q = questions[currentQuestion];
+            const content = document.getElementById('gameContent');
+            
+            if (q.type === 'match') {
+                content.innerHTML = `
+                    <div class="visual-scene">
+                        <div class="scene-icon">${q.visual}</div>
+                    </div>
+                    <div class="question-box">${q.question}</div>
+                    <div class="match-activity">
+                        <div class="match-grid">
+                            <div>
+                                ${q.pairs.map((pair, i) => 
+                                    `<div class="match-item" onclick="selectMatch(${i}, 'item')" id="item${i}">${pair.item}</div>`
+                                ).join('')}
+                            </div>
+                            <div>
+                                ${q.pairs.map((pair, i) => 
+                                    `<div class="match-item" onclick="selectMatch(${i}, 'match')" id="match${i}">${pair.match}</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (q.type === 'hierarchy') {
+                content.innerHTML = `
+                    <div class="visual-scene">
+                        <div class="scene-icon">${q.visual}</div>
+                    </div>
+                    <div class="info-box">
+                        ${q.info}
+                    </div>
+                    <div class="question-box">${q.question}</div>
+                    <div class="character-grid" id="characterGrid">
+                        ${q.items.sort(() => Math.random() - 0.5).map((item, i) => 
+                            `<div class="character-card" onclick="selectHierarchy(${item.order})" data-order="${item.order}">
+                                <div class="character-icon">${item.icon}</div>
+                                <div>${item.text}</div>
+                            </div>`
+                        ).join('')}
+                    </div>
+                    <div class="medieval-fact">
+                        <span class="fact-icon">💡</span>
+                        Toca las opciones en el orden correcto: de arriba hacia abajo en la pirámide social.
+                    </div>
+                `;
+                window.hierarchySelected = [];
+            } else {
+                content.innerHTML = `
+                    <div class="visual-scene">
+                        <div class="scene-icon">${q.visual}</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-title">📚 Aprende sobre la Edad Media:</div>
+                        ${q.info}
+                    </div>
+                    <div class="question-box">${q.question}</div>
+                    <div class="options">
+                        ${q.options.map((opt, i) => 
+                            `<button class="option-btn" onclick="checkAnswer(${i})">
+                                <span class="option-icon">${opt.icon}</span>
+                                <span>${opt.text}</span>
+                            </button>`
+                        ).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        let matchedPairs = [];
+        let firstSelection = null;
+
+        function selectMatch(index, type) {
+            if (firstSelection === null) {
+                firstSelection = {index, type};
+                document.getElementById(type + index).classList.add('selected');
+            } else {
+                if (firstSelection.type !== type && firstSelection.index === index) {
+                    matchedPairs.push(index);
+                    document.getElementById(firstSelection.type + firstSelection.index).style.opacity = '0.3';
+                    document.getElementById(type + index).style.opacity = '0.3';
+                    
+                    const q = topics[currentTopic][currentQuestion];
+                    if (matchedPairs.length === q.pairs.length) {
+                        setTimeout(() => {
+                            showFeedback(true, q.explanation);
+                            updateScore(20);
+                        }, 500);
+                    }
+                } else {
+                    document.getElementById(firstSelection.type + firstSelection.index).classList.remove('selected');
+                }
+                firstSelection = null;
+            }
+        }
+
+        window.hierarchySelected = [];
+
+        function selectHierarchy(order) {
+            window.hierarchySelected.push(order);
+            event.target.style.opacity = '0.3';
+            event.target.style.pointerEvents = 'none';
+            
+            const q = topics[currentTopic][currentQuestion];
+            if (window.hierarchySelected.length === q.items.length) {
+                const isCorrect = window.hierarchySelected.every((val, i) => val === i + 1);
+                showFeedback(isCorrect, q.explanation);
+                if (isCorrect) updateScore(20);
+            }
+        }
+
+        function checkAnswer(selected) {
+            const q = topics[currentTopic][currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === q.correct) {
+                buttons[selected].classList.add('correct');
+                showFeedback(true, q.explanation);
+                updateScore(15);
+            } else {
+                buttons[selected].classList.add('incorrect');
+                buttons[q.correct].classList.add('correct');
+                showFeedback(false, q.explanation);
+            }
+        }
+
+        function showFeedback(isCorrect, message) {
+            const content = document.getElementById('gameContent');
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = `feedback ${isCorrect ? 'success' : 'error'}`;
+            feedbackDiv.innerHTML = `
+                ${isCorrect ? '<div class="celebration">🎉 🏰 ⚔️</div>' : '💪'}
+                <p>${message}</p>
+                <button class="next-btn" onclick="nextQuestion()">Siguiente Tema →</button>
+            `;
+            content.appendChild(feedbackDiv);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            matchedPairs = [];
+            firstSelection = null;
+            loadQuestion();
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById('score').textContent = score;
+            
+            if (score >= level * 60) {
+                level++;
+                document.getElementById('level').textContent = level;
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

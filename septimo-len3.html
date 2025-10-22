@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller de Escritura Guiada</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .game-area {
+            padding: 40px;
+            background: #FEF0F0;
+        }
+
+        .activity-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .activity-btn {
+            background: linear-gradient(135deg, #889F92, #7A8F82);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+
+        .activity-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .activity-btn.active {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+        }
+
+        .game-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 400px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .instruction-box {
+            background: #FEF0F0;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #EE9A5B;
+            margin-bottom: 25px;
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+
+        .visual-prompt {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #EDA2A1, #EE9A5B);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 150px;
+        }
+
+        .visual-icon {
+            font-size: 6em;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .writing-area {
+            margin: 25px 0;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.3em;
+            border: 3px solid #EDA2A1;
+            border-radius: 15px;
+            font-family: 'Comic Sans MS', cursive;
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.8;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #E77B66;
+            box-shadow: 0 0 15px rgba(231, 123, 102, 0.3);
+        }
+
+        .word-bank {
+            background: #FEF0F0;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .word-bank-title {
+            font-size: 1.2em;
+            color: #E15034;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .word-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .word-tag {
+            background: #EE9A5B;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .word-tag:hover {
+            background: #E77B66;
+            transform: scale(1.1);
+        }
+
+        .word-tag:active {
+            transform: scale(0.95);
+        }
+
+        .sentence-builder {
+            background: white;
+            border: 3px dashed #EDA2A1;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 100px;
+            margin: 20px 0;
+            font-size: 1.3em;
+            line-height: 2;
+        }
+
+        .placed-word {
+            background: #889F92;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            margin: 5px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .helper-section {
+            background: #FEF0F0;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .helper-title {
+            font-size: 1.2em;
+            color: #E15034;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .helper-examples {
+            display: grid;
+            gap: 10px;
+        }
+
+        .example-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #889F92;
+            font-size: 1.1em;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .feedback.success {
+            background: #889F92;
+            color: white;
+        }
+
+        .feedback.partial {
+            background: #EE9A5B;
+            color: white;
+        }
+
+        .feedback.error {
+            background: #E15034;
+            color: white;
+        }
+
+        .celebration {
+            text-align: center;
+            font-size: 3em;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #889F92, #7A8F82);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .character-count {
+            text-align: right;
+            color: #889F92;
+            font-size: 1em;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .template-text {
+            font-size: 1.3em;
+            line-height: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .blank-space {
+            display: inline-block;
+            min-width: 150px;
+            border-bottom: 3px solid #EDA2A1;
+            margin: 0 5px;
+            color: #E15034;
+            font-weight: bold;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #EDA2A1;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .step.active {
+            background: #E77B66;
+            transform: scale(1.2);
+        }
+
+        .step.completed {
+            background: #889F92;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✍️ Taller de Escritura Guiada 📝</h1>
+            <div class="score-board">
+                <div class="score-item">⭐ Puntos: <span id="score">0</span></div>
+                <div class="score-item">📚 Escritos: <span id="level">0</span></div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="activity-selector">
+                <button class="activity-btn active" onclick="changeActivity('completar')">📝 Completar Oraciones</button>
+                <button class="activity-btn" onclick="changeActivity('construir')">🏗️ Construir Oraciones</button>
+                <button class="activity-btn" onclick="changeActivity('describir')">🎨 Describir Imágenes</button>
+                <button class="activity-btn" onclick="changeActivity('narrar')">📖 Crear Historias</button>
+                <button class="activity-btn" onclick="changeActivity('dialogo')">💬 Escribir Diálogos</button>
+            </div>
+
+            <div class="game-content" id="gameContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let level = 0;
+        let currentActivity = 'completar';
+        let currentQuestion = 0;
+        let selectedWords = [];
+
+        const activities = {
+            completar: [
+                {
+                    instruction: 'Completa la oración eligiendo la palabra correcta:',
+                    visual: '🌞',
+                    sentence: 'El sol brilla en el ___',
+                    options: ['cielo', 'mar', 'jardín', 'árbol'],
+                    correct: ['cielo'],
+                    explanation: '¡Perfecto! El sol brilla en el cielo.'
+                },
+                {
+                    instruction: 'Completa la oración:',
+                    visual: '🐕',
+                    sentence: 'Mi perro es muy ___',
+                    options: ['juguetón', 'grande', 'cariñoso', 'rápido'],
+                    correct: ['juguetón', 'grande', 'cariñoso', 'rápido'],
+                    explanation: '¡Excelente! Has descrito bien a tu perro.'
+                },
+                {
+                    instruction: 'Completa con la palabra adecuada:',
+                    visual: '🏫',
+                    sentence: 'Voy a la escuela en ___',
+                    options: ['autobús', 'carro', 'bicicleta', 'pie'],
+                    correct: ['autobús', 'carro', 'bicicleta', 'pie'],
+                    explanation: '¡Muy bien! Esa es una forma de ir a la escuela.'
+                },
+                {
+                    instruction: 'Elige la palabra correcta:',
+                    visual: '🌧️',
+                    sentence: 'Cuando llueve uso mi ___',
+                    options: ['paraguas', 'sombrero', 'gorra', 'bufanda'],
+                    correct: ['paraguas'],
+                    explanation: '¡Correcto! El paraguas nos protege de la lluvia.'
+                },
+                {
+                    instruction: 'Completa la oración:',
+                    visual: '📚',
+                    sentence: 'Me gusta ___ libros de aventuras',
+                    options: ['leer', 'escribir', 'dibujar', 'cantar'],
+                    correct: ['leer'],
+                    explanation: '¡Perfecto! Leer libros es muy divertido.'
+                },
+                {
+                    instruction: 'Selecciona la palabra adecuada:',
+                    visual: '🍎',
+                    sentence: 'La manzana es de color ___',
+                    options: ['rojo', 'azul', 'negro', 'morado'],
+                    correct: ['rojo'],
+                    explanation: '¡Muy bien! Las manzanas suelen ser rojas.'
+                },
+                {
+                    instruction: 'Completa esta oración:',
+                    visual: '🌙',
+                    sentence: 'Por la noche veo la ___ en el cielo',
+                    options: ['luna', 'nube', 'montaña', 'flor'],
+                    correct: ['luna'],
+                    explanation: '¡Excelente! La luna brilla en la noche.'
+                },
+                {
+                    instruction: 'Elige la mejor palabra:',
+                    visual: '🎵',
+                    sentence: 'Me encanta ___ música',
+                    options: ['escuchar', 'comer', 'dormir', 'correr'],
+                    correct: ['escuchar'],
+                    explanation: '¡Perfecto! Escuchamos música con nuestros oídos.'
+                }
+            ],
+            construir: [
+                {
+                    instruction: 'Ordena las palabras para formar una oración completa:',
+                    visual: '🌸',
+                    words: ['Las', 'flores', 'son', 'hermosas'],
+                    correctOrder: ['Las', 'flores', 'son', 'hermosas'],
+                    explanation: '¡Perfecto! "Las flores son hermosas" es una oración bien construida.'
+                },
+                {
+                    instruction: 'Construye la oración correctamente:',
+                    visual: '⚽',
+                    words: ['niños', 'Los', 'juegan', 'fútbol'],
+                    correctOrder: ['Los', 'niños', 'juegan', 'fútbol'],
+                    explanation: '¡Excelente! Has ordenado la oración correctamente.'
+                },
+                {
+                    instruction: 'Forma una oración con estas palabras:',
+                    visual: '🎂',
+                    words: ['cumpleaños', 'es', 'Mi', 'mañana'],
+                    correctOrder: ['Mi', 'cumpleaños', 'es', 'mañana'],
+                    explanation: '¡Muy bien! La oración está perfecta.'
+                },
+                {
+                    instruction: 'Ordena para crear una oración:',
+                    visual: '🐱',
+                    words: ['El', 'gato', 'duerme', 'tranquilo'],
+                    correctOrder: ['El', 'gato', 'duerme', 'tranquilo'],
+                    explanation: '¡Perfecto! Tu oración tiene sentido completo.'
+                },
+                {
+                    instruction: 'Construye una oración lógica:',
+                    visual: '🌳',
+                    words: ['árbol', 'grande', 'El', 'es'],
+                    correctOrder: ['El', 'árbol', 'es', 'grande'],
+                    explanation: '¡Excelente trabajo! La estructura es correcta.'
+                },
+                {
+                    instruction: 'Forma la oración correctamente:',
+                    visual: '🚗',
+                    words: ['rojo', 'es', 'carro', 'El'],
+                    correctOrder: ['El', 'carro', 'es', 'rojo'],
+                    explanation: '¡Muy bien! Has usado el orden correcto.'
+                },
+                {
+                    instruction: 'Ordena estas palabras:',
+                    visual: '🏠',
+                    words: ['casa', 'Mi', 'bonita', 'es'],
+                    correctOrder: ['Mi', 'casa', 'es', 'bonita'],
+                    explanation: '¡Perfecto! Oración completa y correcta.'
+                },
+                {
+                    instruction: 'Construye la oración:',
+                    visual: '🦋',
+                    words: ['vuela', 'mariposa', 'La', 'alto'],
+                    correctOrder: ['La', 'mariposa', 'vuela', 'alto'],
+                    explanation: '¡Excelente! Has creado una oración hermosa.'
+                }
+            ],
+            describir: [
+                {
+                    type: 'free',
+                    instruction: 'Observa la imagen y describe lo que ves. Usa al menos 3 palabras descriptivas.',
+                    visual: '🦁',
+                    prompt: '¿Cómo es el león?',
+                    helpers: ['grande', 'fuerte', 'valiente', 'dorado', 'feroz', 'majestuoso'],
+                    minWords: 5,
+                    explanation: '¡Fantástico! Has usado palabras descriptivas muy buenas.'
+                },
+                {
+                    type: 'free',
+                    instruction: 'Describe esta escena con detalles:',
+                    visual: '🏖️',
+                    prompt: '¿Qué ves en la playa?',
+                    helpers: ['arena', 'mar', 'olas', 'sol', 'caliente', 'azul'],
+                    minWords: 6,
+                    explanation: '¡Excelente descripción! Has capturado muy bien la escena.'
+                },
+                {
+                    type: 'free',
+                    instruction: 'Escribe sobre lo que observas:',
+                    visual: '🌳',
+                    prompt: '¿Cómo es el árbol?',
+                    helpers: ['alto', 'verde', 'frondoso', 'fuerte', 'viejo', 'grande'],
+                    minWords: 5,
+                    explanation: '¡Muy bien! Tu descripción es clara y detallada.'
+                },
+                {
+                    type: 'free',
+                    instruction: 'Describe este animal:',
+                    visual: '🐘',
+                    prompt: '¿Cómo es el elefante?',
+                    helpers: ['enorme', 'gris', 'pesado', 'inteligente', 'largo', 'trompa'],
+                    minWords: 6,
+                    explanation: '¡Perfecto! Has descrito muy bien al elefante.'
+                },
+                {
+                    type: 'free',
+                    instruction: 'Observa y describe:',
+                    visual: '🌈',
+                    prompt: '¿Cómo es el arcoíris?',
+                    helpers: ['colorido', 'hermoso', 'brillante', 'curvo', 'cielo', 'colores'],
+                    minWords: 5,
+                    explanation: '¡Excelente! Tu descripción es muy visual.'
+                },
+                {
+                    type: 'free',
+                    instruction: 'Describe lo que ves:',
+                    visual: '🍕',
+                    prompt: '¿Cómo es la pizza?',
+                    helpers: ['deliciosa', 'caliente', 'redonda', 'queso', 'sabrosa', 'grande'],
+                    minWords: 5,
+                    explanation: '¡Muy bien! Me dieron ganas de comer pizza.'
+                },
+                {
+                    type: 'free',
+                    instruction: 'Describe este lugar:',
+                    visual: '🏰',
+                    prompt: '¿Cómo es el castillo?',
+                    helpers: ['antiguo', 'grande', 'torres', 'piedra', 'mágico', 'alto'],
+                    minWords: 6,
+                    explanation: '¡Fantástico! Has creado una descripción fascinante.'
+                },
+                {
+                    type: 'free',
+                    instruction: 'Observa y escribe:',
+                    visual: '🦋',
+                    prompt: '¿Cómo es la mariposa?',
+                    helpers: ['hermosa', 'colorida', 'delicada', 'vuela', 'ligera', 'alas'],
+                    minWords: 5,
+                    explanation: '¡Perfecto! Tu descripción es poética.'
+                }
+            ],
+            narrar: [
+                {
+                    type: 'story',
+                    instruction: 'Crea una historia corta usando estas palabras:',
+                    visual: '🐰',
+                    words: ['conejo', 'bosque', 'zanahoria', 'feliz'],
+                    steps: [
+                        '¿Quién es el personaje?',
+                        '¿Dónde está?',
+                        '¿Qué encuentra?',
+                        '¿Cómo termina?'
+                    ],
+                    minWords: 15,
+                    explanation: '¡Increíble! Has creado una historia completa.'
+                },
+                {
+                    type: 'story',
+                    instruction: 'Escribe una pequeña aventura:',
+                    visual: '🚀',
+                    words: ['astronauta', 'espacio', 'estrellas', 'planeta'],
+                    steps: [
+                        '¿Quién viaja?',
+                        '¿A dónde va?',
+                        '¿Qué descubre?',
+                        '¿Qué siente?'
+                    ],
+                    minWords: 15,
+                    explanation: '¡Maravilloso! Tu aventura espacial es fascinante.'
+                },
+                {
+                    type: 'story',
+                    instruction: 'Narra una historia con estas palabras:',
+                    visual: '🐉',
+                    words: ['dragón', 'princesa', 'castillo', 'amistad'],
+                    steps: [
+                        '¿Quiénes son los personajes?',
+                        '¿Dónde sucede?',
+                        '¿Qué ocurre?',
+                        '¿Cómo termina?'
+                    ],
+                    minWords: 15,
+                    explanation: '¡Excelente! Tu cuento es muy creativo.'
+                },
+                {
+                    type: 'story',
+                    instruction: 'Crea tu propia historia:',
+                    visual: '🌊',
+                    words: ['delfín', 'océano', 'tesoro', 'aventura'],
+                    steps: [
+                        '¿Quién es el protagonista?',
+                        '¿Dónde busca?',
+                        '¿Qué encuentra?',
+                        '¿Cómo se siente?'
+                    ],
+                    minWords: 15,
+                    explanation: '¡Fantástico! Tu historia marina es emocionante.'
+                },
+                {
+                    type: 'story',
+                    instruction: 'Escribe una historia mágica:',
+                    visual: '🧙',
+                    words: ['mago', 'varita', 'hechizo', 'magia'],
+                    steps: [
+                        '¿Quién usa la magia?',
+                        '¿Qué quiere lograr?',
+                        '¿Qué pasa?',
+                        '¿Cómo resulta?'
+                    ],
+                    minWords: 15,
+                    explanation: '¡Perfecto! Tu historia mágica es encantadora.'
+                },
+                {
+                    type: 'story',
+                    instruction: 'Narra una aventura:',
+                    visual: '🏴‍☠️',
+                    words: ['pirata', 'barco', 'isla', 'mapa'],
+                    steps: [
+                        '¿Quién es el pirata?',
+                        '¿A dónde navega?',
+                        '¿Qué descubre?',
+                        '¿Qué hace?'
+                    ],
+                    minWords: 15,
+                    explanation: '¡Increíble! Tu historia de piratas es emocionante.'
+                }
+            ],
+            dialogo: [
+                {
+                    type: 'dialogue',
+                    instruction: 'Completa el diálogo entre dos amigos:',
+                    visual: '👦👧',
+                    scenario: 'Juan y María se encuentran en el parque',
+                    dialogues: [
+                        { speaker: 'Juan', text: 'Hola María, ¿cómo estás?' },
+                        { speaker: 'María', text: '', prompt: '¿Qué responde María?' },
+                        { speaker: 'Juan', text: '', prompt: '¿Qué pregunta Juan?' },
+                        { speaker: 'María', text: '', prompt: '¿Qué dice María?' }
+                    ],
+                    helpers: ['bien', 'quieres jugar', 'sí', 'gracias', 'vamos'],
+                    explanation: '¡Perfecto! Has creado un diálogo natural.'
+                },
+                {
+                    type: 'dialogue',
+                    instruction: 'Escribe una conversación:',
+                    visual: '🏪',
+                    scenario: 'En la tienda',
+                    dialogues: [
+                        { speaker: 'Vendedor', text: 'Buenos días, ¿en qué puedo ayudarte?' },
+                        { speaker: 'Cliente', text: '', prompt: '¿Qué dice el cliente?' },
+                        { speaker: 'Vendedor', text: '', prompt: '¿Qué responde el vendedor?' },
+                        { speaker: 'Cliente', text: '', prompt: '¿Qué dice el cliente?' }
+                    ],
+                    helpers: ['quiero', 'comprar', 'cuánto cuesta', 'gracias', 'aquí está'],
+                    explanation: '¡Excelente! Tu diálogo es muy realista.'
+                },
+                {
+                    type: 'dialogue',
+                    instruction: 'Completa esta conversación:',
+                    visual: '🍕',
+                    scenario: 'En un restaurante',
+                    dialogues: [
+                        { speaker: 'Mesero', text: '¿Qué deseas ordenar?' },
+                        { speaker: 'Cliente', text: '', prompt: '¿Qué pide el cliente?' },
+                        { speaker: 'Mesero', text: '', prompt: '¿Qué pregunta el mesero?' },
+                        { speaker: 'Cliente', text: '', prompt: '¿Qué responde?' }
+                    ],
+                    helpers: ['pizza', 'quiero', 'algo de tomar', 'agua', 'por favor'],
+                    explanation: '¡Muy bien! Tu diálogo suena muy natural.'
+                },
+                {
+                    type: 'dialogue',
+                    instruction: 'Crea un diálogo:',
+                    visual: '📚',
+                    scenario: 'En la biblioteca',
+                    dialogues: [
+                        { speaker: 'Bibliotecario', text: '¿Buscas algún libro en especial?' },
+                        { speaker: 'Estudiante', text: '', prompt: '¿Qué dice el estudiante?' },
+                        { speaker: 'Bibliotecario', text: '', prompt: '¿Qué responde?' },
+                        { speaker: 'Estudiante', text: '', prompt: '¿Qué agradece?' }
+                    ],
+                    helpers: ['aventuras', 'tenemos', 'muchas gracias', 'me ayuda', 'perfecto'],
+                    explanation: '¡Perfecto! Has escrito un diálogo educado y claro.'
+                },
+                {
+                    type: 'dialogue',
+                    instruction: 'Completa la conversación:',
+                    visual: '⚽',
+                    scenario: 'En el campo de juegos',
+                    dialogues: [
+                        { speaker: 'Pedro', text: '¿Quieres jugar fútbol conmigo?' },
+                        { speaker: 'Ana', text: '', prompt: '¿Qué responde Ana?' },
+                        { speaker: 'Pedro', text: '', prompt: '¿Qué propone Pedro?' },
+                        { speaker: 'Ana', text: '', prompt: '¿Qué dice Ana?' }
+                    ],
+                    helpers: ['claro', 'formemos equipos', 'de acuerdo', 'será divertido', 'vamos'],
+                    explanation: '¡Excelente! Tu diálogo es amistoso y animado.'
+                },
+                {
+                    type: 'dialogue',
+                    instruction: 'Escribe este diálogo:',
+                    visual: '🏥',
+                    scenario: 'En el consultorio médico',
+                    dialogues: [
+                        { speaker: 'Doctor', text: 'Hola, ¿cómo te sientes hoy?' },
+                        { speaker: 'Paciente', text: '', prompt: '¿Qué dice el paciente?' },
+                        { speaker: 'Doctor', text: '', prompt: '¿Qué aconseja el doctor?' },
+                        { speaker: 'Paciente', text: '', prompt: '¿Qué responde?' }
+                    ],
+                    helpers: ['me duele', 'descansa', 'entiendo', 'gracias doctor', 'mejor'],
+                    explanation: '¡Muy bien! Tu diálogo médico es apropiado.'
+                }
+            ]
+        };
+
+        function changeActivity(activity) {
+            currentActivity = activity;
+            currentQuestion = 0;
+            selectedWords = [];
+            
+            document.querySelectorAll('.activity-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const questions = activities[currentActivity];
+            if (currentQuestion >= questions.length) {
+                currentQuestion = 0;
+            }
+            
+            const q = questions[currentQuestion];
+            const content = document.getElementById('gameContent');
+            
+            if (currentActivity === 'completar') {
+                content.innerHTML = `
+                    <div class="instruction-box">
+                        <strong>📋 Instrucción:</strong> ${q.instruction}
+                    </div>
+                    <div class="visual-prompt">
+                        <div class="visual-icon">${q.visual}</div>
+                    </div>
+                    <div class="template-text">
+                        ${q.sentence.replace('___', '<span class="blank-space" id="blank"></span>')}
+                    </div>
+                    <div class="word-bank">
+                        <div class="word-bank-title">💡 Elige una palabra:</div>
+                        <div class="word-options">
+                            ${q.options.map(word => 
+                                `<span class="word-tag" onclick="selectCompleteWord('${word}')">${word}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <button class="submit-btn" onclick="checkComplete()">Verificar Respuesta</button>
+                `;
+            } else if (currentActivity === 'construir') {
+                const shuffled = [...q.words].sort(() => Math.random() - 0.5);
+                content.innerHTML = `
+                    <div class="instruction-box">
+                        <strong>📋 Instrucción:</strong> ${q.instruction}
+                    </div>
+                    <div class="visual-prompt">
+                        <div class="visual-icon">${q.visual}</div>
+                    </div>
+                    <div class="word-bank">
+                        <div class="word-bank-title">🧩 Usa estas palabras:</div>
+                        <div class="word-options" id="wordBank">
+                            ${shuffled.map(word => 
+                                `<span class="word-tag" onclick="selectBuildWord('${word}')">${word}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="sentence-builder" id="sentenceBuilder">
+                        Toca las palabras para construir tu oración aquí...
+                    </div>
+                    <button class="submit-btn" onclick="checkBuild()">Verificar Oración</button>
+                `;
+                selectedWords = [];
+            } else if (currentActivity === 'describir') {
+                content.innerHTML = `
+                    <div class="instruction-box">
+                        <strong>📋 Instrucción:</strong> ${q.instruction}
+                    </div>
+                    <div class="visual-prompt">
+                        <div class="visual-icon">${q.visual}</div>
+                    </div>
+                    <div class="helper-section">
+                        <div class="helper-title">💡 Palabras que te pueden ayudar:</div>
+                        <div class="word-options">
+                            ${q.helpers.map(word => 
+                                `<span class="word-tag" onclick="insertWord('${word}')">${word}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="writing-area">
+                        <label style="font-size: 1.2em; color: #E15034; font-weight: bold; display: block; margin-bottom: 10px;">
+                            ${q.prompt}
+                        </label>
+                        <textarea class="text-input" id="userText" placeholder="Escribe aquí tu descripción..."></textarea>
+                        <div class="character-count" id="charCount">0 palabras</div>
+                    </div>
+                    <button class="submit-btn" onclick="checkDescription()">Enviar Descripción</button>
+                `;
+                
+                document.getElementById('userText').addEventListener('input', updateWordCount);
+            } else if (currentActivity === 'narrar') {
+                content.innerHTML = `
+                    <div class="instruction-box">
+                        <strong>📋 Instrucción:</strong> ${q.instruction}
+                    </div>
+                    <div class="visual-prompt">
+                        <div class="visual-icon">${q.visual}</div>
+                    </div>
+                    <div class="helper-section">
+                        <div class="helper-title">📝 Palabras clave a usar:</div>
+                        <div class="word-options">
+                            ${q.words.map(word => 
+                                `<span class="word-tag" onclick="insertWord('${word}')">${word}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="helper-section">
+                        <div class="helper-title">🗺️ Guía para tu historia:</div>
+                        <div class="helper-examples">
+                            ${q.steps.map((step, i) => 
+                                `<div class="example-item"><strong>Paso ${i + 1}:</strong> ${step}</div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="writing-area">
+                        <textarea class="text-input" id="userText" placeholder="Escribe tu historia aquí..." style="min-height: 180px;"></textarea>
+                        <div class="character-count" id="charCount">0 palabras</div>
+                    </div>
+                    <button class="submit-btn" onclick="checkStory()">Enviar Historia</button>
+                `;
+                
+                document.getElementById('userText').addEventListener('input', updateWordCount);
+            } else if (currentActivity === 'dialogo') {
+                content.innerHTML = `
+                    <div class="instruction-box">
+                        <strong>📋 Instrucción:</strong> ${q.instruction}
+                    </div>
+                    <div class="visual-prompt">
+                        <div class="visual-icon">${q.visual}</div>
+                    </div>
+                    <div class="helper-section">
+                        <div class="helper-title">🎬 Escena: ${q.scenario}</div>
+                    </div>
+                    <div class="helper-section">
+                        <div class="helper-title">💡 Palabras útiles:</div>
+                        <div class="word-options">
+                            ${q.helpers.map(word => 
+                                `<span class="word-tag" onclick="insertDialogue('${word}')">${word}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="writing-area">
+                        ${q.dialogues.map((d, i) => `
+                            <div style="margin: 15px 0;">
+                                <strong style="color: #E77B66; font-size: 1.2em;">${d.speaker}:</strong>
+                                ${d.text ? `<div style="padding: 10px; background: #FEF0F0; border-radius: 10px; margin-top: 5px;">${d.text}</div>` : 
+                                    `<input type="text" class="text-input" id="dialogue${i}" placeholder="${d.prompt}" style="min-height: 60px;">`}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="submit-btn" onclick="checkDialogue()">Enviar Diálogo</button>
+                `;
+            }
+        }
+
+        let selectedWord = '';
+
+        function selectCompleteWord(word) {
+            selectedWord = word;
+            document.getElementById('blank').textContent = word;
+        }
+
+        function checkComplete() {
+            const q = activities[currentActivity][currentQuestion];
+            if (!selectedWord) {
+                alert('Por favor selecciona una palabra primero');
+                return;
+            }
+            
+            const isCorrect = q.correct.includes(selectedWord);
+            showFeedback(isCorrect, q.explanation);
+            if (isCorrect) updateScore(10);
+        }
+
+        function selectBuildWord(word) {
+            selectedWords.push(word);
+            const builder = document.getElementById('sentenceBuilder');
+            builder.innerHTML = selectedWords.map(w => 
+                `<span class="placed-word">${w}</span>`
+            ).join(' ');
+            
+            const tags = document.querySelectorAll('.word-tag');
+            tags.forEach(tag => {
+                if (tag.textContent === word && tag.style.opacity !== '0.3') {
+                    tag.style.opacity = '0.3';
+                    tag.style.pointerEvents = 'none';
+                }
+            });
+        }
+
+        function checkBuild() {
+            const q = activities[currentActivity][currentQuestion];
+            if (selectedWords.length === 0) {
+                alert('Por favor construye una oración primero');
+                return;
+            }
+            
+            const userSentence = selectedWords.join(' ');
+            const correctSentence = q.correctOrder.join(' ');
+            const isCorrect = userSentence === correctSentence;
+            
+            showFeedback(isCorrect, q.explanation);
+            if (isCorrect) updateScore(15);
+        }
+
+        function insertWord(word) {
+            const textarea = document.getElementById('userText');
+            const cursorPos = textarea.selectionStart;
+            const textBefore = textarea.value.substring(0, cursorPos);
+            const textAfter = textarea.value.substring(cursorPos);
+            textarea.value = textBefore + word + ' ' + textAfter;
+            textarea.focus();
+            updateWordCount();
+        }
+
+        function insertDialogue(word) {
+            const inputs = document.querySelectorAll('input[id^="dialogue"]');
+            inputs.forEach(input => {
+                if (document.activeElement === input) {
+                    input.value += (input.value ? ' ' : '') + word;
+                }
+            });
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('userText').value;
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+            document.getElementById('charCount').textContent = `${words.length} palabras`;
+        }
+
+        function checkDescription() {
+            const q = activities[currentActivity][currentQuestion];
+            const text = document.getElementById('userText').value.trim();
+            const words = text.split(/\s+/).filter(w => w.length > 0);
+            
+            if (words.length < q.minWords) {
+                showFeedback(false, `Escribe al menos ${q.minWords} palabras. ¡Tú puedes!`);
+                return;
+            }
+            
+            showFeedback(true, q.explanation);
+            updateScore(20);
+        }
+
+        function checkStory() {
+            const q = activities[currentActivity][currentQuestion];
+            const text = document.getElementById('userText').value.trim();
+            const words = text.split(/\s+/).filter(w => w.length > 0);
+            
+            if (words.length < q.minWords) {
+                showFeedback(false, `Tu historia necesita al menos ${q.minWords} palabras. ¡Sigue escribiendo!`);
+                return;
+            }
+            
+            const hasKeywords = q.words.some(word => text.toLowerCase().includes(word.toLowerCase()));
+            if (!hasKeywords) {
+                showFeedback(false, 'Intenta usar algunas de las palabras clave sugeridas.');
+                return;
+            }
+            
+            showFeedback(true, q.explanation);
+            updateScore(25);
+        }
+
+        function checkDialogue() {
+            const inputs = document.querySelectorAll('input[id^="dialogue"]');
+            let allFilled = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    allFilled = false;
+                }
+            });
+            
+            if (!allFilled) {
+                alert('Por favor completa todas las partes del diálogo');
+                return;
+            }
+            
+            const q = activities[currentActivity][currentQuestion];
+            showFeedback(true, q.explanation);
+            updateScore(20);
+        }
+
+        function showFeedback(isCorrect, message) {
+            const content = document.getElementById('gameContent');
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = `feedback ${isCorrect ? 'success' : 'error'}`;
+            feedbackDiv.innerHTML = `
+                ${isCorrect ? '<div class="celebration">🎉 ✨ 🌟</div>' : '💪'}
+                <p>${message}</p>
+                <button class="next-btn" onclick="nextQuestion()">Siguiente Ejercicio →</button>
+            `;
+            content.appendChild(feedbackDiv);
+            
+            if (isCorrect) {
+                level++;
+                document.getElementById('level').textContent = level;
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            selectedWords = [];
+            selectedWord = '';
+            loadQuestion();
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById('score').textContent = score;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

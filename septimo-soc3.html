@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaje a las Culturas Precolombinas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #FFE5B4 0%, #D4A574 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8B4513, #CD853F);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .game-area {
+            padding: 40px;
+            background: #FFF8DC;
+        }
+
+        .topic-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .topic-btn {
+            background: linear-gradient(135deg, #CD853F, #8B4513);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+
+        .topic-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .topic-btn.active {
+            background: linear-gradient(135deg, #DAA520, #FFD700);
+            color: #8B4513;
+        }
+
+        .game-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 400px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .visual-scene {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #D4A574, #CD853F);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scene-icon {
+            font-size: 7em;
+            animation: float 3s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .info-box {
+            background: #FFF8DC;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #DAA520;
+            margin: 20px 0;
+            line-height: 1.8;
+            font-size: 1.2em;
+        }
+
+        .info-title {
+            color: #8B4513;
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .question-box {
+            font-size: 1.4em;
+            color: #8B4513;
+            margin: 25px 0;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            background: #FFF8DC;
+            border-radius: 15px;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #D4A574;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option-icon {
+            font-size: 2.5em;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            background: #D4A574;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .option-btn.correct {
+            background: #228B22;
+            color: white;
+            border-color: #228B22;
+            animation: pulse 0.5s;
+        }
+
+        .option-btn.incorrect {
+            background: #DC143C;
+            color: white;
+            border-color: #DC143C;
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .match-activity {
+            margin: 20px 0;
+        }
+
+        .match-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .match-item {
+            background: #FFF8DC;
+            border: 3px solid #D4A574;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .match-item:hover {
+            background: #CD853F;
+            color: white;
+        }
+
+        .match-item.selected {
+            background: #DAA520;
+            color: white;
+            border-color: #DAA520;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .feedback.success {
+            background: #228B22;
+            color: white;
+        }
+
+        .feedback.error {
+            background: #DC143C;
+            color: white;
+        }
+
+        .celebration {
+            text-align: center;
+            font-size: 3em;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #228B22, #32CD32);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .highlight {
+            background: #DAA520;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .fact-box {
+            background: linear-gradient(135deg, #8B4513, #CD853F);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .fact-icon {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏛️ Viaje a las Culturas Precolombinas 🌎</h1>
+            <div class="score-board">
+                <div class="score-item">⭐ Puntos: <span id="score">0</span></div>
+                <div class="score-item">🏆 Nivel: <span id="level">1</span></div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="topic-selector">
+                <button class="topic-btn active" onclick="changeTopic('mayas')">🌟 Mayas</button>
+                <button class="topic-btn" onclick="changeTopic('aztecas')">🦅 Aztecas</button>
+                <button class="topic-btn" onclick="changeTopic('incas')">⛰️ Incas</button>
+                <button class="topic-btn" onclick="changeTopic('muiscas')">☀️ Muiscas</button>
+                <button class="topic-btn" onclick="changeTopic('arte')">🎨 Arte</button>
+                <button class="topic-btn" onclick="changeTopic('ciencia')">🔭 Ciencia</button>
+            </div>
+
+            <div class="game-content" id="gameContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let level = 1;
+        let currentTopic = 'mayas';
+        let currentQuestion = 0;
+        let selectedMatch = null;
+
+        const topics = {
+            mayas: [
+                {
+                    visual: '🏛️',
+                    info: 'Los <span class="highlight">mayas</span> fueron una gran civilización que vivió en México y Centroamérica. Construyeron ciudades impresionantes con pirámides muy altas.',
+                    question: '¿Dónde vivieron los mayas?',
+                    options: [
+                        {icon: '🗺️', text: 'México y Centroamérica'},
+                        {icon: '🏔️', text: 'En las montañas de Perú'},
+                        {icon: '🏖️', text: 'En la playa del Caribe'},
+                        {icon: '❄️', text: 'En el polo norte'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Los mayas vivieron en lo que hoy es México, Guatemala, Belice y Honduras.'
+                },
+                {
+                    visual: '🔺',
+                    info: 'Las <span class="highlight">pirámides mayas</span> eran templos sagrados. La más famosa es Chichén Itzá, donde adoraban a sus dioses.',
+                    question: '¿Para qué construían pirámides los mayas?',
+                    options: [
+                        {icon: '🙏', text: 'Como templos religiosos'},
+                        {icon: '🏠', text: 'Para vivir en ellas'},
+                        {icon: '🏪', text: 'Para vender productos'},
+                        {icon: '🎮', text: 'Para jugar videojuegos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Las pirámides eran lugares sagrados para ceremonias religiosas.'
+                },
+                {
+                    visual: '📝',
+                    info: 'Los mayas inventaron un <span class="highlight">sistema de escritura</span> con símbolos llamados glifos. Escribían en libros de corteza llamados códices.',
+                    question: '¿Cómo se llamaba la escritura maya?',
+                    options: [
+                        {icon: '📜', text: 'Glifos o jeroglíficos'},
+                        {icon: '📱', text: 'Mensajes de texto'},
+                        {icon: '✉️', text: 'Cartas normales'},
+                        {icon: '💻', text: 'Correos electrónicos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los glifos mayas eran símbolos complejos con significados.'
+                },
+                {
+                    visual: '📅',
+                    info: 'Los mayas eran expertos en <span class="highlight">astronomía</span>. Crearon calendarios muy precisos observando el sol, la luna y las estrellas.',
+                    question: '¿En qué ciencia destacaron los mayas?',
+                    options: [
+                        {icon: '🌟', text: 'Astronomía (estudio del cielo)'},
+                        {icon: '🔬', text: 'Biología moderna'},
+                        {icon: '💻', text: 'Computación'},
+                        {icon: '🚀', text: 'Viajes espaciales'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Los mayas estudiaban el cielo y predecían eclipses.'
+                },
+                {
+                    visual: '⚽',
+                    info: 'El <span class="highlight">juego de pelota</span> era un deporte ritual importante. Jugaban con una pelota de caucho en canchas especiales.',
+                    question: '¿Cómo era el juego de pelota maya?',
+                    options: [
+                        {icon: '🏀', text: 'Deporte ritual con pelota de caucho'},
+                        {icon: '⚽', text: 'Fútbol moderno'},
+                        {icon: '🏈', text: 'Fútbol americano'},
+                        {icon: '🎾', text: 'Tenis con raquetas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! El juego de pelota tenía significado religioso y deportivo.'
+                },
+                {
+                    type: 'match',
+                    visual: '🏛️',
+                    question: 'Une cada elemento maya con su descripción:',
+                    pairs: [
+                        {item: '🔺 Pirámide', match: 'Templo'},
+                        {item: '📜 Glifo', match: 'Escritura'},
+                        {item: '📅 Calendario', match: 'Tiempo'},
+                        {item: '⚽ Pelota', match: 'Juego'}
+                    ],
+                    explanation: '¡Muy bien! Conoces los elementos importantes de la cultura maya.'
+                }
+            ],
+            aztecas: [
+                {
+                    visual: '🦅',
+                    info: 'Los <span class="highlight">aztecas</span> o mexicas fundaron la gran ciudad de Tenochtitlán en el centro de México, sobre un lago.',
+                    question: '¿Dónde fundaron su ciudad los aztecas?',
+                    options: [
+                        {icon: '🏝️', text: 'En una isla en medio de un lago'},
+                        {icon: '🏔️', text: 'En la cima de una montaña'},
+                        {icon: '🏖️', text: 'En la playa del océano'},
+                        {icon: '🌲', text: 'En medio del bosque'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Tenochtitlán estaba en una isla del lago Texcoco.'
+                },
+                {
+                    visual: '🌽',
+                    info: 'Los aztecas cultivaban en <span class="highlight">chinampas</span>, jardines flotantes sobre el agua. Ahí plantaban maíz, frijoles y calabazas.',
+                    question: '¿Qué eran las chinampas?',
+                    options: [
+                        {icon: '🌱', text: 'Jardines flotantes en el agua'},
+                        {icon: '🏪', text: 'Tiendas del mercado'},
+                        {icon: '🏠', text: 'Casas de madera'},
+                        {icon: '⛵', text: 'Barcos de pesca'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Las chinampas eran una forma innovadora de agricultura.'
+                },
+                {
+                    visual: '👑',
+                    info: 'El <span class="highlight">emperador azteca</span> era llamado Huey Tlatoani. Era el líder supremo y se consideraba elegido por los dioses.',
+                    question: '¿Cómo se llamaba el emperador azteca?',
+                    options: [
+                        {icon: '👑', text: 'Huey Tlatoani'},
+                        {icon: '🤴', text: 'Rey simple'},
+                        {icon: '🎩', text: 'Presidente'},
+                        {icon: '👔', text: 'Gobernador'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Huey Tlatoani significa "gran orador" en náhuatl.'
+                },
+                {
+                    visual: '🏛️',
+                    info: 'El <span class="highlight">Templo Mayor</span> era el centro religioso de Tenochtitlán. Ahí adoraban a sus principales dioses.',
+                    question: '¿Qué era el Templo Mayor?',
+                    options: [
+                        {icon: '⛪', text: 'Centro religioso principal'},
+                        {icon: '🏪', text: 'Mercado grande'},
+                        {icon: '🏫', text: 'Escuela'},
+                        {icon: '🏠', text: 'Casa del emperador'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! El Templo Mayor era el edificio más importante de la ciudad.'
+                },
+                {
+                    visual: '💰',
+                    info: 'Los aztecas usaban <span class="highlight">granos de cacao</span> como moneda. El cacao era muy valioso y también hacían chocolate con él.',
+                    question: '¿Qué usaban los aztecas como dinero?',
+                    options: [
+                        {icon: '🍫', text: 'Granos de cacao'},
+                        {icon: '💵', text: 'Billetes de papel'},
+                        {icon: '💳', text: 'Tarjetas de crédito'},
+                        {icon: '💎', text: 'Diamantes'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! El cacao era tan valioso que servía como moneda.'
+                },
+                {
+                    visual: '🗣️',
+                    info: 'Los aztecas hablaban <span class="highlight">náhuatl</span>. Muchas palabras que usamos hoy vienen del náhuatl, como "chocolate" y "tomate".',
+                    question: '¿Qué idioma hablaban los aztecas?',
+                    options: [
+                        {icon: '📢', text: 'Náhuatl'},
+                        {icon: '🇪🇸', text: 'Español'},
+                        {icon: '🇬🇧', text: 'Inglés'},
+                        {icon: '🇫🇷', text: 'Francés'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! El náhuatl todavía se habla en algunas regiones de México.'
+                }
+            ],
+            incas: [
+                {
+                    visual: '⛰️',
+                    info: 'El <span class="highlight">Imperio Inca</span> fue el más grande de América del Sur. Se extendía por las montañas de los Andes en Perú, Bolivia, Ecuador y Chile.',
+                    question: '¿Dónde estaba el Imperio Inca?',
+                    options: [
+                        {icon: '🏔️', text: 'En las montañas de los Andes'},
+                        {icon: '🏖️', text: 'En la playa del Pacífico'},
+                        {icon: '🌴', text: 'En la selva amazónica'},
+                        {icon: '🏜️', text: 'En el desierto del Sahara'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Los incas dominaron las altas montañas andinas.'
+                },
+                {
+                    visual: '🏛️',
+                    info: '<span class="highlight">Machu Picchu</span> es la ciudad inca más famosa. Está en lo alto de las montañas de Perú y es maravillosa.',
+                    question: '¿Qué es Machu Picchu?',
+                    options: [
+                        {icon: '🏔️', text: 'Ciudad inca en las montañas'},
+                        {icon: '🏖️', text: 'Playa famosa'},
+                        {icon: '🏪', text: 'Centro comercial'},
+                        {icon: '🎢', text: 'Parque de diversiones'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Machu Picchu es Patrimonio de la Humanidad.'
+                },
+                {
+                    visual: '🛤️',
+                    info: 'Los incas construyeron <span class="highlight">caminos</span> que conectaban todo el imperio. ¡Algunos tenían más de 5,000 kilómetros de largo!',
+                    question: '¿Qué construyeron para conectar el imperio?',
+                    options: [
+                        {icon: '🛤️', text: 'Red de caminos largos'},
+                        {icon: '✈️', text: 'Aeropuertos'},
+                        {icon: '🚂', text: 'Trenes'},
+                        {icon: '🚗', text: 'Carreteras para carros'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los caminos incas cruzaban montañas y valles.'
+                },
+                {
+                    visual: '🧵',
+                    info: 'Los incas usaban <span class="highlight">quipus</span>, cuerdas con nudos de colores para llevar registros y contar. Era su forma de guardar información.',
+                    question: '¿Qué eran los quipus?',
+                    options: [
+                        {icon: '🧵', text: 'Cuerdas con nudos para contar'},
+                        {icon: '📱', text: 'Teléfonos celulares'},
+                        {icon: '💻', text: 'Computadoras'},
+                        {icon: '📚', text: 'Libros escritos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Los quipus eran un sistema numérico y de registro.'
+                },
+                {
+                    visual: '🌾',
+                    info: 'Los incas cultivaban <span class="highlight">papas</span> y <span class="highlight">maíz</span> en terrazas escalonadas en las montañas.',
+                    question: '¿Qué cultivo importante domesticaron los incas?',
+                    options: [
+                        {icon: '🥔', text: 'La papa'},
+                        {icon: '🍕', text: 'La pizza'},
+                        {icon: '🍔', text: 'La hamburguesa'},
+                        {icon: '🍰', text: 'El pastel'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Los incas cultivaron más de 3,000 variedades de papa.'
+                },
+                {
+                    visual: '🦙',
+                    info: 'Los incas criaban <span class="highlight">llamas y alpacas</span>. Usaban su lana para hacer ropa y las llamas cargaban objetos pesados.',
+                    question: '¿Qué animales criaban los incas?',
+                    options: [
+                        {icon: '🦙', text: 'Llamas y alpacas'},
+                        {icon: '🐄', text: 'Vacas y toros'},
+                        {icon: '🐴', text: 'Caballos'},
+                        {icon: '🐘', text: 'Elefantes'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Las llamas y alpacas eran esenciales para los incas.'
+                }
+            ],
+            muiscas: [
+                {
+                    visual: '☀️',
+                    info: 'Los <span class="highlight">muiscas</span> vivieron en el altiplano cundiboyacense de Colombia. Su territorio incluía lo que hoy es Bogotá.',
+                    question: '¿Dónde vivieron los muiscas?',
+                    options: [
+                        {icon: '🏔️', text: 'En el altiplano de Colombia'},
+                        {icon: '🏖️', text: 'En la costa del Caribe'},
+                        {icon: '🌴', text: 'En la Amazonía'},
+                        {icon: '🏜️', text: 'En el desierto'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Los muiscas habitaron el altiplano cundiboyacense.'
+                },
+                {
+                    visual: '🏆',
+                    info: 'La leyenda de <span class="highlight">El Dorado</span> viene de los muiscas. En ceremonias, el cacique se cubría de polvo de oro y se bañaba en la laguna de Guatavita.',
+                    question: '¿De qué cultura viene la leyenda de El Dorado?',
+                    options: [
+                        {icon: '✨', text: 'De los muiscas'},
+                        {icon: '🦅', text: 'De los aztecas'},
+                        {icon: '🏔️', text: 'De los incas'},
+                        {icon: '🌟', text: 'De los mayas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! La ceremonia del cacique dorado dio origen a esta leyenda.'
+                },
+                {
+                    visual: '💰',
+                    info: 'Los muiscas eran expertos <span class="highlight">orfebres</span>. Trabajaban el oro con gran habilidad y creaban piezas hermosas.',
+                    question: '¿En qué arte destacaron los muiscas?',
+                    options: [
+                        {icon: '✨', text: 'Orfebrería (trabajo en oro)'},
+                        {icon: '🎨', text: 'Pintura moderna'},
+                        {icon: '🎭', text: 'Teatro'},
+                        {icon: '🎵', text: 'Música electrónica'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los muiscas creaban joyas y objetos de oro impresionantes.'
+                },
+                {
+                    visual: '🌾',
+                    info: 'Los muiscas cultivaban <span class="highlight">maíz, papa y quinua</span>. También eran comerciantes y intercambiaban sal y esmeraldas.',
+                    question: '¿Qué productos intercambiaban los muiscas?',
+                    options: [
+                        {icon: '💎', text: 'Sal y esmeraldas'},
+                        {icon: '💻', text: 'Computadoras'},
+                        {icon: '📱', text: 'Celulares'},
+                        {icon: '🚗', text: 'Automóviles'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! La sal y las esmeraldas eran muy valiosas.'
+                },
+                {
+                    visual: '👑',
+                    info: 'Los muiscas estaban organizados en <span class="highlight">cacicazgos</span>. Los dos más importantes eran el Zipa de Bacatá y el Zaque de Hunza.',
+                    question: '¿Cómo se llamaban los líderes muiscas?',
+                    options: [
+                        {icon: '👑', text: 'Caciques (Zipa y Zaque)'},
+                        {icon: '🤴', text: 'Reyes europeos'},
+                        {icon: '🎩', text: 'Presidentes'},
+                        {icon: '👔', text: 'Alcaldes'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! El Zipa y el Zaque eran los principales líderes.'
+                },
+                {
+                    type: 'match',
+                    visual: '☀️',
+                    question: 'Une cada elemento muisca con su descripción:',
+                    pairs: [
+                        {item: '✨ El Dorado', match: 'Leyenda'},
+                        {item: '💰 Oro', match: 'Orfebrería'},
+                        {item: '💎 Esmeralda', match: 'Comercio'},
+                        {item: '👑 Zipa', match: 'Líder'}
+                    ],
+                    explanation: '¡Muy bien! Conoces los elementos importantes de la cultura muisca.'
+                }
+            ],
+            arte: [
+                {
+                    visual: '🎨',
+                    info: 'Las culturas precolombinas crearon <span class="highlight">cerámica</span> hermosa. Hacían vasijas, platos y figuras decoradas con pinturas y diseños.',
+                    question: '¿Qué objetos de arte hacían con barro?',
+                    options: [
+                        {icon: '🏺', text: 'Cerámica decorada'},
+                        {icon: '📱', text: 'Teléfonos'},
+                        {icon: '💻', text: 'Computadoras'},
+                        {icon: '🚗', text: 'Carros'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! La cerámica era un arte importante en todas las culturas.'
+                },
+                {
+                    visual: '🗿',
+                    info: 'Los artistas precolombinos tallaban <span class="highlight">piedras</span> para crear esculturas grandes y monumentos impresionantes.',
+                    question: '¿Con qué material hacían esculturas grandes?',
+                    options: [
+                        {icon: '🪨', text: 'Piedra tallada'},
+                        {icon: '🧊', text: 'Hielo'},
+                        {icon: '🧻', text: 'Papel'},
+                        {icon: '🎈', text: 'Globos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Tallaban piedra con herramientas especiales.'
+                },
+                {
+                    visual: '🌈',
+                    info: 'Usaban <span class="highlight">colores naturales</span> de plantas, minerales y animales para pintar. El rojo venía del achiote, el azul del índigo.',
+                    question: '¿De dónde sacaban los colores para pintar?',
+                    options: [
+                        {icon: '🌿', text: 'De plantas y minerales'},
+                        {icon: '🏪', text: 'De tiendas modernas'},
+                        {icon: '🖨️', text: 'De impresoras'},
+                        {icon: '📱', text: 'De aplicaciones'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los pigmentos naturales creaban colores vibrantes.'
+                },
+                {
+                    visual: '🪶',
+                    info: 'Creaban arte con <span class="highlight">plumas de colores</span> de aves como quetzales y guacamayas. Hacían tocados y vestimentas ceremoniales.',
+                    question: '¿Qué usaban para hacer tocados especiales?',
+                    options: [
+                        {icon: '🦜', text: 'Plumas de aves coloridas'},
+                        {icon: '🎩', text: 'Sombreros modernos'},
+                        {icon: '👒', text: 'Gorras de béisbol'},
+                        {icon: '🧢', text: 'Viseras deportivas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Las plumas de quetzal eran muy valiosas.'
+                },
+                {
+                    visual: '🎭',
+                    info: 'Hacían <span class="highlight">máscaras ceremoniales</span> de jade, turquesa y oro para rituales importantes y representaciones.',
+                    question: '¿Para qué usaban máscaras especiales?',
+                    options: [
+                        {icon: '🎭', text: 'Ceremonias y rituales'},
+                        {icon: '🎃', text: 'Halloween'},
+                        {icon: '🎪', text: 'Circos modernos'},
+                        {icon: '🎬', text: 'Películas de cine'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Las máscaras tenían significado religioso y cultural.'
+                },
+                {
+                    visual: '🧵',
+                    info: 'Los <span class="highlight">textiles</span> precolombinos eran muy elaborados. Tejían con algodón y lana de llama, creando diseños geométricos complejos.',
+                    question: '¿Qué técnica artística usaban con hilos?',
+                    options: [
+                        {icon: '🧶', text: 'Tejido de textiles'},
+                        {icon: '📱', text: 'Redes sociales'},
+                        {icon: '💻', text: 'Programación'},
+                        {icon: '🎮', text: 'Videojuegos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Los textiles mostraban símbolos y patrones importantes.'
+                }
+            ],
+            ciencia: [
+                {
+                    visual: '🔭',
+                    info: 'Las culturas precolombinas estudiaban el <span class="highlight">cielo nocturno</span>. Observaban las estrellas, planetas y predecían eclipses.',
+                    question: '¿Qué estudiaban en el cielo?',
+                    options: [
+                        {icon: '⭐', text: 'Estrellas y planetas'},
+                        {icon: '✈️', text: 'Aviones'},
+                        {icon: '🚁', text: 'Helicópteros'},
+                        {icon: '🎈', text: 'Globos de feria'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! La astronomía era fundamental para sus calendarios.'
+                },
+                {
+                    visual: '📅',
+                    info: 'Crearon <span class="highlight">calendarios precisos</span>. Los mayas tenían dos: uno sagrado de 260 días y otro solar de 365 días.',
+                    question: '¿Para qué crearon calendarios?',
+                    options: [
+                        {icon: '⏰', text: 'Medir tiempo y ciclos'},
+                        {icon: '📱', text: 'Ver redes sociales'},
+                        {icon: '🎮', text: 'Jugar videojuegos'},
+                        {icon: '📺', text: 'Ver televisión'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los calendarios organizaban la agricultura y ceremonias.'
+                },
+                {
+                    visual: '🔢',
+                    info: 'Los mayas inventaron el concepto del <span class="highlight">cero</span>. Usaban un sistema numérico de puntos y barras muy avanzado.',
+                    question: '¿Qué concepto matemático importante inventaron?',
+                    options: [
+                        {icon: '0️⃣', text: 'El número cero'},
+                        {icon: '💯', text: 'El número 100'},
+                        {icon: '🔟', text: 'El número 10'},
+                        {icon: '1️⃣', text: 'El número uno'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! El cero fue un invento revolucionario en matemáticas.'
+                },
+                {
+                    visual: '🌿',
+                    info: 'Conocían las propiedades de muchas <span class="highlight">plantas medicinales</span>. Usaban hierbas para curar enfermedades y heridas.',
+                    question: '¿Qué usaban para curar enfermedades?',
+                    options: [
+                        {icon: '🌱', text: 'Plantas medicinales'},
+                        {icon: '💊', text: 'Pastillas modernas'},
+                        {icon: '💉', text: 'Inyecciones'},
+                        {icon: '🏥', text: 'Hospitales modernos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Tenían conocimiento profundo de medicina natural.'
+                },
+                {
+                    visual: '🌾',
+                    info: 'Desarrollaron técnicas agrícolas avanzadas como las <span class="highlight">terrazas</span>, chinampas y sistemas de riego.',
+                    question: '¿Qué innovaron en agricultura?',
+                    options: [
+                        {icon: '💧', text: 'Sistemas de riego y terrazas'},
+                        {icon: '🚜', text: 'Tractores modernos'},
+                        {icon: '🤖', text: 'Robots agrícolas'},
+                        {icon: '🛩️', text: 'Fumigación aérea'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Sus técnicas permitían cultivar en lugares difíciles.'
+                },
+                {
+                    type: 'match',
+                    visual: '🔭',
+                    question: 'Une cada avance científico con su uso:',
+                    pairs: [
+                        {item: '📅 Calendario', match: 'Medir tiempo'},
+                        {item: '0️⃣ Cero', match: 'Matemáticas'},
+                        {item: '🌿 Plantas', match: 'Medicina'},
+                        {item: '💧 Riego', match: 'Agricultura'}
+                    ],
+                    explanation: '¡Muy bien! Las culturas precolombinas fueron muy avanzadas en ciencia.'
+                }
+            ]
+        };
+
+        function changeTopic(topic) {
+            currentTopic = topic;
+            currentQuestion = 0;
+            
+            document.querySelectorAll('.topic-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const questions = topics[currentTopic];
+            if (currentQuestion >= questions.length) {
+                currentQuestion = 0;
+            }
+            
+            const q = questions[currentQuestion];
+            const content = document.getElementById('gameContent');
+            
+            if (q.type === 'match') {
+                content.innerHTML = `
+                    <div class="visual-scene">
+                        <div class="scene-icon">${q.visual}</div>
+                    </div>
+                    <div class="question-box">${q.question}</div>
+                    <div class="match-activity">
+                        <div class="match-grid">
+                            <div>
+                                ${q.pairs.map((pair, i) => 
+                                    `<div class="match-item" onclick="selectMatch(${i}, 'item')" id="item${i}">${pair.item}</div>`
+                                ).join('')}
+                            </div>
+                            <div>
+                                ${q.pairs.map((pair, i) => 
+                                    `<div class="match-item" onclick="selectMatch(${i}, 'match')" id="match${i}">${pair.match}</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fact-box">
+                        <span class="fact-icon">💡</span>
+                        Selecciona un elemento de la izquierda y luego su pareja de la derecha.
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="visual-scene">
+                        <div class="scene-icon">${q.visual}</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-title">📚 Descubre las culturas precolombinas:</div>
+                        ${q.info}
+                    </div>
+                    <div class="question-box">${q.question}</div>
+                    <div class="options">
+                        ${q.options.map((opt, i) => 
+                            `<button class="option-btn" onclick="checkAnswer(${i})">
+                                <span class="option-icon">${opt.icon}</span>
+                                <span>${opt.text}</span>
+                            </button>`
+                        ).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        let matchedPairs = [];
+        let firstSelection = null;
+
+        function selectMatch(index, type) {
+            if (firstSelection === null) {
+                firstSelection = {index, type};
+                document.getElementById(type + index).classList.add('selected');
+            } else {
+                if (firstSelection.type !== type && firstSelection.index === index) {
+                    matchedPairs.push(index);
+                    document.getElementById(firstSelection.type + firstSelection.index).style.opacity = '0.3';
+                    document.getElementById(type + index).style.opacity = '0.3';
+                    
+                    const q = topics[currentTopic][currentQuestion];
+                    if (matchedPairs.length === q.pairs.length) {
+                        setTimeout(() => {
+                            showFeedback(true, q.explanation);
+                            updateScore(20);
+                        }, 500);
+                    }
+                } else {
+                    document.getElementById(firstSelection.type + firstSelection.index).classList.remove('selected');
+                }
+                firstSelection = null;
+            }
+        }
+
+        function checkAnswer(selected) {
+            const q = topics[currentTopic][currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === q.correct) {
+                buttons[selected].classList.add('correct');
+                showFeedback(true, q.explanation);
+                updateScore(15);
+            } else {
+                buttons[selected].classList.add('incorrect');
+                buttons[q.correct].classList.add('correct');
+                showFeedback(false, q.explanation);
+            }
+        }
+
+        function showFeedback(isCorrect, message) {
+            const content = document.getElementById('gameContent');
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = `feedback ${isCorrect ? 'success' : 'error'}`;
+            feedbackDiv.innerHTML = `
+                ${isCorrect ? '<div class="celebration">🎉 🏛️ 🌟</div>' : '💪'}
+                <p>${message}</p>
+                <button class="next-btn" onclick="nextQuestion()">Siguiente Pregunta →</button>
+            `;
+            content.appendChild(feedbackDiv);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            matchedPairs = [];
+            firstSelection = null;
+            loadQuestion();
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById('score').textContent = score;
+            
+            if (score >= level * 60) {
+                level++;
+                document.getElementById('level').textContent = level;
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

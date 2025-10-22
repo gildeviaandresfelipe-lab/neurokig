@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Reino de la Gramática</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .game-area {
+            padding: 40px;
+            background: #FEF0F0;
+        }
+
+        .topic-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .topic-btn {
+            background: linear-gradient(135deg, #889F92, #7A8F82);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .topic-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .topic-btn.active {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+        }
+
+        .game-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 350px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .question-box {
+            font-size: 1.4em;
+            color: #E15034;
+            margin-bottom: 25px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .example-box {
+            background: #FEF0F0;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #EE9A5B;
+            margin: 20px 0;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .option-btn {
+            background: #FEF0F0;
+            border: 3px solid #EDA2A1;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #EDA2A1;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .option-btn.correct {
+            background: #889F92;
+            color: white;
+            border-color: #889F92;
+            animation: pulse 0.5s;
+        }
+
+        .option-btn.incorrect {
+            background: #E15034;
+            color: white;
+            border-color: #E15034;
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .input-area {
+            margin: 20px 0;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 3px solid #EDA2A1;
+            border-radius: 15px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #EE9A5B, #E77B66);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .feedback.success {
+            background: #889F92;
+            color: white;
+        }
+
+        .feedback.error {
+            background: #E15034;
+            color: white;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #889F92, #7A8F82);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .celebration {
+            text-align: center;
+            font-size: 3em;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .word-tag {
+            background: #EE9A5B;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1em;
+        }
+
+        .word-tag:hover {
+            background: #E77B66;
+            transform: scale(1.1);
+        }
+
+        .word-tag.selected {
+            background: #889F92;
+            opacity: 0.5;
+        }
+
+        .drop-zone {
+            min-height: 60px;
+            background: #FEF0F0;
+            border: 3px dashed #EDA2A1;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .sentence-builder {
+            background: #FEF0F0;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            min-height: 80px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .highlighted-word {
+            background: #EE9A5B;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👑 El Reino de la Gramática 📚</h1>
+            <div class="score-board">
+                <div class="score-item">⭐ Puntos: <span id="score">0</span></div>
+                <div class="score-item">🏆 Nivel: <span id="level">1</span></div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="topic-selector">
+                <button class="topic-btn active" onclick="changeTopic('sustantivos')">🏠 Sustantivos</button>
+                <button class="topic-btn" onclick="changeTopic('verbos')">🏃 Verbos</button>
+                <button class="topic-btn" onclick="changeTopic('adjetivos')">🎨 Adjetivos</button>
+                <button class="topic-btn" onclick="changeTopic('articulos')">📌 Artículos</button>
+                <button class="topic-btn" onclick="changeTopic('pronombres')">👤 Pronombres</button>
+                <button class="topic-btn" onclick="changeTopic('adverbios')">⚡ Adverbios</button>
+                <button class="topic-btn" onclick="changeTopic('preposiciones')">🔗 Preposiciones</button>
+                <button class="topic-btn" onclick="changeTopic('oraciones')">✍️ Oraciones</button>
+            </div>
+
+            <div class="game-content" id="gameContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let level = 1;
+        let currentTopic = 'sustantivos';
+        let currentQuestion = 0;
+
+        const topics = {
+            sustantivos: [
+                {
+                    question: "¿Cuál de estas palabras es un sustantivo?",
+                    options: ["Correr", "Pelota", "Grande", "Rápidamente"],
+                    correct: 1,
+                    explanation: "¡Excelente! 'Pelota' es un sustantivo porque nombra un objeto."
+                },
+                {
+                    question: "Identifica el sustantivo común:",
+                    options: ["México", "Juan", "perro", "María"],
+                    correct: 2,
+                    explanation: "¡Muy bien! 'Perro' es un sustantivo común. Los demás son propios."
+                },
+                {
+                    type: 'example',
+                    text: "Mi hermana compró un libro nuevo en la tienda.",
+                    question: "¿Cuántos sustantivos hay en la oración?",
+                    options: ["2", "3", "4", "5"],
+                    correct: 1,
+                    explanation: "¡Correcto! Los sustantivos son: hermana, libro y tienda (3 sustantivos)."
+                },
+                {
+                    type: 'classify',
+                    question: "Clasifica estos sustantivos: perro, felicidad, mesa",
+                    word: "felicidad",
+                    options: ["Concreto", "Abstracto", "Colectivo", "Propio"],
+                    correct: 1,
+                    explanation: "¡Perfecto! 'Felicidad' es abstracto porque no se puede tocar."
+                }
+            ],
+            verbos: [
+                {
+                    type: 'example',
+                    text: "Los niños juegan en el parque todos los días.",
+                    question: "¿Cuál es el verbo en esta oración?",
+                    options: ["niños", "juegan", "parque", "días"],
+                    correct: 1,
+                    explanation: "¡Excelente! 'Juegan' es el verbo porque indica la acción."
+                },
+                {
+                    question: "¿En qué tiempo está el verbo 'comió'?",
+                    options: ["Presente", "Pasado", "Futuro", "Copretérito"],
+                    correct: 1,
+                    explanation: "¡Muy bien! 'Comió' está en pasado porque la acción ya sucedió."
+                },
+                {
+                    question: "Conjuga el verbo 'cantar' en presente (yo):",
+                    options: ["canto", "canté", "cantaré", "cantaba"],
+                    correct: 0,
+                    explanation: "¡Perfecto! 'Yo canto' es la forma correcta en presente."
+                },
+                {
+                    type: 'example',
+                    text: "Mañana iré al cine con mis amigos.",
+                    question: "¿En qué tiempo está el verbo 'iré'?",
+                    options: ["Presente", "Pasado", "Futuro", "Condicional"],
+                    correct: 2,
+                    explanation: "¡Correcto! 'Iré' está en futuro porque la acción aún no ocurre."
+                }
+            ],
+            adjetivos: [
+                {
+                    type: 'example',
+                    text: "El gato negro duerme en la silla cómoda.",
+                    question: "¿Cuáles son los adjetivos?",
+                    options: ["gato, silla", "negro, cómoda", "el, la", "duerme, en"],
+                    correct: 1,
+                    explanation: "¡Excelente! 'Negro' y 'cómoda' son adjetivos que describen."
+                },
+                {
+                    question: "¿Qué adjetivo describe mejor un limón?",
+                    options: ["Dulce", "Ácido", "Salado", "Picante"],
+                    correct: 1,
+                    explanation: "¡Muy bien! Los limones son ácidos."
+                },
+                {
+                    type: 'input',
+                    question: "Escribe un adjetivo para describir el sol:",
+                    answers: ['brillante', 'caliente', 'amarillo', 'luminoso', 'radiante', 'cálido'],
+                    explanation: "¡Fantástico! Has usado un adjetivo perfecto para el sol."
+                },
+                {
+                    question: "¿Qué es un adjetivo calificativo?",
+                    options: ["Indica cantidad", "Describe cualidades", "Señala posesión", "Indica ubicación"],
+                    correct: 1,
+                    explanation: "¡Correcto! Los adjetivos calificativos describen cualidades."
+                }
+            ],
+            articulos: [
+                {
+                    question: "¿Cuál es un artículo definido?",
+                    options: ["un", "una", "el", "unos"],
+                    correct: 2,
+                    explanation: "¡Muy bien! 'El' es un artículo definido."
+                },
+                {
+                    question: "Completa: '___ casa es grande'",
+                    options: ["La", "Un", "Las", "Unos"],
+                    correct: 0,
+                    explanation: "¡Perfecto! 'La casa' usa el artículo definido femenino singular."
+                },
+                {
+                    type: 'example',
+                    text: "Veo unos pájaros en el árbol.",
+                    question: "¿Cuántos artículos hay en la oración?",
+                    options: ["1", "2", "3", "4"],
+                    correct: 1,
+                    explanation: "¡Correcto! Hay dos artículos: 'unos' (indefinido) y 'el' (definido)."
+                },
+                {
+                    question: "¿Cuál es un artículo indefinido plural?",
+                    options: ["el", "los", "unos", "la"],
+                    correct: 2,
+                    explanation: "¡Excelente! 'Unos' es un artículo indefinido plural masculino."
+                }
+            ],
+            pronombres: [
+                {
+                    question: "¿Cuál es un pronombre personal?",
+                    options: ["casa", "yo", "grande", "correr"],
+                    correct: 1,
+                    explanation: "¡Muy bien! 'Yo' es un pronombre personal."
+                },
+                {
+                    type: 'example',
+                    text: "María estudia mucho. Ella es muy inteligente.",
+                    question: "¿Qué pronombre reemplaza a 'María'?",
+                    options: ["Él", "Ella", "Nosotros", "Ellos"],
+                    correct: 1,
+                    explanation: "¡Correcto! 'Ella' reemplaza a María (femenino singular)."
+                },
+                {
+                    question: "¿Qué pronombre usamos para hablar de nosotros mismos con otros?",
+                    options: ["Yo", "Tú", "Nosotros", "Ellos"],
+                    correct: 2,
+                    explanation: "¡Perfecto! 'Nosotros' se usa para un grupo que te incluye."
+                },
+                {
+                    question: "Completa: '___ juegan en el parque' (varios niños)",
+                    options: ["Él", "Ella", "Ellos", "Nosotros"],
+                    correct: 2,
+                    explanation: "¡Excelente! 'Ellos' se refiere a varios niños."
+                }
+            ],
+            adverbios: [
+                {
+                    question: "¿Cuál es un adverbio de tiempo?",
+                    options: ["aquí", "ayer", "mucho", "bien"],
+                    correct: 1,
+                    explanation: "¡Muy bien! 'Ayer' indica cuándo ocurrió algo."
+                },
+                {
+                    type: 'example',
+                    text: "El niño corre rápidamente hacia su casa.",
+                    question: "¿Cuál es el adverbio?",
+                    options: ["niño", "corre", "rápidamente", "casa"],
+                    correct: 2,
+                    explanation: "¡Correcto! 'Rápidamente' es un adverbio de modo."
+                },
+                {
+                    question: "¿Qué indica un adverbio de lugar?",
+                    options: ["Cuándo", "Dónde", "Cómo", "Cuánto"],
+                    correct: 1,
+                    explanation: "¡Perfecto! Los adverbios de lugar indican dónde ocurre algo."
+                },
+                {
+                    question: "Identifica el adverbio de cantidad:",
+                    options: ["siempre", "aquí", "mucho", "bien"],
+                    correct: 2,
+                    explanation: "¡Excelente! 'Mucho' indica cantidad."
+                }
+            ],
+            preposiciones: [
+                {
+                    question: "¿Cuál es una preposición?",
+                    options: ["casa", "en", "grande", "comer"],
+                    correct: 1,
+                    explanation: "¡Muy bien! 'En' es una preposición."
+                },
+                {
+                    type: 'example',
+                    text: "El libro está sobre la mesa.",
+                    question: "¿Cuál es la preposición?",
+                    options: ["libro", "está", "sobre", "mesa"],
+                    correct: 2,
+                    explanation: "¡Correcto! 'Sobre' es la preposición que indica ubicación."
+                },
+                {
+                    question: "Completa: 'Voy ___ la escuela'",
+                    options: ["en", "a", "de", "por"],
+                    correct: 1,
+                    explanation: "¡Perfecto! 'Voy a la escuela' usa la preposición 'a'."
+                },
+                {
+                    question: "¿Qué preposición indica procedencia?",
+                    options: ["para", "con", "de", "sin"],
+                    correct: 2,
+                    explanation: "¡Excelente! 'De' indica procedencia, como en 'vengo de casa'."
+                }
+            ],
+            oraciones: [
+                {
+                    question: "¿Qué es el sujeto de una oración?",
+                    options: ["La acción", "Quien realiza la acción", "Dónde ocurre", "Cuándo ocurre"],
+                    correct: 1,
+                    explanation: "¡Muy bien! El sujeto es quien realiza la acción."
+                },
+                {
+                    type: 'example',
+                    text: "Los estudiantes leen libros interesantes.",
+                    question: "¿Cuál es el sujeto?",
+                    options: ["leen", "Los estudiantes", "libros", "interesantes"],
+                    correct: 1,
+                    explanation: "¡Correcto! 'Los estudiantes' es el sujeto que realiza la acción."
+                },
+                {
+                    type: 'example',
+                    text: "María compra frutas en el mercado.",
+                    question: "¿Cuál es el predicado?",
+                    options: ["María", "compra frutas en el mercado", "frutas", "mercado"],
+                    correct: 1,
+                    explanation: "¡Perfecto! El predicado es todo lo que se dice del sujeto."
+                },
+                {
+                    type: 'build',
+                    question: "Ordena las palabras para formar una oración:",
+                    words: ["El", "perro", "ladra", "fuerte"],
+                    correctOrder: ["El", "perro", "ladra", "fuerte"],
+                    explanation: "¡Excelente! Has formado una oración correcta."
+                }
+            ]
+        };
+
+        function changeTopic(topic) {
+            currentTopic = topic;
+            currentQuestion = 0;
+            
+            document.querySelectorAll('.topic-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const questions = topics[currentTopic];
+            if (currentQuestion >= questions.length) {
+                currentQuestion = 0;
+            }
+            
+            const q = questions[currentQuestion];
+            const content = document.getElementById('gameContent');
+            
+            if (q.type === 'example') {
+                content.innerHTML = `
+                    <div class="example-box"><strong>📖 Lee:</strong> ${q.text}</div>
+                    <div class="question-box">${q.question}</div>
+                    <div class="options">
+                        ${q.options.map((opt, i) => 
+                            `<button class="option-btn" onclick="checkAnswer(${i})">${opt}</button>`
+                        ).join('')}
+                    </div>
+                `;
+            } else if (q.type === 'input') {
+                content.innerHTML = `
+                    <div class="question-box">${q.question}</div>
+                    <div class="input-area">
+                        <input type="text" class="text-input" id="userInput" placeholder="Escribe tu respuesta aquí...">
+                        <button class="submit-btn" onclick="checkInput()">Enviar Respuesta</button>
+                    </div>
+                `;
+            } else if (q.type === 'build') {
+                const shuffled = [...q.words].sort(() => Math.random() - 0.5);
+                content.innerHTML = `
+                    <div class="question-box">${q.question}</div>
+                    <div class="word-bank" id="wordBank">
+                        ${shuffled.map((word, i) => 
+                            `<span class="word-tag" onclick="selectWord('${word}')">${word}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="drop-zone" id="dropZone">Arrastra las palabras aquí</div>
+                    <button class="submit-btn" onclick="checkSentence()">Verificar Oración</button>
+                `;
+                window.selectedWords = [];
+            } else {
+                content.innerHTML = `
+                    <div class="question-box">${q.question}</div>
+                    <div class="options">
+                        ${q.options.map((opt, i) => 
+                            `<button class="option-btn" onclick="checkAnswer(${i})">${opt}</button>`
+                        ).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        function checkAnswer(selected) {
+            const q = topics[currentTopic][currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === q.correct) {
+                buttons[selected].classList.add('correct');
+                showFeedback(true, q.explanation);
+                updateScore(10);
+            } else {
+                buttons[selected].classList.add('incorrect');
+                buttons[q.correct].classList.add('correct');
+                showFeedback(false, q.explanation);
+            }
+        }
+
+        function checkInput() {
+            const input = document.getElementById('userInput').value.toLowerCase().trim();
+            const q = topics[currentTopic][currentQuestion];
+            
+            const correct = q.answers.some(ans => ans.toLowerCase() === input);
+            
+            if (correct) {
+                showFeedback(true, q.explanation);
+                updateScore(15);
+            } else {
+                showFeedback(false, "Intenta con otra palabra. Piensa en las características.");
+            }
+        }
+
+        window.selectedWords = [];
+
+        function selectWord(word) {
+            window.selectedWords.push(word);
+            document.getElementById('dropZone').innerHTML = 
+                window.selectedWords.map(w => `<span class="highlighted-word">${w}</span>`).join(' ');
+            
+            const tags = document.querySelectorAll('.word-tag');
+            tags.forEach(tag => {
+                if (tag.textContent === word && !tag.classList.contains('selected')) {
+                    tag.classList.add('selected');
+                    tag.style.pointerEvents = 'none';
+                    return;
+                }
+            });
+        }
+
+        function checkSentence() {
+            const q = topics[currentTopic][currentQuestion];
+            const userSentence = window.selectedWords.join(' ');
+            const correctSentence = q.correctOrder.join(' ');
+            
+            if (userSentence === correctSentence) {
+                showFeedback(true, q.explanation);
+                updateScore(20);
+            } else {
+                showFeedback(false, "Intenta ordenar las palabras de forma lógica. Recuerda: sujeto + verbo + complemento.");
+                window.selectedWords = [];
+                loadQuestion();
+            }
+        }
+
+        function showFeedback(isCorrect, message) {
+            const content = document.getElementById('gameContent');
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = `feedback ${isCorrect ? 'success' : 'error'}`;
+            feedbackDiv.innerHTML = `
+                ${isCorrect ? '<div class="celebration">🎉</div>' : ''}
+                <p>${message}</p>
+                <button class="next-btn" onclick="nextQuestion()">Siguiente Pregunta →</button>
+            `;
+            content.appendChild(feedbackDiv);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById('score').textContent = score;
+            
+            if (score >= level * 50) {
+                level++;
+                document.getElementById('level').textContent = level;
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

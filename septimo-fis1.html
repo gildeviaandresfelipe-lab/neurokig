@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energía y Movimiento - Laboratorio Interactivo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '⚡';
+            position: absolute;
+            font-size: 15em;
+            opacity: 0.1;
+            top: -50px;
+            right: -50px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.25);
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .game-area {
+            padding: 40px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        .topic-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .topic-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .topic-btn:hover::before {
+            left: 100%;
+        }
+
+        .topic-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .topic-btn.active {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
+        }
+
+        .game-content {
+            background: white;
+            border-radius: 25px;
+            padding: 35px;
+            min-height: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 3px solid #e0f2fe;
+        }
+
+        .interactive-zone {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 25px 0;
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #60a5fa;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        .interactive-zone::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 30px); }
+        }
+
+        .interactive-objects {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            min-height: 250px;
+        }
+
+        .draggable-object {
+            font-size: 4em;
+            cursor: move;
+            transition: transform 0.2s;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+            animation: float 3s ease-in-out infinite;
+            user-select: none;
+        }
+
+        .draggable-object:hover {
+            transform: scale(1.2);
+        }
+
+        .energy-bar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 30px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.4);
+            z-index: 3;
+        }
+
+        .energy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .energy-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 6px solid #3b82f6;
+            margin: 25px 0;
+            line-height: 1.9;
+            font-size: 1.2em;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .info-title {
+            color: #1e40af;
+            font-weight: bold;
+            font-size: 1.4em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question-box {
+            font-size: 1.5em;
+            color: #1e40af;
+            margin: 30px 0;
+            font-weight: bold;
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 5px 20px rgba(251, 191, 36, 0.3);
+        }
+
+        .options {
+            display: grid;
+            gap: 18px;
+            margin: 25px 0;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #93c5fd;
+            padding: 22px;
+            border-radius: 18px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            box-shadow: 0 3px 10px rgba(147, 197, 253, 0.2);
+        }
+
+        .option-icon {
+            font-size: 2.8em;
+            min-width: 65px;
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            transform: translateX(10px) scale(1.02);
+            border-color: #1d4ed8;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .option-btn.correct {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-color: #047857;
+            animation: correctPulse 0.6s;
+        }
+
+        .option-btn.incorrect {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border-color: #b91c1c;
+            animation: shake 0.5s;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.05); }
+            50% { transform: scale(1.02); }
+            75% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-12px); }
+            75% { transform: translateX(12px); }
+        }
+
+        .feedback {
+            margin-top: 25px;
+            padding: 30px;
+            border-radius: 20px;
+            font-size: 1.4em;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .feedback.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .feedback.error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .celebration {
+            text-align: center;
+            font-size: 3.5em;
+            animation: bounce 1s infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 18px;
+            font-size: 1.3em;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(139, 92, 246, 0.6);
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .fact-box {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin: 25px 0;
+            font-size: 1.2em;
+            line-height: 1.7;
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+        }
+
+        .fact-icon {
+            font-size: 2.2em;
+            margin-right: 12px;
+        }
+
+        .experiment-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3);
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.5);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .particle {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #fbbf24;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 20px #fbbf24;
+        }
+
+        @keyframes floatAlt {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-10px) translateX(5px); }
+            50% { transform: translateY(0px) translateX(10px); }
+            75% { transform: translateY(-10px) translateX(5px); }
+        }
+
+        .organism-card {
+            background: white;
+            border: 3px solid #93c5fd;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(147, 197, 253, 0.2);
+        }
+
+        .organism-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            border-color: #3b82f6;
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .organism-icon {
+            font-size: 4em;
+            margin-bottom: 12px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .match-activity {
+            margin: 25px 0;
+        }
+
+        .match-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .match-item {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 3px solid #93c5fd;
+            padding: 18px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1.15em;
+            box-shadow: 0 3px 10px rgba(147, 197, 253, 0.2);
+        }
+
+        .match-item:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .match-item.selected {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border-color: #b45309;
+            transform: scale(1.05);
+        }
+
+        .visual-scene {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 35px;
+            margin: 25px 0;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .scene-icon {
+            font-size: 8em;
+            animation: float 3s ease-in-out infinite;
+            z-index: 2;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Energía y Movimiento 🔬</h1>
+            <div class="score-board">
+                <div class="score-item">⭐ Puntos: <span id="score">0</span></div>
+                <div class="score-item">🏆 Nivel: <span id="level">1</span></div>
+                <div class="score-item">🔋 Energía: <span id="energyDisplay">0</span>%</div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="topic-selector">
+                <button class="topic-btn active" onclick="changeTopic('energia')">⚡ Tipos de Energía</button>
+                <button class="topic-btn" onclick="changeTopic('movimiento')">🏃 Movimiento en Seres Vivos</button>
+                <button class="topic-btn" onclick="changeTopic('celular')">🔬 Energía Celular</button>
+                <button class="topic-btn" onclick="changeTopic('cadenas')">🌿 Cadenas Alimentarias</button>
+                <button class="topic-btn" onclick="changeTopic('experimentos')">🧪 Experimentos</button>
+            </div>
+
+            <div class="game-content" id="gameContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let level = 1;
+        let currentTopic = 'energia';
+        let currentQuestion = 0;
+        let energy = 0;
+
+        const topics = {
+            energia: [
+                {
+                    type: 'interactive',
+                    visual: '⚡',
+                    info: 'La <span class="highlight">energía</span> es la capacidad de realizar trabajo o producir cambios. Existen diferentes tipos de energía en la naturaleza.',
+                    question: 'Arrastra los objetos para activar la energía',
+                    interactive: {
+                        objects: ['☀️', '💧', '🌬️', '🔥'],
+                        instruction: 'Haz clic en cada fuente de energía'
+                    },
+                    explanation: '¡Excelente! Has identificado las fuentes de energía: solar, hidráulica, eólica y térmica.'
+                },
+                {
+                    visual: '☀️',
+                    info: 'La <span class="highlight">energía solar</span> viene del sol. Las plantas la usan para hacer fotosíntesis y los animales la obtienen al comer plantas.',
+                    question: '¿Qué proceso usan las plantas para capturar energía solar?',
+                    options: [
+                        {icon: '🌱', text: 'Fotosíntesis'},
+                        {icon: '💤', text: 'Dormir'},
+                        {icon: '🏃', text: 'Correr'},
+                        {icon: '🎮', text: 'Jugar'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! La fotosíntesis convierte la luz solar en energía química.'
+                },
+                {
+                    visual: '🔋',
+                    info: 'La <span class="highlight">energía química</span> se almacena en los alimentos. Cuando comemos, nuestro cuerpo transforma esta energía para moverse y funcionar.',
+                    question: '¿Dónde se almacena la energía química?',
+                    options: [
+                        {icon: '🍎', text: 'En los alimentos'},
+                        {icon: '📱', text: 'En los teléfonos'},
+                        {icon: '🎈', text: 'En los globos'},
+                        {icon: '🎨', text: 'En las pinturas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los alimentos contienen energía química que nuestro cuerpo puede usar.'
+                },
+                {
+                    visual: '🏃',
+                    info: 'La <span class="highlight">energía cinética</span> es la energía del movimiento. Cuando corres, saltas o te mueves, estás usando energía cinética.',
+                    question: '¿Cuándo tienes más energía cinética?',
+                    options: [
+                        {icon: '🏃', text: 'Cuando corres'},
+                        {icon: '😴', text: 'Cuando duermes'},
+                        {icon: '🧘', text: 'Cuando meditas'},
+                        {icon: '📚', text: 'Cuando lees'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Al correr tienes mucha energía cinética porque estás en movimiento.'
+                },
+                {
+                    visual: '🔄',
+                    info: 'La <span class="highlight">transformación de energía</span> ocurre constantemente. La energía cambia de una forma a otra pero nunca se destruye.',
+                    question: '¿Qué pasa con la energía?',
+                    options: [
+                        {icon: '🔄', text: 'Se transforma de una forma a otra'},
+                        {icon: '❌', text: 'Desaparece completamente'},
+                        {icon: '✨', text: 'Se crea de la nada'},
+                        {icon: '🗑️', text: 'Se bota a la basura'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! La energía se transforma pero no se crea ni se destruye.'
+                },
+                {
+                    type: 'match',
+                    visual: '⚡',
+                    question: 'Une cada tipo de energía con su ejemplo:',
+                    pairs: [
+                        {item: '☀️ Solar', match: 'Luz del sol'},
+                        {item: '🔋 Química', match: 'Alimentos'},
+                        {item: '🏃 Cinética', match: 'Movimiento'},
+                        {item: '🔥 Térmica', match: 'Calor'}
+                    ],
+                    explanation: '¡Perfecto! Conoces los diferentes tipos de energía.'
+                }
+            ],
+            movimiento: [
+                {
+                    type: 'interactive',
+                    visual: '🦋',
+                    info: 'Los seres vivos se mueven de diferentes maneras. Cada uno tiene adaptaciones especiales para su tipo de movimiento.',
+                    question: 'Haz clic en los animales para ver cómo se mueven',
+                    interactive: {
+                        objects: ['🐦', '🐟', '🦘', '🐍'],
+                        instruction: 'Descubre los movimientos'
+                    },
+                    explanation: '¡Genial! Has explorado diferentes tipos de movimiento: volar, nadar, saltar y reptar.'
+                },
+                {
+                    visual: '🐦',
+                    info: 'Las <span class="highlight">aves</span> vuelan usando sus alas. Tienen huesos huecos que las hacen más livianas y músculos fuertes para batir las alas.',
+                    question: '¿Qué adaptación ayuda a las aves a volar?',
+                    options: [
+                        {icon: '🦴', text: 'Huesos huecos y livianos'},
+                        {icon: '⚓', text: 'Huesos muy pesados'},
+                        {icon: '🎈', text: 'Globos en el cuerpo'},
+                        {icon: '🚀', text: 'Motores a reacción'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Los huesos huecos reducen el peso y facilitan el vuelo.'
+                },
+                {
+                    visual: '🐟',
+                    info: 'Los <span class="highlight">peces</span> nadan usando sus aletas. Su cuerpo es aerodinámico para moverse fácilmente en el agua.',
+                    question: '¿Qué usan los peces para nadar?',
+                    options: [
+                        {icon: '🎣', text: 'Aletas'},
+                        {icon: '🦵', text: 'Piernas'},
+                        {icon: '✋', text: 'Manos'},
+                        {icon: '🚁', text: 'Hélices'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Las aletas impulsan a los peces a través del agua.'
+                },
+                {
+                    visual: '🦘',
+                    info: 'Los <span class="highlight">músculos</span> son los que permiten el movimiento. Se contraen y se relajan para mover nuestros huesos.',
+                    question: '¿Qué órgano produce el movimiento en el cuerpo?',
+                    options: [
+                        {icon: '💪', text: 'Los músculos'},
+                        {icon: '🫀', text: 'Solo el corazón'},
+                        {icon: '🧠', text: 'Solo el cerebro'},
+                        {icon: '🫁', text: 'Los pulmones'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Los músculos se contraen para producir movimiento.'
+                },
+                {
+                    visual: '🏃',
+                    info: 'El <span class="highlight">sistema muscular y esquelético</span> trabajan juntos. Los músculos tiran de los huesos para crear movimiento.',
+                    question: '¿Qué sistemas trabajan juntos para el movimiento?',
+                    options: [
+                        {icon: '🦴', text: 'Muscular y esquelético'},
+                        {icon: '📱', text: 'Digital y tecnológico'},
+                        {icon: '🎨', text: 'Artístico y creativo'},
+                        {icon: '🎮', text: 'Virtual y electrónico'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Músculos y huesos trabajan en equipo para movernos.'
+                },
+                {
+                    visual: '🧠',
+                    info: 'El <span class="highlight">sistema nervioso</span> controla el movimiento. El cerebro envía señales a los músculos para decirles cuándo moverse.',
+                    question: '¿Qué sistema controla los movimientos voluntarios?',
+                    options: [
+                        {icon: '🧠', text: 'Sistema nervioso'},
+                        {icon: '🫀', text: 'Sistema circulatorio'},
+                        {icon: '🫁', text: 'Sistema respiratorio'},
+                        {icon: '🍎', text: 'Sistema digestivo'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! El sistema nervioso coordina todos nuestros movimientos.'
+                }
+            ],
+            celular: [
+                {
+                    visual: '🔬',
+                    info: 'Las <span class="highlight">células</span> son las unidades básicas de la vida. Todas necesitan energía para realizar sus funciones.',
+                    question: '¿Cuál es la unidad básica de todos los seres vivos?',
+                    options: [
+                        {icon: '🔬', text: 'La célula'},
+                        {icon: '🧱', text: 'El ladrillo'},
+                        {icon: '⚛️', text: 'El átomo solo'},
+                        {icon: '💎', text: 'El cristal'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! La célula es la unidad fundamental de la vida.'
+                },
+                {
+                    visual: '⚡',
+                    info: 'Las <span class="highlight">mitocondrias</span> son las "centrales eléctricas" de la célula. Transforman los nutrientes en energía que la célula puede usar.',
+                    question: '¿Qué orgánulo produce energía en la célula?',
+                    options: [
+                        {icon: '⚡', text: 'Mitocondrias'},
+                        {icon: '🏭', text: 'Fábricas'},
+                        {icon: '🔋', text: 'Pilas normales'},
+                        {icon: '💡', text: 'Bombillas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Las mitocondrias producen ATP, la "moneda energética" de la célula.'
+                },
+                {
+                    visual: '🧬',
+                    info: 'El <span class="highlight">ATP</span> (adenosín trifosfato) es la molécula que almacena energía en las células. Es como la batería de la célula.',
+                    question: '¿Cómo se llama la molécula que almacena energía celular?',
+                    options: [
+                        {icon: '⚡', text: 'ATP'},
+                        {icon: '💧', text: 'Agua'},
+                        {icon: '🧂', text: 'Sal'},
+                        {icon: '🍬', text: 'Azúcar simple'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! El ATP es la principal fuente de energía para las células.'
+                },
+                {
+                    visual: '🌱',
+                    info: 'Las células vegetales tienen <span class="highlight">cloroplastos</span> que capturan la luz solar y la convierten en energía química mediante la fotosíntesis.',
+                    question: '¿Qué orgánulo realiza la fotosíntesis?',
+                    options: [
+                        {icon: '🌿', text: 'Cloroplastos'},
+                        {icon: '⚡', text: 'Mitocondrias'},
+                        {icon: '🧬', text: 'Núcleo'},
+                        {icon: '🎨', text: 'Pigmentos artificiales'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los cloroplastos convierten luz solar en energía química.'
+                },
+                {
+                    visual: '🫁',
+                    info: 'La <span class="highlight">respiración celular</span> es el proceso donde las células obtienen energía de la glucosa usando oxígeno.',
+                    question: '¿Qué proceso produce energía en las células?',
+                    options: [
+                        {icon: '🫁', text: 'Respiración celular'},
+                        {icon: '💤', text: 'Dormir'},
+                        {icon: '🎮', text: 'Jugar'},
+                        {icon: '📺', text: 'Ver televisión'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! La respiración celular libera energía de los nutrientes.'
+                },
+                {
+                    type: 'match',
+                    visual: '🔬',
+                    question: 'Une cada componente celular con su función:',
+                    pairs: [
+                        {item: '⚡ Mitocondria', match: 'Produce ATP'},
+                        {item: '🌿 Cloroplasto', match: 'Fotosíntesis'},
+                        {item: '🧬 Núcleo', match: 'Información'},
+                        {item: '🎒 Membrana', match: 'Protección'}
+                    ],
+                    explanation: '¡Excelente! Conoces las funciones de los orgánulos celulares.'
+                }
+            ],
+            cadenas: [
+                {
+                    type: 'interactive',
+                    visual: '🌿',
+                    info: 'Las <span class="highlight">cadenas alimentarias</span> muestran cómo la energía pasa de un ser vivo a otro cuando se alimentan.',
+                    question: 'Organiza la cadena alimentaria haciendo clic en orden',
+                    interactive: {
+                        objects: ['☀️', '🌱', '🐛', '🐦'],
+                        instruction: 'Del productor al consumidor final'
+                    },
+                    explanation: '¡Genial! La energía fluye: Sol → Planta → Insecto → Ave.'
+                },
+                {
+                    visual: '🌱',
+                    info: 'Los <span class="highlight">productores</span> son organismos que producen su propio alimento. Las plantas son productores porque hacen fotosíntesis.',
+                    question: '¿Quiénes son los productores en una cadena alimentaria?',
+                    options: [
+                        {icon: '🌿', text: 'Las plantas'},
+                        {icon: '🦁', text: 'Los leones'},
+                        {icon: '🐟', text: 'Los peces'},
+                        {icon: '🦅', text: 'Las águilas'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Las plantas producen su propio alimento usando luz solar.'
+                },
+                {
+                    visual: '🐰',
+                    info: 'Los <span class="highlight">consumidores primarios</span> son herbívoros que comen plantas. Obtienen energía directamente de los productores.',
+                    question: '¿Qué son los consumidores primarios?',
+                    options: [
+                        {icon: '🐰', text: 'Herbívoros que comen plantas'},
+                        {icon: '🦁', text: 'Carnívoros que cazan'},
+                        {icon: '🍄', text: 'Hongos descomponedores'},
+                        {icon: '⚡', text: 'Productores de energía'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! Los herbívoros obtienen energía comiendo plantas.'
+                },
+                {
+                    visual: '🦁',
+                    info: 'Los <span class="highlight">consumidores secundarios</span> son carnívoros que comen herbívoros. Están en el tercer nivel de la cadena.',
+                    question: '¿Qué comen los consumidores secundarios?',
+                    options: [
+                        {icon: '🐰', text: 'Otros animales herbívoros'},
+                        {icon: '🌱', text: 'Solo plantas'},
+                        {icon: '🪨', text: 'Piedras y minerales'},
+                        {icon: '💧', text: 'Solo agua'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! Los carnívoros comen a los herbívoros.'
+                },
+                {
+                    visual: '🍄',
+                    info: 'Los <span class="highlight">descomponedores</span> como hongos y bacterias reciclan la materia. Devuelven nutrientes al suelo.',
+                    question: '¿Qué hacen los descomponedores?',
+                    options: [
+                        {icon: '♻️', text: 'Reciclan materia orgánica'},
+                        {icon: '🏗️', text: 'Construyen edificios'},
+                        {icon: '🎨', text: 'Pintan cuadros'},
+                        {icon: '📱', text: 'Usan celulares'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! Los descomponedores cierran el ciclo de nutrientes.'
+                },
+                {
+                    visual: '📉',
+                    info: 'En cada nivel de la cadena alimentaria se <span class="highlight">pierde energía</span>. Solo el 10% pasa al siguiente nivel.',
+                    question: '¿Qué pasa con la energía en cada nivel?',
+                    options: [
+                        {icon: '📉', text: 'Se pierde una parte (90%)'},
+                        {icon: '📈', text: 'Aumenta el doble'},
+                        {icon: '🔄', text: 'Se mantiene igual'},
+                        {icon: '✨', text: 'Se multiplica por 10'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! La mayor parte de la energía se pierde como calor.'
+                }
+            ],
+            experimentos: [
+                {
+                    type: 'interactive',
+                    visual: '🧪',
+                    info: 'Vamos a realizar experimentos virtuales para entender mejor la energía y el movimiento en los seres vivos.',
+                    question: 'Activa los experimentos tocando cada icono',
+                    interactive: {
+                        objects: ['🌱', '🏃', '🔥', '💧'],
+                        instruction: 'Explora cada experimento'
+                    },
+                    explanation: '¡Fantástico! Has explorado experimentos de fotosíntesis, movimiento, energía térmica y transporte.'
+                },
+                {
+                    visual: '🌱',
+                    info: '<span class="highlight">Experimento de fotosíntesis</span>: Las plantas necesitan luz, agua y CO₂ para producir oxígeno y glucosa.',
+                    question: '¿Qué necesitan las plantas para la fotosíntesis?',
+                    options: [
+                        {icon: '☀️', text: 'Luz solar, agua y CO₂'},
+                        {icon: '🍔', text: 'Hamburguesas'},
+                        {icon: '📱', text: 'Teléfonos celulares'},
+                        {icon: '🎮', text: 'Videojuegos'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Perfecto! La fotosíntesis requiere luz, agua y dióxido de carbono.'
+                },
+                {
+                    visual: '🏃',
+                    info: '<span class="highlight">Experimento de movimiento</span>: Cuando hacemos ejercicio, nuestro corazón late más rápido para llevar más oxígeno a los músculos.',
+                    question: '¿Qué pasa con el corazón durante el ejercicio?',
+                    options: [
+                        {icon: '💓', text: 'Late más rápido'},
+                        {icon: '😴', text: 'Late más lento'},
+                        {icon: '⏸️', text: 'Se detiene'},
+                        {icon: '🎵', text: 'Hace música'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Excelente! El corazón aumenta su ritmo para suministrar más energía.'
+                },
+                {
+                    visual: '🔥',
+                    info: '<span class="highlight">Energía térmica</span>: Los seres vivos producen calor como subproducto de sus procesos metabólicos.',
+                    question: '¿Por qué tu cuerpo produce calor?',
+                    options: [
+                        {icon: '⚡', text: 'Por procesos metabólicos'},
+                        {icon: '🔥', text: 'Porque hay fuego interno'},
+                        {icon: '☀️', text: 'Porque el sol está dentro'},
+                        {icon: '🌋', text: 'Porque eres un volcán'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Muy bien! El metabolismo genera calor como resultado natural.'
+                },
+                {
+                    visual: '💧',
+                    info: '<span class="highlight">Ósmosis y difusión</span>: Las células transportan sustancias usando energía. El agua y nutrientes entran y salen de las células.',
+                    question: '¿Cómo entran los nutrientes a las células?',
+                    options: [
+                        {icon: '🚪', text: 'Por transporte a través de la membrana'},
+                        {icon: '🪟', text: 'Por ventanas abiertas'},
+                        {icon: '🚁', text: 'En helicóptero'},
+                        {icon: '📬', text: 'Por correo postal'}
+                    ],
+                    correct: 0,
+                    explanation: '¡Correcto! Las membranas celulares controlan el transporte de sustancias.'
+                },
+                {
+                    type: 'match',
+                    visual: '🧪',
+                    question: 'Une cada experimento con lo que demuestra:',
+                    pairs: [
+                        {item: '🌱 Fotosíntesis', match: 'Luz → Energía'},
+                        {item: '🏃 Ejercicio', match: 'Movimiento'},
+                        {item: '🔥 Metabolismo', match: 'Calor'},
+                        {item: '💧 Ósmosis', match: 'Transporte'}
+                    ],
+                    explanation: '¡Genial! Entiendes los principios de cada experimento.'
+                }
+            ]
+        };
+
+        function changeTopic(topic) {
+            currentTopic = topic;
+            currentQuestion = 0;
+            
+            document.querySelectorAll('.topic-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const questions = topics[currentTopic];
+            if (currentQuestion >= questions.length) {
+                currentQuestion = 0;
+            }
+            
+            const q = questions[currentQuestion];
+            const content = document.getElementById('gameContent');
+            
+            if (q.type === 'interactive') {
+                content.innerHTML = `
+                    <div class="visual-scene">
+                        <div class="scene-icon">${q.visual}</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-title">🔬 ${q.info}</div>
+                    </div>
+                    <div class="question-box">${q.question}</div>
+                    <div class="interactive-zone">
+                        <div class="interactive-objects" id="interactiveArea">
+                            ${q.interactive.objects.map((obj, i) => 
+                                `<div class="draggable-object" onclick="activateObject(${i})" id="obj${i}" style="animation-delay: ${i * 0.2}s">${obj}</div>`
+                            ).join('')}
+                        </div>
+                        <div class="energy-bar">
+                            <div class="energy-fill" id="energyBar"></div>
+                        </div>
+                    </div>
+                    <div class="fact-box">
+                        <span class="fact-icon">💡</span>
+                        ${q.interactive.instruction}
+                    </div>
+                `;
+                window.activatedObjects = [];
+            } else if (q.type === 'match') {
+                content.innerHTML = `
+                    <div class="visual-scene">
+                        <div class="scene-icon">${q.visual}</div>
+                    </div>
+                    <div class="question-box">${q.question}</div>
+                    <div class="match-activity">
+                        <div class="match-grid">
+                            <div>
+                                ${q.pairs.map((pair, i) => 
+                                    `<div class="match-item" onclick="selectMatch(${i}, 'item')" id="item${i}">${pair.item}</div>`
+                                ).join('')}
+                            </div>
+                            <div>
+                                ${q.pairs.map((pair, i) => 
+                                    `<div class="match-item" onclick="selectMatch(${i}, 'match')" id="match${i}">${pair.match}</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fact-box">
+                        <span class="fact-icon">💡</span>
+                        Selecciona un elemento de la izquierda y luego su pareja de la derecha.
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="visual-scene">
+                        <div class="scene-icon">${q.visual}</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-title">📚 Aprende sobre Biología:</div>
+                        ${q.info}
+                    </div>
+                    <div class="question-box">${q.question}</div>
+                    <div class="options">
+                        ${q.options.map((opt, i) => 
+                            `<button class="option-btn" onclick="checkAnswer(${i})">
+                                <span class="option-icon">${opt.icon}</span>
+                                <span>${opt.text}</span>
+                            </button>`
+                        ).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        window.activatedObjects = [];
+
+        function activateObject(index) {
+            const obj = document.getElementById('obj' + index);
+            if (!window.activatedObjects.includes(index)) {
+                window.activatedObjects.push(index);
+                obj.style.transform = 'scale(1.3)';
+                obj.style.filter = 'drop-shadow(0 0 20px #fbbf24)';
+                
+                createParticles(obj);
+                
+                const q = topics[currentTopic][currentQuestion];
+                const percentage = (window.activatedObjects.length / q.interactive.objects.length) * 100;
+                updateEnergy(percentage);
+                
+                if (window.activatedObjects.length === q.interactive.objects.length) {
+                    setTimeout(() => {
+                        showFeedback(true, q.explanation);
+                        updateScore(25);
+                    }, 800);
+                }
+            }
+        }
+
+        function createParticles(element) {
+            const rect = element.getBoundingClientRect();
+            for (let i = 0; i < 10; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = rect.left + rect.width / 2 + 'px';
+                particle.style.top = rect.top + rect.height / 2 + 'px';
+                document.body.appendChild(particle);
+                
+                const angle = (Math.PI * 2 * i) / 10;
+                const velocity = 100;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                let px = rect.left + rect.width / 2;
+                let py = rect.top + rect.height / 2;
+                
+                const animate = () => {
+                    px += vx * 0.016;
+                    py += vy * 0.016;
+                    particle.style.left = px + 'px';
+                    particle.style.top = py + 'px';
+                    particle.style.opacity = parseFloat(particle.style.opacity || 1) - 0.02;
+                    
+                    if (parseFloat(particle.style.opacity) > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        particle.remove();
+                    }
+                };
+                animate();
+            }
+        }
+
+        function updateEnergy(percentage) {
+            energy = percentage;
+            document.getElementById('energyDisplay').textContent = Math.round(percentage);
+            const energyBar = document.getElementById('energyBar');
+            if (energyBar) {
+                energyBar.style.width = percentage + '%';
+            }
+        }
+
+        let matchedPairs = [];
+        let firstSelection = null;
+
+        function selectMatch(index, type) {
+            if (firstSelection === null) {
+                firstSelection = {index, type};
+                document.getElementById(type + index).classList.add('selected');
+            } else {
+                if (firstSelection.type !== type && firstSelection.index === index) {
+                    matchedPairs.push(index);
+                    document.getElementById(firstSelection.type + firstSelection.index).style.opacity = '0.3';
+                    document.getElementById(type + index).style.opacity = '0.3';
+                    
+                    const q = topics[currentTopic][currentQuestion];
+                    if (matchedPairs.length === q.pairs.length) {
+                        setTimeout(() => {
+                            showFeedback(true, q.explanation);
+                            updateScore(20);
+                        }, 500);
+                    }
+                } else {
+                    document.getElementById(firstSelection.type + firstSelection.index).classList.remove('selected');
+                }
+                firstSelection = null;
+            }
+        }
+
+        function checkAnswer(selected) {
+            const q = topics[currentTopic][currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === q.correct) {
+                buttons[selected].classList.add('correct');
+                showFeedback(true, q.explanation);
+                updateScore(15);
+            } else {
+                buttons[selected].classList.add('incorrect');
+                buttons[q.correct].classList.add('correct');
+                showFeedback(false, q.explanation);
+            }
+        }
+
+        function showFeedback(isCorrect, message) {
+            const content = document.getElementById('gameContent');
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = `feedback ${isCorrect ? 'success' : 'error'}`;
+            feedbackDiv.innerHTML = `
+                ${isCorrect ? '<div class="celebration">🎉 ⚡ 🔬 ✨</div>' : '💪 ¡Sigue intentando!'}
+                <p>${message}</p>
+                <button class="next-btn" onclick="nextQuestion()">Siguiente Pregunta →</button>
+            `;
+            content.appendChild(feedbackDiv);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            matchedPairs = [];
+            firstSelection = null;
+            window.activatedObjects = [];
+            loadQuestion();
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById('score').textContent = score;
+            
+            if (score >= level * 80) {
+                level++;
+                document.getElementById('level').textContent = level;
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
