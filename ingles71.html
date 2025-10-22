@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulario Visual en Inglés - NeuroKids</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FEF0F0 0%, #EDA2A1 30%, #889F92 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #E15034;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #889F92;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #E15034;
+        }
+
+        .progress-track {
+            background: #f0f0f0;
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #E77B66, #E15034);
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .activity-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: #E15034;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .instruction-box {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 12px 25px;
+            border: 3px solid #E77B66;
+            background: white;
+            color: #E15034;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            border-color: #E15034;
+        }
+
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .vocab-card {
+            background: white;
+            border: 3px solid #f0f0f0;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .vocab-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #E77B66;
+        }
+
+        .vocab-icon {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .vocab-english {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #E15034;
+            margin-bottom: 8px;
+        }
+
+        .vocab-spanish {
+            font-size: 1.1rem;
+            color: #889F92;
+            margin-bottom: 10px;
+        }
+
+        .vocab-pronunciation {
+            font-size: 0.9rem;
+            color: #EE9A5B;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .play-button {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border: 3px solid #f0f0f0;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #E77B66, #EE9A5B);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #E15034;
+            margin-bottom: 25px;
+        }
+
+        .question-icon {
+            font-size: 6rem;
+            text-align: center;
+            margin: 30px 0;
+            display: block;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-button {
+            background: white;
+            border: 3px solid #f0f0f0;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #E15034;
+        }
+
+        .option-button:hover {
+            border-color: #E77B66;
+            transform: scale(1.05);
+        }
+
+        .option-button.selected {
+            background: #E77B66;
+            color: white;
+            border-color: #E15034;
+        }
+
+        .option-button.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #45a049;
+        }
+
+        .option-button.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #da190b;
+        }
+
+        .feedback {
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 3px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 3px solid #f5c6cb;
+        }
+
+        .feedback-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .feedback-text {
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .check-button {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        .check-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(225, 80, 52, 0.3);
+        }
+
+        .check-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, #889F92, #EDA2A1);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+            margin: 20px auto 0;
+        }
+
+        .next-button.show {
+            display: block;
+        }
+
+        .next-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(136, 159, 146, 0.3);
+        }
+
+        .score-card {
+            background: linear-gradient(135deg, #E15034, #E77B66);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .score-card.show {
+            display: block;
+        }
+
+        .score-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .score-message {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .vocabulary-summary {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .vocabulary-summary h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .summary-item strong {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .back-button {
+            background: white;
+            color: #E15034;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .activity-section {
+                padding: 25px;
+            }
+
+            .vocabulary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔤 Vocabulario Visual en Inglés</h1>
+            <p>Aprende palabras esenciales con imágenes y pronunciación</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-info">
+                <span>Progreso</span>
+                <span id="progressText">0%</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Sección 1: Vocabulario por Categorías -->
+        <div class="activity-section" id="section1">
+            <h2 class="section-title">📚 Aprende Vocabulario Nuevo</h2>
+            <div class="instruction-box">
+                Haz clic en cada tarjeta para escuchar la pronunciación. Observa la imagen, la palabra en inglés y su traducción al español.
+            </div>
+
+            <div class="category-tabs">
+                <button class="tab-button active" onclick="showCategory('food')">🍎 Food (Comida)</button>
+                <button class="tab-button" onclick="showCategory('family')">👨‍👩‍👧 Family (Familia)</button>
+                <button class="tab-button" onclick="showCategory('animals')">🐕 Animals (Animales)</button>
+                <button class="tab-button" onclick="showCategory('house')">🏠 House (Casa)</button>
+            </div>
+
+            <!-- Categoría: Food -->
+            <div class="vocabulary-grid" id="category-food">
+                <div class="vocab-card" onclick="playPronunciation('apple')">
+                    <span class="vocab-icon">🍎</span>
+                    <div class="vocab-english">Apple</div>
+                    <div class="vocab-spanish">Manzana</div>
+                    <div class="vocab-pronunciation">/ˈæpl/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('banana')">
+                    <span class="vocab-icon">🍌</span>
+                    <div class="vocab-english">Banana</div>
+                    <div class="vocab-spanish">Banano/Plátano</div>
+                    <div class="vocab-pronunciation">/bəˈnænə/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('water')">
+                    <span class="vocab-icon">💧</span>
+                    <div class="vocab-english">Water</div>
+                    <div class="vocab-spanish">Agua</div>
+                    <div class="vocab-pronunciation">/ˈwɔːtər/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('bread')">
+                    <span class="vocab-icon">🍞</span>
+                    <div class="vocab-english">Bread</div>
+                    <div class="vocab-spanish">Pan</div>
+                    <div class="vocab-pronunciation">/bred/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('milk')">
+                    <span class="vocab-icon">🥛</span>
+                    <div class="vocab-english">Milk</div>
+                    <div class="vocab-spanish">Leche</div>
+                    <div class="vocab-pronunciation">/mɪlk/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('egg')">
+                    <span class="vocab-icon">🥚</span>
+                    <div class="vocab-english">Egg</div>
+                    <div class="vocab-spanish">Huevo</div>
+                    <div class="vocab-pronunciation">/eɡ/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+            </div>
+
+            <!-- Categoría: Family (oculta por defecto) -->
+            <div class="vocabulary-grid" id="category-family" style="display: none;">
+                <div class="vocab-card" onclick="playPronunciation('mother')">
+                    <span class="vocab-icon">👩</span>
+                    <div class="vocab-english">Mother</div>
+                    <div class="vocab-spanish">Madre/Mamá</div>
+                    <div class="vocab-pronunciation">/ˈmʌðər/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('father')">
+                    <span class="vocab-icon">👨</span>
+                    <div class="vocab-english">Father</div>
+                    <div class="vocab-spanish">Padre/Papá</div>
+                    <div class="vocab-pronunciation">/ˈfɑːðər/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('brother')">
+                    <span class="vocab-icon">👦</span>
+                    <div class="vocab-english">Brother</div>
+                    <div class="vocab-spanish">Hermano</div>
+                    <div class="vocab-pronunciation">/ˈbrʌðər/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('sister')">
+                    <span class="vocab-icon">👧</span>
+                    <div class="vocab-english">Sister</div>
+                    <div class="vocab-spanish">Hermana</div>
+                    <div class="vocab-pronunciation">/ˈsɪstər/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('grandmother')">
+                    <span class="vocab-icon">👵</span>
+                    <div class="vocab-english">Grandmother</div>
+                    <div class="vocab-spanish">Abuela</div>
+                    <div class="vocab-pronunciation">/ˈɡrænmʌðər/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('grandfather')">
+                    <span class="vocab-icon">👴</span>
+                    <div class="vocab-english">Grandfather</div>
+                    <div class="vocab-spanish">Abuelo</div>
+                    <div class="vocab-pronunciation">/ˈɡrænfɑːðər/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+            </div>
+
+            <!-- Categoría: Animals (oculta por defecto) -->
+            <div class="vocabulary-grid" id="category-animals" style="display: none;">
+                <div class="vocab-card" onclick="playPronunciation('dog')">
+                    <span class="vocab-icon">🐕</span>
+                    <div class="vocab-english">Dog</div>
+                    <div class="vocab-spanish">Perro</div>
+                    <div class="vocab-pronunciation">/dɔːɡ/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('cat')">
+                    <span class="vocab-icon">🐈</span>
+                    <div class="vocab-english">Cat</div>
+                    <div class="vocab-spanish">Gato</div>
+                    <div class="vocab-pronunciation">/kæt/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('bird')">
+                    <span class="vocab-icon">🐦</span>
+                    <div class="vocab-english">Bird</div>
+                    <div class="vocab-spanish">Pájaro</div>
+                    <div class="vocab-pronunciation">/bɜːrd/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('fish')">
+                    <span class="vocab-icon">🐟</span>
+                    <div class="vocab-english">Fish</div>
+                    <div class="vocab-spanish">Pez</div>
+                    <div class="vocab-pronunciation">/fɪʃ/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('rabbit')">
+                    <span class="vocab-icon">🐰</span>
+                    <div class="vocab-english">Rabbit</div>
+                    <div class="vocab-spanish">Conejo</div>
+                    <div class="vocab-pronunciation">/ˈræbɪt/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('horse')">
+                    <span class="vocab-icon">🐴</span>
+                    <div class="vocab-english">Horse</div>
+                    <div class="vocab-spanish">Caballo</div>
+                    <div class="vocab-pronunciation">/hɔːrs/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+            </div>
+
+            <!-- Categoría: House (oculta por defecto) -->
+            <div class="vocabulary-grid" id="category-house" style="display: none;">
+                <div class="vocab-card" onclick="playPronunciation('house')">
+                    <span class="vocab-icon">🏠</span>
+                    <div class="vocab-english">House</div>
+                    <div class="vocab-spanish">Casa</div>
+                    <div class="vocab-pronunciation">/haʊs/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('door')">
+                    <span class="vocab-icon">🚪</span>
+                    <div class="vocab-english">Door</div>
+                    <div class="vocab-spanish">Puerta</div>
+                    <div class="vocab-pronunciation">/dɔːr/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('window')">
+                    <span class="vocab-icon">🪟</span>
+                    <div class="vocab-english">Window</div>
+                    <div class="vocab-spanish">Ventana</div>
+                    <div class="vocab-pronunciation">/ˈwɪndoʊ/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('table')">
+                    <span class="vocab-icon">🪑</span>
+                    <div class="vocab-english">Table</div>
+                    <div class="vocab-spanish">Mesa</div>
+                    <div class="vocab-pronunciation">/ˈteɪbl/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('bed')">
+                    <span class="vocab-icon">🛏️</span>
+                    <div class="vocab-english">Bed</div>
+                    <div class="vocab-spanish">Cama</div>
+                    <div class="vocab-pronunciation">/bed/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+
+                <div class="vocab-card" onclick="playPronunciation('chair')">
+                    <span class="vocab-icon">💺</span>
+                    <div class="vocab-english">Chair</div>
+                    <div class="vocab-spanish">Silla</div>
+                    <div class="vocab-pronunciation">/tʃer/</div>
+                    <button class="play-button">🔊 Escuchar</button>
+                </div>
+            </div>
+
+            <button class="check-button" onclick="nextSection()">Continuar a la Práctica →</button>
+        </div>
+
+        <!-- Sección 2: Quiz de Vocabulario -->
+        <div class="activity-section" id="section2" style="display: none;">
+            <h2 class="section-title">🎯 Practica tu Vocabulario</h2>
+            <div class="instruction-box">
+                Observa la imagen y selecciona la palabra correcta en inglés.
+            </div>
+
+            <!-- Pregunta 1 -->
+            <div class="quiz-container" id="q1">
+                <div class="question-number">Pregunta 1/8</div>
+                <div class="question-text">¿Cómo se dice en inglés?</div>
+                <span class="question-icon">🍎</span>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(1, 'apple', this)">Apple</button>
+                    <button class="option-button" onclick="selectAnswer(1, 'orange', this)">Orange</button>
+                    <button class="option-button" onclick="selectAnswer(1, 'banana', this)">Banana</button>
+                    <button class="option-button" onclick="selectAnswer(1, 'grape', this)">Grape</button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(1, 'apple')" id="check1" disabled>Verificar</button>
+                <div class="feedback" id="feedback1"></div>
+                <button class="next-button" onclick="showQuestion(2)" id="next1">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 2 -->
+            <div class="quiz-container" id="q2" style="display: none;">
+                <div class="question-number">Pregunta 2/8</div>
+                <div class="question-text">¿Cómo se dice en inglés?</div>
+                <span class="question-icon">🐕</span>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(2, 'cat', this)">Cat</button>
+                    <button class="option-button" onclick="selectAnswer(2, 'dog', this)">Dog</button>
+                    <button class="option-button" onclick="selectAnswer(2, 'bird', this)">Bird</button>
+                    <button class="option-button" onclick="selectAnswer(2, 'fish', this)">Fish</button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(2, 'dog')" id="check2" disabled>Verificar</button>
+                <div class="feedback" id="feedback2"></div>
+                <button class="next-button" onclick="showQuestion(3)" id="next2">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 3 -->
+            <div class="quiz-container" id="q3" style="display: none;">
+                <div class="question-number">Pregunta 3/8</div>
+                <div class="question-text">¿Cómo se dice en inglés?</div>
+                <span class="question-icon">👩</span>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(3, 'father', this)">Father</button>
+                    <button class="option-button" onclick="selectAnswer(3, 'mother', this)">Mother</button>
+                    <button class="option-button" onclick="selectAnswer(3, 'sister', this)">Sister</button>
+                    <button class="option-button" onclick="selectAnswer(3, 'brother', this)">Brother</button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(3, 'mother')" id="check3" disabled>Verificar</button>
+                <div class="feedback" id="feedback3"></div>
+                <button class="next-button" onclick="showQuestion(4)" id="next3">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 4 -->
+            <div class="quiz-container" id="q4" style="display: none;">
+                <div class="question-number">Pregunta 4/8</div>
+                <div class="question-text">¿Cómo se dice en inglés?</div>
+                <span class="question-icon">🏠</span>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(4, 'house', this)">House</button>
+                    <button class="option-button" onclick="selectAnswer(4, 'door', this)">Door</button>
+                    <button class="option-button" onclick="selectAnswer(4, 'window', this)">Window</button>
+                    <button class="option-button" onclick="selectAnswer(4, 'table', this)">Table</button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(4, 'house')" id="check4" disabled>Verificar</button>
+                <div class="feedback" id="feedback4"></div>
+                <button class="next-button" onclick="showQuestion(5)" id="next4">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 5 -->
+            <div class="quiz-container" id="q5" style="display: none;">
+                <div class="question-number">Pregunta 5/8</div>
+                <div class="question-text">¿Cómo se dice en inglés?</div>
+                <span class="question-icon">💧</span>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(5, 'milk', this)">Milk</button>
+                    <button class="option-button" onclick="selectAnswer(5, 'water', this)">Water</button>
+                    <button class="option-button" onclick="selectAnswer(5, 'juice', this)">Juice</button>
+                    <button class="option-button" onclick="selectAnswer(5, 'bread', this)">Bread</button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(5, 'water')" id="check5" disabled>Verificar</button>
+                <div class="feedback" id="feedback5"></div>
+                <button class="next-button" onclick="showQuestion(6)" id="next5">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 6 -->
+            <div class="quiz-container" id="q6" style="display: none;">
+                <div class="question-number">Pregunta 6/8</div>
+                <div class="question-text">¿Cómo se dice en inglés?</div>
+                <span class="question-icon">🐈</span>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(6, 'dog', this)">Dog</button>
+                    <button class="option-button" onclick="selectAnswer(6, 'rabbit', this)">Rabbit</button>
+                    <button class="option-button" onclick="selectAnswer(6, 'cat', this)">Cat</button>
+                    <button class="option-button" onclick="selectAnswer(6, 'horse', this)">Horse</button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(6, 'cat')" id="check6" disabled>Verificar</button>
+                <div class="feedback" id="feedback6"></div>
+                <button class="next-button" onclick="showQuestion(7)" id="next6">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 7 -->
+            <div class="quiz-container" id="q7" style="display: none;">
+                <div class="question-number">Pregunta 7/8</div>
+                <div class="question-text">¿Cómo se dice en inglés?</div>
+                <span class="question-icon">🛏️</span>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(7, 'chair', this)">Chair</button>
+                    <button class="option-button" onclick="selectAnswer(7, 'table', this)">Table</button>
+                    <button class="option-button" onclick="selectAnswer(7, 'bed', this)">Bed</button>
+                    <button class="option-button" onclick="selectAnswer(7, 'door', this)">Door</button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(7, 'bed')" id="check7" disabled>Verificar</button>
+                <div class="feedback" id="feedback7"></div>
+                <button class="next-button" onclick="showQuestion(8)" id="next7">Siguiente →</button>
+            </div>
+
+            <!-- Pregunta 8 -->
+            <div class="quiz-container" id="q8" style="display: none;">
+                <div class="question-number">Pregunta 8/8</div>
+                <div class="question-text">¿Cómo se dice en inglés?</div>
+                <span class="question-icon">👴</span>
+                <div class="options-grid">
+                    <button class="option-button" onclick="selectAnswer(8, 'father', this)">Father</button>
+                    <button class="option-button" onclick="selectAnswer(8, 'grandfather', this)">Grandfather</button>
+                    <button class="option-button" onclick="selectAnswer(8, 'brother', this)">Brother</button>
+                    <button class="option-button" onclick="selectAnswer(8, 'uncle', this)">Uncle</button>
+                </div>
+                <button class="check-button" onclick="checkAnswer(8, 'grandfather')" id="check8" disabled>Verificar</button>
+                <div class="feedback" id="feedback8"></div>
+                <button class="next-button" onclick="finishQuiz()" id="next8">Ver Resultados →</button>
+            </div>
+        </div>
+
+        <!-- Sección de Resultados -->
+        <div class="activity-section score-card" id="scoreSection">
+            <h2>🎉 ¡Actividad Completada!</h2>
+            <div class="score-number" id="finalScore">0/8</div>
+            <div class="score-message" id="scoreMessage"></div>
+            
+            <div class="vocabulary-summary">
+                <h3>📖 Vocabulario Aprendido</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <strong>🍎 Food</strong>
+                        <div>6 palabras</div>
+                    </div>
+                    <div class="summary-item">
+                        <strong>👨‍👩‍👧 Family</strong>
+                        <div>6 palabras</div>
+                    </div>
+                    <div class="summary-item">
+                        <strong>🐕 Animals</strong>
+                        <div>6 palabras</div>
+                    </div>
+                    <div class="summary-item">
+                        <strong>🏠 House</strong>
+                        <div>6 palabras</div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 20px; font-size: 1.1rem;">
+                    <strong>Total: 24 nuevas palabras en inglés</strong>
+                </div>
+            </div>
+            
+            <button class="back-button" onclick="window.location.href='actividadesgrados.html'">Volver a Actividades</button>
+        </div>
+    </div>
+
+    <script>
+        let currentAnswers = {};
+        let score = 0;
+        let totalQuestions = 8;
+
+        function showCategory(category) {
+            // Ocultar todas las categorías
+            document.querySelectorAll('[id^="category-"]').forEach(cat => {
+                cat.style.display = 'none';
+            });
+            
+            // Mostrar categoría seleccionada
+            document.getElementById('category-' + category).style.display = 'grid';
+            
+            // Actualizar botones activos
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function playPronunciation(word) {
+            // Simulación de pronunciación con Web Speech API
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.8; // Velocidad más lenta para mejor comprensión
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('Pronunciación: ' + word);
+            }
+        }
+
+        function nextSection() {
+            document.getElementById('section1').style.display = 'none';
+            document.getElementById('section2').style.display = 'block';
+            updateProgress(12);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function selectAnswer(questionNum, answer, button) {
+            const buttons = button.parentElement.querySelectorAll('.option-button');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            
+            button.classList.add('selected');
+            currentAnswers[questionNum] = answer;
+            
+            document.getElementById('check' + questionNum).disabled = false;
+        }
+
+        function checkAnswer(questionNum, correctAnswer) {
+            const userAnswer = currentAnswers[questionNum];
+            const feedback = document.getElementById('feedback' + questionNum);
+            const checkBtn = document.getElementById('check' + questionNum);
+            const nextBtn = document.getElementById('next' + questionNum);
+            const buttons = document.querySelectorAll(`#q${questionNum} .option-button`);
+            
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            checkBtn.style.display = 'none';
+            
+            buttons.forEach(btn => {
+                const btnText = btn.textContent.trim().toLowerCase();
+                if (btnText === correctAnswer.toLowerCase()) {
+                    btn.classList.add('correct');
+                }
+                if (btn.classList.contains('selected') && userAnswer !== correctAnswer) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            if (userAnswer === correctAnswer) {
+                score++;
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = `
+                    <div class="feedback-title">✅ ¡Correct! (¡Correcto!)</div>
+                    <div class="feedback-text">Very good! La respuesta correcta es "${correctAnswer}".</div>
+                `;
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.innerHTML = `
+                    <div class="feedback-title">❌ Incorrect (Incorrecto)</div>
+                    <div class="feedback-text">La respuesta correcta es "${correctAnswer}". Recuerda la imagen y la palabra para la próxima vez.</div>
+                `;
+            }
+            
+            nextBtn.classList.add('show');
+            
+            const progressPercent = 12 + (questionNum * 11);
+            updateProgress(progressPercent);
+        }
+
+        function showQuestion(questionNum) {
+            const currentQ = document.getElementById('q' + (questionNum - 1));
+            const nextQ = document.getElementById('q' + questionNum);
+            
+            currentQ.style.display = 'none';
+            nextQ.style.display = 'block';
+            
+            nextQ.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function finishQuiz() {
+            document.getElementById('section2').style.display = 'none';
+            document.getElementById('scoreSection').classList.add('show');
+            
+            const finalScore = document.getElementById('finalScore');
+            const scoreMessage = document.getElementById('scoreMessage');
+            
+            finalScore.textContent = score + '/' + totalQuestions;
+            
+            let message = '';
+            if (score === totalQuestions) {
+                message = '¡Perfect! Excellent work! Tienes un excelente dominio del vocabulario. 🌟';
+            } else if (score >= 6) {
+                message = '¡Very good! Great job! Conoces bien el vocabulario en inglés. 👏';
+            } else if (score >= 4) {
+                message = '¡Good! Nice work! Vas por buen camino. Sigue practicando. 💪';
+            } else {
+                message = 'Keep practicing! Sigue practicando estas palabras. Cada vez será más fácil. 🌱';
+            }
+            
+            scoreMessage.textContent = message;
+            updateProgress(100);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateProgress(percent) {
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = Math.round(percent) + '%';
+        }
+    </script>
+</body>
+</html>
